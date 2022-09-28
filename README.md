@@ -1,4 +1,4 @@
-# Minishell
+# Minishell - 42
 
 Summary:
 
