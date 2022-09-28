@@ -1,5 +1,5 @@
 # Minishell  
-## ４２Tokyo  
+## 42Tokyo  
 This project is an assignment given at 42tokyo.
 <https://42tokyo.jp/>
 
