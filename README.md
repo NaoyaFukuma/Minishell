@@ -12,5 +12,5 @@ You will learn a lot about processes and file descriptors.
 斗下飛威s    
 
 ## Team Members(42Tokyo login name : real name : github page url)　　
-hyunosuk : yunosuke honma : <https://github.com/Chanmachan>  
+hyunosuk : yunosuke homma : <https://github.com/Chanmachan>  
 nfukuma  : naoya fukuma   : <https://github.com/NaoyaFukuma>
