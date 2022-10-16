@@ -6,7 +6,7 @@ OBJS_DIR = ./objs
 
 SRCS = $(wildcard $(SRCS_DIR)/*.c)
 
-INCLUDES = ./includes/*.h
+#INCLUDES = ../includes
 
 OBJS = $(patsubst $(SRCS_DIR)/%, $(OBJS_DIR)/%, $(SRCS:.c=.o))
 
