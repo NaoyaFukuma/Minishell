@@ -18,7 +18,7 @@
 #include <readline/history.h> // for add_history()
 #include <stdlib.h> // for free()
 #include <stdbool.h> // for type bool
-#include <unistd.h> // for write()
+#include <unistd.h> // for write(), access(), execve()
 
 
 
