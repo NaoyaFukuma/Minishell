@@ -38,6 +38,7 @@ int	main(void)
 {
 	char	*line;
 
+	test_util();
 	line = NULL;
 	while (1)
 	{
