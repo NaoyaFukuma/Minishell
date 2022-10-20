@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	exe_cmd(char *str)
 {
@@ -48,6 +48,7 @@ int	main(void)
 		exe_cmd(line);
 		free(line);
 	}
+	ft_putstr_fd("libft test\n", STDOUT_FILENO);
 	write(1, "exit\n", 5);
 	return (0);
 }

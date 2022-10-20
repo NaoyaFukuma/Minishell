@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 00:35:22 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/05/19 22:06:55 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/07/12 02:14:04 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <stdio.h> // for printf() perror() strerror()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for add_history()
-#include <stdlib.h> // for free()
-#include <stdbool.h> // for type bool
-#include <unistd.h> // for write(), access(), execve()
-#include "libft.h"
-
-
-
-# endif
+int	ft_isascii(int c)
+{
+	return (0 <= c && c <= 127);
+}

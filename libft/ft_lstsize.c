@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 00:35:22 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/07/06 12:32:33 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/07/12 14:02:51 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <stdio.h> // for printf() perror() strerror()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for add_history()
-#include <stdlib.h> // for free()
-#include <stdbool.h> // for type bool
-#include <unistd.h> // for write(), access(), execve()
 #include "libft.h"
 
+int	ft_lstsize(t_list *lst)
+{
+	size_t	lstsize;
 
-
-# endif
+	lstsize = 0;
+	while (lst)
+	{
+		lstsize++;
+		lst = lst->next;
+	}
+	return (lstsize);
+}

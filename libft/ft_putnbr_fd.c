@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 00:35:22 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/05/20 00:11:57 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/07/12 14:00:22 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <stdio.h> // for printf() perror() strerror()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for add_history()
-#include <stdlib.h> // for free()
-#include <stdbool.h> // for type bool
-#include <unistd.h> // for write(), access(), execve()
 #include "libft.h"
 
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	long_n;
 
-
-# endif
+	long_n = n;
+	if (long_n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		long_n *= -1;
+	}
+	if (long_n < 10)
+		ft_putchar_fd(long_n + '0', fd);
+	else
+	{
+		ft_putnbr_fd(long_n / 10, fd);
+		ft_putnbr_fd(long_n % 10, fd);
+	}
+}

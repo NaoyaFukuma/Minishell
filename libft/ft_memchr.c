@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 00:35:22 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/05/20 22:40:05 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/07/13 01:42:48 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <stdio.h> // for printf() perror() strerror()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for add_history()
-#include <stdlib.h> // for free()
-#include <stdbool.h> // for type bool
-#include <unistd.h> // for write(), access(), execve()
 #include "libft.h"
 
+void	*ft_memchr(const void *buf, int c, size_t n)
+{
+	const unsigned char	*uc_buf;
+	unsigned char		uc_c;
+	size_t				i;
 
-
-# endif
+	uc_buf = (const unsigned char *)buf;
+	uc_c = (const unsigned char)c;
+	i = 0;
+	while (i < n)
+	{
+		if (uc_buf[i] == uc_c)
+			return ((void *)&uc_buf[i]);
+		i++;
+	}
+	return (NULL);
+}

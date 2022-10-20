@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 00:35:22 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/05/20 11:00:21 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/07/13 01:42:57 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <stdio.h> // for printf() perror() strerror()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for add_history()
-#include <stdlib.h> // for free()
-#include <stdbool.h> // for type bool
-#include <unistd.h> // for write(), access(), execve()
 #include "libft.h"
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	const unsigned char	*a;
+	const unsigned char	*b;
+	size_t				i;
 
-
-# endif
+	a = (const unsigned char *)s1;
+	b = (const unsigned char *)s2;
+	i = 0;
+	while (i < n)
+	{
+		if ((a[i] == '\0' && b[i] == '\0'))
+			break ;
+		if (a[i] != b[i])
+			return ((unsigned char)a[i] - (unsigned char)b[i]);
+		i++;
+	}
+	return (0);
+}

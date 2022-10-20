@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_remalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 00:35:22 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/09/06 23:23:18 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/09/07 09:48:20 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <stdio.h> // for printf() perror() strerror()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for add_history()
-#include <stdlib.h> // for free()
-#include <stdbool.h> // for type bool
-#include <unistd.h> // for write(), access(), execve()
 #include "libft.h"
 
+void	*ft_remalloc(void *old, size_t new_size, size_t old_size)
+{
+	void	*new;
 
-
-# endif
+	if (!old)
+		return (malloc(new_size));
+	else if (!new_size)
+	{
+		free(old);
+		return (NULL);
+	}
+	new = malloc(new_size);
+	if (!new)
+		return (NULL);
+	ft_memcpy(new, old, old_size);
+	free(old);
+	return (new);
+}

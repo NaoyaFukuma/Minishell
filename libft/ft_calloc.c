@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 00:35:22 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/06/02 10:36:25 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/07/11 22:19:52 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <stdio.h> // for printf() perror() strerror()
-#include <readline/readline.h> // for readline()
-#include <readline/history.h> // for add_history()
-#include <stdlib.h> // for free()
-#include <stdbool.h> // for type bool
-#include <unistd.h> // for write(), access(), execve()
 #include "libft.h"
 
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*new_mem;
 
-
-# endif
+	if (count == 0 || size == 0)
+		return (ft_calloc(1, 1));
+	if (SIZE_MAX / count < size)
+		return (NULL);
+	new_mem = malloc(count * size);
+	if (new_mem == NULL)
+		return (NULL);
+	ft_bzero(new_mem, count * size);
+	return ((void *)new_mem);
+}

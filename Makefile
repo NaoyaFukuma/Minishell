@@ -10,13 +10,14 @@ SRCS = $(wildcard $(SRCS_DIR)/*.c)
 
 OBJS = $(patsubst $(SRCS_DIR)/%, $(OBJS_DIR)/%, $(SRCS:.c=.o))
 
-CFLAGS = -Wall -Werror -Wextra -I $(shell brew --prefix readline)/include
+CFLAGS = -Wall -Werror -Wextra -I $(shell brew --prefix readline)/include -I ./libft -I ./includes
 
-LIBS = -L $(shell brew --prefix readline)/lib -lreadline -lhistory
+LIBS = -L $(shell brew --prefix readline)/lib -lreadline -lhistory -L ./libft -lft
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	make -C ./libft
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $(NAME)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
@@ -24,9 +25,11 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	make clean -C ./libft
 	$(RM) -r $(OBJS_DIR)
 
 fclean: clean
+	make fclean -C ./libft
 	$(RM) $(NAME)
 
 re: fclean all
