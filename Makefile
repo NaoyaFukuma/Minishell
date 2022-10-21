@@ -7,13 +7,15 @@ SRCS_DIR_EXPANDER = ./srcs/expander
 SRCS_DIR_LEXER = ./srcs/lexer
 SRCS_DIR_PASER = ./srcs/parser
 SRCS_DIR_UTILS = ./srcs/utils
+SRCS_DIR_INIT = ./srcs/init
 
 # OBJS_DIR = ./objs
 
 SRCS =	$(wildcard $(SRCS_DIR)/*.c) $(wildcard $(SRCS_DIR_BUILTIN)/*.c) \
 		$(wildcard $(SRCS_DIR_EXEC)/*.c) $(wildcard $(SRCS_DIR_EXPANDER)/*.c) \
 		$(wildcard $(SRCS_DIR_LEXER)/*.c) $(wildcard $(SRCS_DIR_PASER)/*.c) \
-		$(wildcard $(SRCS_DIR_UTILS)/*.c)
+		$(wildcard $(SRCS_DIR_UTILS)/*.c) \
+		$(wildcard $(SRCS_DIR_INIT)/*.c)
 
 #INCLUDES = ../includes
 
