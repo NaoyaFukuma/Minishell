@@ -3,3 +3,7 @@
 tmp/
 
 minishell
+
+.idea
+
+objs/
