@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:19:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/22 00:03:02 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/22 00:16:05 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void	shell_level_update(void)
 	if (*(env_shlvl->value) - '0' > 999)
 	{
 		*(env_shlvl->value) = *(env_shlvl->value) - *(env_shlvl->value) + 1;
-		ft_putstr_fd("warning: shell level (1000) too high, resetting to 1\n", STDERR_FILENO);
+		ft_putstr_fd("warning: shell level (1000) too high, resetting to 1\n",
+				STDERR_FILENO);
 	}
 	else
 		*(env_shlvl->value) = *(env_shlvl->value) + 1;
