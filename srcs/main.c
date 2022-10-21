@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+t_shell	g_shell;
+
 void	exe_cmd(char *str)
 {
 	extern char	**environ;
@@ -38,6 +40,7 @@ int	main(void)
 {
 	char	*line;
 
+	init_minishell();
 	test_util();
 	line = NULL;
 	while (1)
