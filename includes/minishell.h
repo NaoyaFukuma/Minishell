@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 14:48:32 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/21 23:31:48 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	util_put_err_exit(char *err_msg);
 t_env	*util_list_new_envnode(char *env_str);
 t_env	*util_list_get_last_envnode(t_env *node_ptr);
 void	util_list_add_last_new_envnode(t_env **envs, t_env *new_env);
+
+// in util/util_env_get.c
+t_env	*util_env_get(const	char *name);
 
 
 #endif
