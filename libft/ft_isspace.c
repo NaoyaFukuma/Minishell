@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_put_err_exit.c                                :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 13:11:05 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 13:17:14 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/10/23 01:45:08 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/10/23 01:45:39 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	util_put_err_exit(char *err_msg)
+int	ft_isspace(int c)
 {
-	ft_putstr_fd(RED_COLOR, STDERR_FILENO);
-	perror(err_msg);
-	ft_putstr_fd(WHITE_COLOR, STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	if ((9 <= c && c <= 13) || c == 32)
+		return (1);
+	return (0);
 }
