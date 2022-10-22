@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 01:10:03 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/23 02:51:43 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,24 @@ void				init_minishell(void);
 // in utils/util.c
 bool				util_is_builtin(const char *arg);
 
-// in utils/util_put_err_exit.c
-void				util_put_err_exit(char *err_msg);
+// in utils/util_error.c
+void				util_perror_and_exit(char *cmd);
+void				util_put_cmd_err(char *command, char *message);
 
 // in utils/util_list.c
 t_env				*util_list_new_envnode(char *env_str);
 t_env				*util_list_get_last_envnode(t_env *node_ptr);
-void				util_list_add_last_new_envnode(t_env **envs,
-						t_env *new_env);
+void	util_list_add_last_new_envnode(t_env **envs,
+			t_env *new_env);
 
 // in exec_builtin.c
 int					exec_builtin(char **args);
 
 // in util/util_env_get.c
-t_env	*util_env_get(const	char *name);
+t_env				*util_env_get(const char *name);
 
 // in exec_exit.c
 int					exec_exit(char **args);
+bool				util_is_digit_str(const char *str);
 
 #endif

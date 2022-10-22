@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:19:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/22 00:16:05 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/23 02:17:41 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_minishell(void)
 
 	g_shell.envs = dup_envs();
 	if (!g_shell.envs)
-		util_put_err_exit("dup_envs");
+		util_perror_and_exit("dup_envs");
 	//デバック用
 	shell_level_update();
 	print_env(g_shell.envs);
@@ -51,16 +51,23 @@ static void	shell_level_update(void)
 {
 	extern t_shell	g_shell;
 	t_env			*env_shlvl;
+	int				shlvl;
 
 	env_shlvl = util_env_get("SHLVL");
-	if (*(env_shlvl->value) - '0' > 999)
+	if (!util_is_digit_str(env_shlvl->value))
+		shlvl = 0;
+	else
+		shlvl = ft_atoi(env_shlvl->value);
+	free(env_shlvl->value);
+	shlvl++;
+	if (shlvl > 999)
 	{
-		*(env_shlvl->value) = *(env_shlvl->value) - *(env_shlvl->value) + 1;
+		env_shlvl->value = ft_itoa(shlvl);
 		ft_putstr_fd("warning: shell level (1000) too high, resetting to 1\n",
 				STDERR_FILENO);
 	}
 	else
-		*(env_shlvl->value) = *(env_shlvl->value) + 1;
+		env_shlvl->value = ft_itoa(shlvl);
 }
 
 static void	print_env(t_env *envs)
