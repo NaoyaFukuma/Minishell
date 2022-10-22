@@ -41,7 +41,6 @@ int	main(void)
 	char	*line;
 
 	init_minishell();
-	test_util();
 	line = NULL;
 	while (1)
 	{

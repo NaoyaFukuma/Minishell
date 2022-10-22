@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:09:46 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/19 21:51:36 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/22 01:16:00 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ char				*ft_ultoa(unsigned long n);
 char				*ft_ultoa_base(unsigned long n, int base, char *base_set);
 int					ft_pow(int num, size_t pow);
 void				*ft_remalloc(void *old, size_t new_size, size_t old_size);
-
+int	ft_strcmp(const char *s1, const char *s2);
 
 #endif

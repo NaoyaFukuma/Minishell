@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 11:00:21 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/07/13 01:42:57 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/22 01:15:51 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			break ;
 		if (a[i] != b[i])
 			return ((unsigned char)a[i] - (unsigned char)b[i]);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int i;
+
+	i = 0;
+	while (1)
+	{
+		if ((s1[i] - s2[i]) != 0)
+		{
+			return (s1[i] - s2[i]);
+		}
+		if (!(s1[i]) && !(s2[i]))
+			break ;
 		i++;
 	}
 	return (0);
