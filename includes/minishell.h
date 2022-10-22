@@ -19,6 +19,7 @@
 # include <stdbool.h>           // for type bool
 # include <stdlib.h>            // for free()
 # include <unistd.h>            // for write(), access(), execve()
+# include "lexer.h"
 # include "libft.h"
 
 #define RED_COLOR "\e[31m"
