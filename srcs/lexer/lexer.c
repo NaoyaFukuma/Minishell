@@ -78,7 +78,6 @@ void	add_new_token_list(t_token_info *token_info)
 void	go_next_token(t_token_info *token_info, t_token_type type)
 {
 	add_new_token_list(token_info);
-	(void)type;
 }
 
 //abc | def
@@ -122,9 +121,9 @@ void	split_token(char *av)
 //	for (size_t i = 0; )
 }
 
-// int main(int ac, char **av)
-// {
-// 	if (ac != 2)
-// 		return (1);
-// 	split_token(av[1]);
-// }
+int main(int ac, char **av)
+{
+	if (ac != 2)
+		return (1);
+	split_token(av[1]);
+}
