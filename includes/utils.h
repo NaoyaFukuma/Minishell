@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 14:31:10 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 15:10:01 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/23 23:18:02 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
+#define	ENV_TRUNC 0
+#define	ENV_APPEND 0
+
 // in utils/utils.c
 bool	util_is_builtin(const char *arg);
 bool	util_is_digit_str(const char *str);
@@ -32,7 +35,7 @@ bool	util_is_digit_str(const char *str);
 void	util_perror_and_exit(char *cmd);
 void	util_put_cmd_err(char *command, char *message);
 
-// in utils/util_list.c
+// in utils/util_env_list.c
 t_env	*util_list_new_envnode(char *env_str);
 t_env	*util_list_get_last_envnode(t_env *node_ptr);
 void	util_list_add_last_new_envnode(t_env **envs,
