@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_env.c                                         :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 14:35:40 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/10/23 14:27:08 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/10/23 14:29:19 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef BUILTIN_H
+# define BUILTIN_H
+
 #include "minishell.h"
 
-t_env	*util_env_get(const char *name)
-{
-	t_env			*env_ptr;
-	extern t_shell	g_shell;
+int	builtin_exit(char	**args);
 
-	if (!name)
-		return (NULL);
-	env_ptr = g_shell.envs;
-	while (env_ptr)
-	{
-		if (!ft_strncmp(env_ptr->name, name, ft_strlen(name)))
-			return (env_ptr);
-		env_ptr = env_ptr->next;
-	}
-	return (NULL);
-}
+# endif

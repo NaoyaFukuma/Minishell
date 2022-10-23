@@ -14,15 +14,15 @@ SRCS_DIR_INIT = ./srcs/init
 SRCS =	$(wildcard $(SRCS_DIR)/*.c) $(wildcard $(SRCS_DIR_BUILTIN)/*.c) \
 		$(wildcard $(SRCS_DIR_EXEC)/*.c) $(wildcard $(SRCS_DIR_EXPANDER)/*.c) \
 		$(wildcard $(SRCS_DIR_LEXER)/*.c) $(wildcard $(SRCS_DIR_PASER)/*.c) \
-		$(wildcard $(SRCS_DIR_UTILS)/*.c) \
-		$(wildcard $(SRCS_DIR_INIT)/*.c)
+		$(wildcard $(SRCS_DIR_INIT)/*.c) \
+		$(wildcard $(SRCS_DIR_UTILS)/*.c)
 
-#INCLUDES = ../includes
+INCLUDES = -I $(shell brew --prefix readline)/include -I ./libft -I ./includes -I ../includes
 
 # OBJS = $(patsubst $(SRCS_DIR)/%, $(OBJS_DIR)/%, $(SRCS:.c=.o))
 OBJS = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra -I $(shell brew --prefix readline)/include -I ./libft -I ./includes -I ../includes
+CFLAGS = -Wall -Werror -Wextra $(INCLUDES)
 
 LIBS = -L $(shell brew --prefix readline)/lib -lreadline -lhistory -L ./libft -lft
 
