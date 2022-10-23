@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 01:03:46 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 01:59:37 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/23 14:16:47 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 int		exec_builtin(char **args)
 {
 	// if (ft_strcmp(args[0], "exit") == 0)
-	// 	return (exec_exit(args));
+	// 	return (builtin_exit(args));
 	// if (ft_strcmp(args[0], "cd") == 0)
-	// 	return (exec_cd(args));
+	// 	return (builtin_cd(args));
 	// if (ft_strcmp(args[0], "echo") == 0)
-	// 	return (exec_echo(args));
+	// 	return (builtin_echo(args));
 	// if (ft_strcmp(args[0], "pwd") == 0)
-	// 	return (exec_pwd());
+	// 	return (builtin_pwd());
 	// if (ft_strcmp(args[0], "env") == 0)
-	// 	return (exec_env());
+	// 	return (builtin_env());
 	// if (ft_strcmp(args[0], "export") == 0)
-	// 	return (exec_export(args));
+	// 	return (builtin_export(args));
 	// if (ft_strcmp(args[0], "unset") == 0)
-	// 	return (exec_unset(args));
+	// 	return (builtin_unset(args));
 	(void)args;
 	return (EXIT_FAILURE);
 }

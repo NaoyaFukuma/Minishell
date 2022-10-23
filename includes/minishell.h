@@ -6,27 +6,32 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 02:51:43 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/23 15:04:36 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
+# include <stdio.h>             // for printf() perror() strerror()
+# include <errno.h>             // for errno
 # include <readline/history.h>  // for add_history()
 # include <readline/readline.h> // for readline()
 # include <stdbool.h>           // for type bool
-# include <stdio.h>             // for printf() perror() strerror()
 # include <stdlib.h>            // for free()
 # include <unistd.h>            // for write(), access(), execve()
+# include "libft.h"
+# include "utils.h"
+# include "init.h"
 # include "lexer.h"
-# include <errno.h> // for errno
+# include "builtin.h"
 
 # define RED_COLOR "\e[31m"
 # define WHITE_COLOR "\e[m"
 
-/* environ */
+/*
+in utils.h define
+environ node struct
 typedef struct s_env
 {
 	char			*name;
@@ -34,6 +39,7 @@ typedef struct s_env
 	bool			is_env;
 	struct s_env	*next;
 }					t_env;
+*/
 
 /* global */
 typedef struct s_shell
@@ -45,33 +51,5 @@ typedef struct s_shell
 	bool			interrupted;
 	bool			exited;
 }					t_shell;
-
-void				test_util(void);
-
-// in init/init_shell.c
-void				init_minishell(void);
-
-// in utils/util.c
-bool				util_is_builtin(const char *arg);
-
-// in utils/util_error.c
-void				util_perror_and_exit(char *cmd);
-void				util_put_cmd_err(char *command, char *message);
-
-// in utils/util_list.c
-t_env				*util_list_new_envnode(char *env_str);
-t_env				*util_list_get_last_envnode(t_env *node_ptr);
-void	util_list_add_last_new_envnode(t_env **envs,
-			t_env *new_env);
-
-// in exec_builtin.c
-int					exec_builtin(char **args);
-
-// in util/util_env_get.c
-t_env				*util_env_get(const char *name);
-
-// in exec_exit.c
-int					exec_exit(char **args);
-bool				util_is_digit_str(const char *str);
 
 #endif

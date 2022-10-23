@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:46:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/21 14:55:28 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/23 16:22:44 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_env	*util_list_new_envnode(char *env_str)
 	return (env);
 }
 
-t_env	*util_list_get_last_env_node(t_env *node_ptr)
+t_env	*util_list_get_last_envnode(t_env *node_ptr)
 {
 	while (node_ptr->next)
 		node_ptr = node_ptr->next;
@@ -51,9 +51,8 @@ void	util_list_add_last_new_envnode(t_env **envs, t_env *new_env)
 {
 	if (!envs || !new_env)
 		return ;
-	if(!*envs)
+	if (!*envs)
 		*envs = new_env;
 	else
-		util_list_get_last_env_node(*envs)->next = new_env;
+		util_list_get_last_envnode(*envs)->next = new_env;
 }
-

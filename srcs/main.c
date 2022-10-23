@@ -51,7 +51,8 @@ int	main(void)
 		exe_cmd(line);
 		free(line);
 	}
-	ft_putstr_fd("libft test\n", STDOUT_FILENO);
-	write(1, "exit\n", 5);
+	char *args[3] = {"exit", "5",NULL};
+	builtin_exit(args);
+	printf("check\n");
 	return (0);
 }
