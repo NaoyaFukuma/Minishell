@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 14:27:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/24 10:36:13 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/10/24 10:37:08 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/10/24 10:39:59 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "builtin.h"
 
-#include "minishell.h"
-# include <string.h>
+int	builtin_pwd(void)
+{
+	extern t_shell	g_shell;
 
-int	builtin_exit(char	**args);
-int	builtin_echo(char **args);
-int	builtin_env(void);
-
-# endif
+	ft_putendl_fd(util_env_get("PWD")->value, STDOUT_FILENO);
+	return (EXIT_SUCCESS);
+}
