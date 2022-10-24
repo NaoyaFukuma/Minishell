@@ -38,6 +38,7 @@ void	exe_cmd(char *str)
 
 int	main(void)
 {
+	extern t_shell	g_shell;
 	char	*line;
 
 	init_minishell();
@@ -45,14 +46,14 @@ int	main(void)
 	while (1)
 	{
 		line = readline("tsh > ");
-		if (line == NULL)
+		if (line == NULL) // ctrl - D
 			break ;
 		printf("line is [%s]\n", line);
 		exe_cmd(line);
 		free(line);
 	}
-	char *args[3] = {"exit", "5",NULL};
-	builtin_exit(args);
-	printf("check\n");
-	return (0);
+	ft_putstr_fd(BACK_CURSOR, STDERR_FILENO);
+	ft_putstr_fd(CLEAR_FROM_CURSOR, STDERR_FILENO);
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	exit(g_shell.status);
 }

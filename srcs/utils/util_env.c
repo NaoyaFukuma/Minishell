@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 23:43:01 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/24 00:50:40 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,33 @@ t_env	*util_env_get(const char *name)
 	return (NULL);
 }
 
-util_set_env(const char *name, const char *value, int mode)
+void	util_env_set(const char *target_name, const char *value, int mode)
 {
+	extern t_shell	g_shell;
 	t_env	*target_env;
 	char	*tmp_env_str;
+	char	*tmp_value;
 
-	target_env = util_env_get(name);
+	target_env = util_env_get(target_name);
 	if (!target_env)
 	{
-		if (!value)
-			target_env = util_list_new_envnode(name);
+		target_env = malloc(sizeof(t_env));
+		if (!target_env)
+			util_perror_and_exit("malloc");
+		target_env->name = target_name;
+		target_env->value = value;
+	}
+	else
+	{
+		if (mode == ENV_TRUNC)
+			target_env->value = value;
 		else
 		{
-			tmp_env_str = ft_calloc((ft_strlen(name) + ft_strlen(value) + 2), 1);
-			if (!tmp_env_str)
-				util_perror_and_exit("malloc");
-			ft_strlcpy(tmp_env_str, name, ft_strlen(name));
-			ft_strlcpy(tmp_env_str + ft_strlen(name), "=", 1);
-			ft_strlcpy(tmp_env_str + ft_strlen(name) + 1, value, ft_strlen(value));
-
-			tmp_env_str = ft_strjoin(tmp_env_str, "=");
-
-			free(tmp_env_str);
+			tmp_value = target_env->value;
+			target_env->value = ft_strjoin(tmp_value, value);
+			free(tmp_value);
+			free(value);
 		}
-
 	}
-
+	util_list_add_last_new_envnode(g_shell.envs, target_env);
 }

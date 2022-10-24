@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 14:31:10 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 23:18:02 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/24 00:50:34 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	util_list_add_last_new_envnode(t_env **envs,
 
 // in util/util_env.c
 t_env	*util_env_get(const char *name);
+void	*util_env_set(const char *name);
 
 #endif

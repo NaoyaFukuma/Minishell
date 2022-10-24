@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 15:04:36 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/24 00:22:54 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 # define RED_COLOR "\e[31m"
 # define WHITE_COLOR "\e[m"
+# define BACK_CURSOR "\033[2D"
+# define CLEAR_FROM_CURSOR "\033[0K"
 
 /*
 in utils.h define
