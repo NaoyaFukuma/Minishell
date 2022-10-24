@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 09:52:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/24 10:22:03 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/24 10:29:02 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtin.h"
 
 static bool	is_echo_option(char *arg);
 
