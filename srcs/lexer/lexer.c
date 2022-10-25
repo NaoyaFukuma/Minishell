@@ -68,7 +68,6 @@ void	add_new_token_list(t_token_info *token_info, t_token_type type)
 	t_token_list	*new_token;
 
 	token_info->token->comp[token_info->each_i] = '\0';
-//	printf("check : %s\n", token_info->token->comp);
 	new_token = init_token(token_info->token, type);
 	token_info->token->next = new_token;
 	//トークンのアドレスを変更することで現在のトークンは実質空みたいに
@@ -78,12 +77,10 @@ void	add_new_token_list(t_token_info *token_info, t_token_type type)
 	token_info->status = NOT_QUOTED;
 }
 
-void	other_type_process(t_token_info *token_info, t_token_type type, char *str)
+void	type_char_other_process(t_token_info *token_info, t_token_type type, char *str)
 {
 	if (token_info->each_i != 0 && (type == CHAR_SPACE || type == CHAR_TAB))
-	{
 		add_new_token_list(token_info, type);
-	}
 	//特殊な文字の時の処理
 	else if (type != CHAR_SPACE && type != CHAR_TAB && type != CHAR_OTHER)
 	{
@@ -109,6 +106,23 @@ void	other_type_process(t_token_info *token_info, t_token_type type, char *str)
 	}
 }
 
+void	status_quoted_process(t_token_info *token_info, t_token_type type, char *str)
+{
+	if (token_info->status == QUOTED && type == CHAR_QUOTE)
+	{
+		token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
+		token_info->quote_flag = false;
+	}
+	else if (token_info->status == D_QUOTED && type == CHAR_D_QUOTE)
+	{
+		token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
+		token_info->quote_flag = false;
+	}
+		//quote内の文字をどんどんいれる
+	else
+		token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
+}
+
 t_token_list	*split_token(char *av)
 {
 	t_token_info	token_info;
@@ -130,28 +144,10 @@ t_token_list	*split_token(char *av)
 			}
 			//新しいトークンが必要な処理->CHAR_OTHERじゃない処理
 			else
-			{
-				other_type_process(&token_info, type, av);
-			}
+				type_char_other_process(&token_info, type, av);
 		}
 		else
-		{
-			if (token_info.status == QUOTED && type == CHAR_QUOTE)
-			{
-				token_info.token->comp[token_info.each_i++] = av[token_info.str_i];
-				token_info.quote_flag = false;
-			}
-			else if (token_info.status == D_QUOTED && type == CHAR_D_QUOTE)
-			{
-				token_info.token->comp[token_info.each_i++] = av[token_info.str_i];
-				token_info.quote_flag = false;
-			}
-			//quote内の文字をどんどんいれる
-			else
-			{
-				token_info.token->comp[token_info.each_i++] = av[token_info.str_i];
-			}
-		}
+			status_quoted_process(&token_info, type, av);
 		token_info.str_i++;
 	}
 	token_info.token->comp[token_info.each_i] = '\0';
