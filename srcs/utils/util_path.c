@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 22:17:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 00:37:25 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 15:02:54 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	**util_ptrarr_add_back(void **ptrarr, void *ptr)
 
 	arr_size = 0;
 	if (ptrarr)
-		arr_size = ptrarr_len(ptrarr);
+		arr_size = util_ptrarr_len(ptrarr);
 	new_ptrarr = ft_calloc(arr_size + 2, sizeof(void *));
 	if (!new_ptrarr)
 		return (NULL);
@@ -71,9 +71,9 @@ char	**util_colon_split(char *src_str, char *def)
 	{
 		tmp = res;
 		if (next_index - src_str == 0)
-			res = util_ptrarr_add_back(res, ft_strdup(def));
+			res = (char **)util_ptrarr_add_back((void **)res, ft_strdup(def));
 		else
-			res = util_ptrarr_add_back(res, ft_substr(src_str, 0, next_index
+			res = (char **)util_ptrarr_add_back((void **)res, ft_substr(src_str, 0, next_index
 				- src_str));
 		free(tmp);
 		src_str = next_index + 1;
@@ -81,9 +81,9 @@ char	**util_colon_split(char *src_str, char *def)
 	}
 	tmp = res;
 	if (*src_str == '\0')
-		res = util_ptrarr_add_back(res, ft_strdup(def));
+		res = (char **)util_ptrarr_add_back((void **)res, ft_strdup(def));
 	else
-		res = util_ptrarr_add_back(res, ft_strdup(src_str));
+		res = (char **)util_ptrarr_add_back((void **)res, ft_strdup(src_str));
 	free(tmp);
 	return ((char **)res);
 }

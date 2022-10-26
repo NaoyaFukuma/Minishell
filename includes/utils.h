@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 14:31:10 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 13:38:49 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 14:51:58 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	util_list_add_last_new_envnode(t_env **envs,
 // in util_env.c
 t_env	*util_env_get(const char *name);
 void	util_env_set(const char *target_name, const char *value, bool is_env,int mode);
-void	util_envs_print(t_env *envs);
+int		util_envs_print(t_env *envs);
+void		util_env_update_value(const char *env_name, const char *new_value, bool is_env_var, bool append_flag);
 
 // in util_path.c
 size_t	util_ptrarr_len(void **ptrarr);
@@ -54,5 +55,6 @@ char	*util_join_path(char *prv_path, char *nxt_path);
 
 // in path_canonical.c
 char	*path_canonical(char *path);
+char	**util_colon_split(char *src_str, char *def);
 
 #endif

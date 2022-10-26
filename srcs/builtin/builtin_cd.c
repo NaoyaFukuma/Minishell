@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:46:26 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 12:49:06 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 14:37:11 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,20 @@ char	*try_splitted_cdpath(char **split_cd, char *dst_dir)
 
 	i = -1;
 	joined_dst_dir = NULL;
-	while (split_cd[i])
+	while (split_cd[++i])
 	{
-		if (ft_strlen(split_cd[i] == 0))
+		if (ft_strlen(split_cd[i]) == 0)
 		{
 			joined_dst_dir = ft_strdup(dst_dir);
 			if (!joined_dst_dir)
 				util_put_cmd_err_and_exit(NULL);
 		}
 		else
-			joined_dst_dir = util_path_join(split_cd, dst_dir);
+			joined_dst_dir = util_join_path(split_cd[i], dst_dir);
 		if (try_change_dir(joined_dst_dir))
 			break ;
-		i++;
 	}
-	ft_safe_free_single_ptr(&joined_dst_dir);
+	ft_safe_free_single_ptr((void *)&joined_dst_dir);
 	if (split_cd[i])
 		return (split_cd[i]);
 	return (NULL);
@@ -84,7 +83,7 @@ bool	try_cdpath(char *dst_dir)
 		res = true;
 	if (res && ft_strlen(try_chdir_res) != 0)
 		ft_putendl_fd(g_shell.pwd, STDOUT_FILENO);
-	ft_safe_free_double_ptr(&split_cdpath);
+	ft_safe_free_double_ptr((void ***)&split_cdpath);
 	return (res);
 }
 

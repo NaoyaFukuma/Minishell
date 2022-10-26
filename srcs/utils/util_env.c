@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 13:04:45 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 14:48:38 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,22 @@ static void	set_env_value(t_env *env, const char *new_value, bool append_flag)
 		else
 			env->value = NULL;
 	}
-	ft_safe_free_single_ptr(&old_value);
+	ft_safe_free_single_ptr((void *)&old_value);
 }
 
-void		util_env_update_value(const char *env_name, const char *new_value,
-	bool is_env_var, bool append_flag)
+void		util_env_update_value(const char *env_name, const char *new_value, bool is_env_var, bool append_flag)
 {
 	extern t_shell	g_shell;
 	t_env			*env;
 
 	if (!env_name)
 		return ;
-	env = get_env(env_name);
+	env = util_env_get(env_name);
 	if (!env)
 	{
 		env = util_list_new_envnode((char *)env_name);
 		env->is_env = is_env_var;
-		util_list_add_last_new_envnode(&g_shell, env);
+		util_list_add_last_new_envnode(&g_shell.envs, env);
 	}
 	else
 	{

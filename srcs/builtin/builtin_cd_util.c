@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 09:28:27 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 12:55:19 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 14:39:56 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		cd_process(char *cd_path, char *arg, bool flag)
 	res = chdir(cd_path);
 	if (res == 0)
 	{
-		ft_safe_free_single_ptr(&g_shell.pwd);
+		ft_safe_free_single_ptr((void **)&g_shell.pwd);
 		g_shell.pwd = get_new_pwd(cd_path, flag, true);
 		return (res);
 	}
@@ -87,7 +87,7 @@ int		cd_process(char *cd_path, char *arg, bool flag)
 	res = chdir(arg);
 	if (res == 0)
 	{
-		ft_safe_free_single_ptr(&g_shell.pwd);
+		ft_safe_free_single_ptr((void **)&g_shell.pwd);
 		g_shell.pwd = get_new_pwd(cd_path, flag, false);
 		return (res);
 	}
@@ -96,7 +96,7 @@ int		cd_process(char *cd_path, char *arg, bool flag)
 	return (res);
 }
 
-char	*set_cd_path(const char *arg, bool *is_canon_path)
+char	*set_cd_path(char *arg, bool *is_canon_path)
 {
 	char			*canon_path;
 	char			*physical_path;
@@ -111,26 +111,26 @@ char	*set_cd_path(const char *arg, bool *is_canon_path)
 	canon_path = path_canonical(physical_path);
 	if (canon_path)
 	{
-		ft_safe_free_single_ptr(&physical_path);
+		ft_safe_free_single_ptr((void **)&physical_path);
 		*is_canon_path = true;
 		return (canon_path);
 	}
 	else
 	{
-		ft_safe_free_single_ptr(&canon_path);
+		ft_safe_free_single_ptr((void **)&canon_path);
 		*is_canon_path = false;
 		return (physical_path);
 	}
 }
 
-bool	try_change_dir(char dst_path)
+bool	try_change_dir(char *dst_path)
 {
 	char	*path;
 	bool	is_canon_path_flag;
 	int		res;
 
-	path = set_cd_dst_path(dst_path, &is_canon_path_flag);
+	path = set_cd_path(dst_path, &is_canon_path_flag);
 	res = cd_process(path, dst_path, is_canon_path_flag);
-	ft_safe_free_single_ptr(&path);
+	ft_safe_free_single_ptr((void **)&path);
 	return (res);
 }

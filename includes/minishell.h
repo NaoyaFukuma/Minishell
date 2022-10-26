@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 13:37:50 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 15:05:28 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@
 # define CLEAR_FROM_CURSOR "\033[0K"
 
 typedef struct stat	t_stat;
-/*
-in utils.h define
-environ node struct
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	bool			is_env;
-	struct s_env	*next;
-}					t_env;
-*/
+
+// in utils.h define
+// environ node struct
+// typedef struct s_env
+// {
+// 	char			*name;
+// 	char			*value;
+// 	bool			is_env;
+// 	struct s_env	*next;
+// }					t_env;
+
 
 /* global */
 typedef struct s_shell
