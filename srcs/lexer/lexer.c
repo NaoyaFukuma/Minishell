@@ -1,8 +1,3 @@
-#include "../../includes/lexer.h"
-#include "../../includes/minishell.h"
-
-#include "../../libft/libft.h"
-
 #include "lexer.h"
 
 t_token_list	*init_token(t_token_list *prev, t_token_type type)
@@ -144,6 +139,8 @@ t_token_list	*split_token(char *av)
 void	print_type(t_token_type type)
 {
 	char	*str;
+
+	str = NULL;
 	if (type == CHAR_BACKSLASH)
 		str = "\\";
 	else if (type == CHAR_SEMICOLON)
@@ -167,6 +164,25 @@ void	print_type(t_token_type type)
 	printf("type->[%s]\n", str);
 }
 
+t_token_list	*lexer(char *str)
+{
+	t_token_list	*token;
+	size_t			i;
+
+//	printf("str: %s\n", str);
+	token = split_token(str);
+	i = 0;
+	while (token)
+	{
+		printf("%zu [%s]\t", i, token->comp);
+		print_type(token->type);
+		token = token->next;
+		i++;
+	}
+	return (token);
+}
+
+/*
 int main(int ac, char **av)
 {
 	t_token_list	*token;
@@ -184,3 +200,4 @@ int main(int ac, char **av)
 	}
 	return (0);
 }
+*/

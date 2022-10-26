@@ -48,6 +48,7 @@ int	main(void)
 		if (line == NULL)
 			break ;
 		printf("line is [%s]\n", line);
+		lexer(line);
 		exe_cmd(line);
 		free(line);
 	}
