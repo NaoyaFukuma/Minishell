@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/24 00:50:40 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 13:04:45 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,71 @@ t_env	*util_env_get(const char *name)
 	return (NULL);
 }
 
-void	util_env_set(const char *target_name, const char *value, int mode)
+static void	set_env_value(t_env *env, const char *new_value, bool append_flag)
 {
-	extern t_shell	g_shell;
-	t_env	*target_env;
-	char	*tmp_env_str;
-	char	*tmp_value;
+	char	*old_value;
 
-	target_env = util_env_get(target_name);
-	if (!target_env)
+	old_value = env->value;
+	if (append_flag == true)
 	{
-		target_env = malloc(sizeof(t_env));
-		if (!target_env)
-			util_perror_and_exit("malloc");
-		target_env->name = target_name;
-		target_env->value = value;
+		if (old_value || new_value)
+		{
+			env->value = ft_strjoin(old_value, new_value);
+			if (!env->value)
+				util_put_cmd_err_and_exit(NULL);
+		}
+		else
+			env->value = NULL;
 	}
 	else
 	{
-		if (mode == ENV_TRUNC)
-			target_env->value = value;
-		else
+		if (new_value)
 		{
-			tmp_value = target_env->value;
-			target_env->value = ft_strjoin(tmp_value, value);
-			free(tmp_value);
-			free(value);
+			env->value = ft_strdup(new_value);
+			if (!env->value)
+				util_put_cmd_err_and_exit(NULL);
 		}
+		else
+			env->value = NULL;
 	}
-	util_list_add_last_new_envnode(g_shell.envs, target_env);
+	ft_safe_free_single_ptr(&old_value);
 }
+
+void		util_env_update_value(const char *env_name, const char *new_value,
+	bool is_env_var, bool append_flag)
+{
+	extern t_shell	g_shell;
+	t_env			*env;
+
+	if (!env_name)
+		return ;
+	env = get_env(env_name);
+	if (!env)
+	{
+		env = util_list_new_envnode((char *)env_name);
+		env->is_env = is_env_var;
+		util_list_add_last_new_envnode(&g_shell, env);
+	}
+	else
+	{
+		if (env->is_env == false)
+			env->is_env = is_env_var;
+		if (!new_value)
+			return ;
+	}
+	set_env_value(env, new_value, append_flag);
+}
+
+
+int	util_envs_print(t_env *envs)
+{
+	while (envs)
+	{
+		if (envs->is_env == true && envs->value != NULL)
+			printf("%s=%s\n", envs->name, envs->value);
+		envs = envs->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
+

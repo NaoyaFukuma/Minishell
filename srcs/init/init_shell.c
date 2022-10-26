@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:19:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 15:41:55 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/25 00:13:31 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_minishell(void)
 
 	g_shell.envs = dup_envs();
 	if (!g_shell.envs)
-		util_perror_and_exit("dup_envs");
+		util_put_cmd_err_and_exit("dup_envs");
 	//デバック用
 	shell_level_update();
 	print_env(g_shell.envs);

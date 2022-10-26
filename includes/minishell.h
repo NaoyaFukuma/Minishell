@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/24 00:22:54 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 13:37:50 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdbool.h>           // for type bool
 # include <stdlib.h>            // for free()
 # include <unistd.h>            // for write(), access(), execve()
+# include <sys/stat.h> // for stat()
 # include "libft.h"
 # include "utils.h"
 # include "init.h"
@@ -31,6 +32,7 @@
 # define BACK_CURSOR "\033[2D"
 # define CLEAR_FROM_CURSOR "\033[0K"
 
+typedef struct stat	t_stat;
 /*
 in utils.h define
 environ node struct
@@ -48,7 +50,7 @@ typedef struct s_shell
 {
 	t_env			*envs;
 	int				status;
-	// char	*pwd;
+	char			*pwd;
 	bool			interactive;
 	bool			interrupted;
 	bool			exited;

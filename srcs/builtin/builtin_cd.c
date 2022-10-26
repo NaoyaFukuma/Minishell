@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:46:26 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/24 01:52:52 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 12:49:06 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,104 +14,104 @@
 
 static void	put_cd_err(char *dir, char *message);
 
+char	*set_dst_dir(char **args)
+{
+	t_env	*env;
+
+	if (args[1])
+		return (args[1]);
+	env = util_env_get("HOME");
+	if (!env)
+	{
+		util_put_cmd_err("cd", "HOME not set");
+		return (NULL);
+	}
+	return (env->value ? env->value : "");
+}
+
+bool	needs_cdpath(char **args, char *dst_dir)
+{
+	if (args[1] == NULL || args[1][0] == '/')
+		return (false);
+	if (ft_strcmp(dst_dir, ".") == 0 ||
+		ft_strcmp(dst_dir, "..") == 0 ||
+		ft_strncmp(dst_dir, "./", 2) == 0 ||
+		ft_strncmp(dst_dir, "../", 3) == 0)
+		return (false);
+	return (true);
+}
+
+char	*try_splitted_cdpath(char **split_cd, char *dst_dir)
+{
+	size_t	i;
+	char	*joined_dst_dir;
+
+	i = -1;
+	joined_dst_dir = NULL;
+	while (split_cd[i])
+	{
+		if (ft_strlen(split_cd[i] == 0))
+		{
+			joined_dst_dir = ft_strdup(dst_dir);
+			if (!joined_dst_dir)
+				util_put_cmd_err_and_exit(NULL);
+		}
+		else
+			joined_dst_dir = util_path_join(split_cd, dst_dir);
+		if (try_change_dir(joined_dst_dir))
+			break ;
+		i++;
+	}
+	ft_safe_free_single_ptr(&joined_dst_dir);
+	if (split_cd[i])
+		return (split_cd[i]);
+	return (NULL);
+}
+
+bool	try_cdpath(char *dst_dir)
+{
+	char	**split_cdpath;
+	bool	res;
+	char	*try_chdir_res;
+	extern t_shell	g_shell;
+
+	res = false;
+	split_cdpath = util_colon_split(util_env_get("CDPATH")->value, "");
+	if (!split_cdpath)
+		util_put_cmd_err_and_exit(NULL);
+	try_chdir_res = try_splitted_cdpath(split_cdpath, dst_dir);
+	if (try_chdir_res)
+		res = true;
+	if (res && ft_strlen(try_chdir_res) != 0)
+		ft_putendl_fd(g_shell.pwd, STDOUT_FILENO);
+	ft_safe_free_double_ptr(&split_cdpath);
+	return (res);
+}
+
 int	builtin_cd(char **args)
 {
 	char	*dst_dir;
 	extern t_shell	g_shell;
 
-	// cd only
-	if (!args[1])
+	dst_dir = set_dst_dir(args);
+	if (!dst_dir)
+		return (EXIT_FAILURE);
+	if (needs_cdpath(args, dst_dir))
 	{
-		if (chdir(util_env_get("HOME")->value) == -1)
+		if (try_cdpath(dst_dir))
 		{
-			util_put_cmd_err("cd", strerror(errno));
-			return (EXIT_FAILURE);
-		}
-		else
-		{
-			util_set_env("OLDPWD", util_env_get("PWD") ? util_env_get("PWD")->value : NULL, ENV_TRUNC);
-			util_env_set("PWD", util_env_get("HOME")->value, ENV_TRUNC);
+			bind_pwd_value();
 			return (EXIT_SUCCESS);
 		}
 	}
-
-	// cd -
-	if (!ft_strcmp(args[1], "-"))
+	else if (try_change_dir(dst_dir))
 	{
-		if (!util_env_get("OLDPWD"))
-		{
-			util_put_cmd_err("cd", "OLDPWD not set");
-			return (EXIT_FAILURE);
-		}
-		if (chdir(util_env_get("OLDPWD")->value) == -1)
-		{
-			util_put_cmd_err("cd", strerror(errno));
-			return (EXIT_FAILURE);
-		}
-		else
-		{
-			util_env_set("PWD", util_env_get("OLDPWD")->value, ENV_TRUNC);
-			return (EXIT_SUCCESS);
-		}
-	}
-
-	dst_dir = args[1];
-	if (util_env_get("CDPATH"))
-	{
-		char	**cd_paths;
-		char	*joined_path;
-		char	*tmp_path;
-		cd_paths = ft_split(util_env_get("CDPATH")->value, ':');
-		if (!cd_paths)
-			util_perror_and_exit("malloc");
-		while (*cd_paths)
-		{
-			tmp_path = ft_strjoin(*cd_paths, "/");
-			joined_path = ft_strjoin(tmp_path, dst_dir);
-			free(tmp_path);
-			if (chdir(joined_path) == -1)
-			{
-				util_put_cmd_err("cd", strerror(errno));
-				return (EXIT_FAILURE);
-			}
-			else
-			{
-				util_set_env("OLDPWD", util_env_get("PWD") ? util_env_get("PWD")->value : NULL, ENV_TRUNC);
-				util_env_set("PWD", joined_path, ENV_TRUNC);
-				free(joined_path);
-				return (EXIT_SUCCESS);
-			}
-			cd_paths++;
-		}
-		free(cd_paths);
-	}
-
-
-
-	if (ft_strcmp(dst_dir, ".") == 0 ||
-		ft_strcmp(dst_dir, "..") == 0 ||
-		ft_strncmp(dst_dir, "./", 2) == 0 ||
-		ft_strncmp(dst_dir, "../", 3) == 0)
-	{
-		if (chdir(dst_dir) == -1)
-		{
-			util_put_cmd_err("cd", strerror(errno));
-			return (EXIT_FAILURE);
-		}
-		else
-		{
-			util_set_env("OLDPWD", util_env_get("PWD") ? util_env_get("PWD")->value : NULL, ENV_TRUNC);
-			util_env_set("PWD", dst_dir, ENV_TRUNC);
-			return (EXIT_SUCCESS);
-		}
+		bind_pwd_value();
+		return (EXIT_SUCCESS);
 	}
 	else
-	{
-		dst_dir = malloc(ft_strlen(util_env_get("PWD")->value) + ft_strlen(args[1]))
-	}
-
-
-
+		put_cd_err(dst_dir, strerror(errno));
+	return (EXIT_FAILURE);
 }
 
 static void	put_cd_err(char *dir, char *message)
