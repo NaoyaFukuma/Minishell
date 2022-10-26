@@ -1,7 +1,7 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "./minishell.h"
+# include "minishell.h"
 
 typedef enum	e_token_type
 {
@@ -43,6 +43,9 @@ typedef struct	s_token_info
 	t_token_list	*first_token;
 	t_token_list	*token;
 	bool			quote_flag;
+	t_token_status	status;
 }				t_token_info;
+
+t_token_list	*lexer(char *str);
 
 #endif
