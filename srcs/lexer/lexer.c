@@ -1,7 +1,7 @@
 #include "../../includes/lexer.h"
 #include "../../includes/minishell.h"
 
-//#include "../../libft/libft.h"
+#include "../../libft/libft.h"
 
 #include "lexer.h"
 
@@ -11,21 +11,11 @@ t_token_list	*init_token(t_token_list *prev, t_token_type type)
 
 	ret_token = malloc(sizeof(t_token_list));
 	if (!ret_token)
-	{
-		//未処理
-		printf("malloc error\n");
-	}
-	//未処理　確保する領域の範囲を修正
-	ret_token->comp = malloc(sizeof(char) * 100);
-	if (!ret_token->comp)
-	{
-		//未処理
-		printf("malloc error\n");
-	}
+		util_perror_and_exit("malloc");
 	ret_token->next = NULL;
 	ret_token->prev = prev;
 	ret_token->type = type;
-	ret_token->comp[0] = '\0';
+	ret_token->comp = NULL;
 	return (ret_token);
 }
 
@@ -67,7 +57,6 @@ void	add_new_token_list(t_token_info *token_info, t_token_type type)
 {
 	t_token_list	*new_token;
 
-	token_info->token->comp[token_info->each_i] = '\0';
 	new_token = init_token(token_info->token, type);
 	token_info->token->next = new_token;
 	//トークンのアドレスを変更することで現在のトークンは実質空みたいに
@@ -77,7 +66,7 @@ void	add_new_token_list(t_token_info *token_info, t_token_type type)
 	token_info->status = NOT_QUOTED;
 }
 
-void	type_char_other_process(t_token_info *token_info, t_token_type type, char *str)
+void	type_char_sep_process(t_token_info *token_info, t_token_type type, char *str)
 {
 	if (token_info->each_i != 0 && (type == CHAR_SPACE || type == CHAR_TAB))
 		add_new_token_list(token_info, type);
@@ -95,32 +84,27 @@ void	type_char_other_process(t_token_info *token_info, t_token_type type, char *
 			else
 				token_info->status = D_QUOTED;
 			token_info->quote_flag = true;
-			token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
+			token_info->each_i++;
 		}
 		else
 		{
-			token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
+			token_info->each_i++;
 			if (get_token_type(str[token_info->str_i + 1]) == CHAR_OTHER)
+			{
+				token_info->token->comp = ft_substr(&str[token_info->str_i - token_info->each_i + 1], 0, 1);
 				add_new_token_list(token_info, CHAR_OTHER);
+			}
 		}
 	}
 }
 
-void	status_quoted_process(t_token_info *token_info, t_token_type type, char *str)
+void	status_quoted_process(t_token_info *token_info, t_token_type type)
 {
 	if (token_info->status == QUOTED && type == CHAR_QUOTE)
-	{
-		token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
 		token_info->quote_flag = false;
-	}
 	else if (token_info->status == D_QUOTED && type == CHAR_D_QUOTE)
-	{
-		token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
 		token_info->quote_flag = false;
-	}
-		//quote内の文字をどんどんいれる
-	else
-		token_info->token->comp[token_info->each_i++] = str[token_info->str_i];
+	token_info->each_i++;
 }
 
 t_token_list	*split_token(char *av)
@@ -140,17 +124,20 @@ t_token_list	*split_token(char *av)
 			{
 				if (token_info.each_i == 0)
 					token_info.token->type = type;
-				token_info.token->comp[token_info.each_i++] = av[token_info.str_i];
+				token_info.each_i++;
 			}
 			//新しいトークンが必要な処理->CHAR_OTHERじゃない処理
 			else
-				type_char_other_process(&token_info, type, av);
+			{
+				token_info.token->comp = ft_substr(&av[token_info.str_i - token_info.each_i], 0, token_info.each_i);
+				type_char_sep_process(&token_info, type, av);
+			}
 		}
 		else
-			status_quoted_process(&token_info, type, av);
+			status_quoted_process(&token_info, type);
 		token_info.str_i++;
 	}
-	token_info.token->comp[token_info.each_i] = '\0';
+	token_info.token->comp = ft_substr(&av[token_info.str_i - token_info.each_i], 0, token_info.each_i);
 	return (token_info.first_token);
 }
 
