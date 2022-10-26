@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:40:29 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/24 15:20:26 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:30:29 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "minishell.h"
 
 static void	put_env_name_error(char *command, char *name);
 static bool	validate_env_name(char *name);

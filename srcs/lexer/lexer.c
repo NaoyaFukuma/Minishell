@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "minishell.h"
 
 t_token_list	*init_token(t_token_list *prev, t_token_type type)
 {

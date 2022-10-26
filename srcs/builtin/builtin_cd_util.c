@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 09:28:27 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 14:39:56 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:30:00 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "minishell.h"
 
 void	bind_pwd_value(void)
 {

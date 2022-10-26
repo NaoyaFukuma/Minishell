@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 01:19:59 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 14:03:10 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:35:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "minishell.h"
 
 char	*cpy_path_elem(char *path_p, char *elem, char *start)
 {
@@ -39,8 +39,8 @@ void	add_slash_path_front(char *path, char **res)
 		ft_strncmp(*res, "//", 2) != 0)
 	{
 		if (!(added_res = ft_strjoin("/", *res)))
-			error_exit(NULL);
-		ft_safe_free_char(res);
+			util_put_cmd_err_and_exit(NULL);
+		ft_safe_free_single_ptr((void **)res);
 		*res = added_res;
 	}
 }
@@ -81,8 +81,8 @@ char	*path_canonical(char *path)
 	if (!split || !res)
 		util_put_cmd_err_and_exit(NULL);
 	if (!cpy_canonical_path(split, &res))
-		ft_safe_free_single_ptr(&res);
-	ft_safe_free_double_ptr(&split);
+		ft_safe_free_single_ptr((void **)&res);
+	ft_safe_free_double_ptr((void ***)&split);
 	add_slash_path_front(path, &res);
 	return (res);
 }

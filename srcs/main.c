@@ -36,12 +36,21 @@ void	exe_cmd(char *str)
 	//printf("%s\n", environ[0]);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	extern t_shell	g_shell;
 	char	*line;
+	int		i;
+
+	i = -1;
 
 	init_minishell();
+	printf("-----builtin cmd test -----\n");
+	while (++i < ac)
+		printf("av[%d] %s\n", i, av[i + 1]);
+	printf("---------------------------\n");
+	exec_builtin(av + 1);
+
 	line = NULL;
 	while (1)
 	{

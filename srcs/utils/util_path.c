@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 22:17:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 15:02:54 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:31:02 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
+#include "minishell.h"
 
 char	*util_join_path(char *prv_path, char *nxt_path)
 {

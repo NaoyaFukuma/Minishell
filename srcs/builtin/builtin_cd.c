@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:46:26 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 14:37:11 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:30:04 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "minishell.h"
 
 static void	put_cd_err(char *dir, char *message);
 

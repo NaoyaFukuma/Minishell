@@ -6,14 +6,22 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 14:31:10 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 14:51:58 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:25:11 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-# include "minishell.h"
+# include <stdio.h>             // for printf() perror() strerror()
+# include <errno.h>             // for errno
+# include <readline/history.h>  // for add_history()
+# include <readline/readline.h> // for readline()
+# include <stdbool.h>           // for type bool
+# include <stdlib.h>            // for free()
+# include <unistd.h>            // for write(), access(), execve()
+# include <sys/stat.h> // for stat()
+# include "libft.h"
 
 /* environ node struct*/
 typedef struct s_env
@@ -26,6 +34,9 @@ typedef struct s_env
 
 #define	ENV_TRUNC 0
 #define	ENV_APPEND 1
+
+# define RED_COLOR "\e[31m"
+# define WHITE_COLOR "\e[m"
 
 // in utils.c
 bool	util_is_builtin(const char *arg);
