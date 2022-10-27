@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 14:35:57 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/25 22:42:57 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/10/24 15:22:22 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/10/26 16:30:21 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#include "minishell.h"
 
-# include "minishell.h"
-
-// in exec_builtin.c
-int		exec_builtin(char **args);
-
-# endif
+// int	builtin_export(char **args)
+// {
+//
+// }

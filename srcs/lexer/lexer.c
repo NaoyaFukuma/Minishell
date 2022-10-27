@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "minishell.h"
 
 t_token_list	*init_token(t_token_list *prev, t_token_type type)
 {
@@ -6,7 +6,7 @@ t_token_list	*init_token(t_token_list *prev, t_token_type type)
 
 	ret_token = malloc(sizeof(t_token_list));
 	if (!ret_token)
-		util_perror_and_exit("malloc");
+		util_put_cmd_err_and_exit("malloc");
 	ret_token->next = NULL;
 	ret_token->prev = prev;
 	ret_token->type = type;

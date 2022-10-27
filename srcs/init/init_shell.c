@@ -6,14 +6,14 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:19:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 15:41:55 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:53:46 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static t_env	*dup_envs(void);
-static void		print_env(t_env *envs);
+// static void		print_env(t_env *envs);
 static void		shell_level_update(void);
 
 void	init_minishell(void)
@@ -22,10 +22,8 @@ void	init_minishell(void)
 
 	g_shell.envs = dup_envs();
 	if (!g_shell.envs)
-		util_perror_and_exit("dup_envs");
-	//デバック用
+		util_put_cmd_err_and_exit("dup_envs");
 	shell_level_update();
-	print_env(g_shell.envs);
 }
 
 static t_env	*dup_envs(void)
@@ -69,12 +67,12 @@ static void	shell_level_update(void)
 	else
 		env_shlvl->value = ft_itoa(shlvl);
 }
-
-static void	print_env(t_env *envs)
-{
-	while (envs)
-	{
-		printf("%s=%s\n", envs->name, envs->value);
-		envs = envs->next;
-	}
-}
+//
+// static void	print_env(t_env *envs)
+// {
+// 	while (envs)
+// 	{
+// 		printf("%s=%s\n", envs->name, envs->value);
+// 		envs = envs->next;
+// 	}
+// }

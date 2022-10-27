@@ -36,24 +36,34 @@ void	exe_cmd(char *str)
 	//printf("%s\n", environ[0]);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
+	extern t_shell	g_shell;
 	char	*line;
+	int		i;
+
+	i = -1;
 
 	init_minishell();
+	printf("-----builtin cmd test -----\n");
+	while (++i < ac)
+		printf("av[%d] %s\n", i, av[i + 1]);
+	printf("---------------------------\n");
+	exec_builtin(av + 1);
+
 	line = NULL;
 	while (1)
 	{
 		line = readline("tsh > ");
-		if (line == NULL)
+		if (line == NULL) // ctrl - D
 			break ;
 		printf("line is [%s]\n", line);
 		lexer(line);
 		exe_cmd(line);
 		free(line);
 	}
-	char *args[3] = {"exit", "5",NULL};
-	builtin_exit(args);
-	printf("check\n");
-	return (0);
+	ft_putstr_fd(BACK_CURSOR, STDERR_FILENO);
+	ft_putstr_fd(CLEAR_FROM_CURSOR, STDERR_FILENO);
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	exit(g_shell.status);
 }

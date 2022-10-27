@@ -1,21 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   ft_safe_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/23 14:35:57 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/25 22:42:57 by nfukuma          ###   ########.fr       */
+/*   Created: 2022/10/26 01:28:05 by nfukuma           #+#    #+#             */
+/*   Updated: 2022/10/26 01:31:51 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#include "libft.h"
 
-# include "minishell.h"
+void	ft_safe_free_single_ptr(void **target)
+{
+	free(*target);
+	*target = NULL;
+}
 
-// in exec_builtin.c
-int		exec_builtin(char **args);
+void	ft_safe_free_double_ptr(void ***target)
+{
+	size_t i;
 
-# endif
+	i = 0;
+	if (!*target)
+		return ;
+	while ((*target)[i])
+	{
+		free((*target)[i]);
+		(*target)[i] = NULL;
+		i++;
+	}
+	free(*target);
+	*target = NULL;
+}

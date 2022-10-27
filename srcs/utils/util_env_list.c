@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_list.c                                        :+:      :+:    :+:   */
+/*   util_env_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 14:46:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 16:22:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/24 00:28:27 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_env	*util_list_new_envnode(char *env_str)
 		env->name = ft_strdup(env_str);
 		if (!env->name)
 			return (NULL);
+		env->value = NULL;
 		env->next = NULL;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:09:46 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 01:46:32 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 13:32:26 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,8 @@ int					ft_pow(int num, size_t pow);
 void				*ft_remalloc(void *old, size_t new_size, size_t old_size);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_isspace(int c);
+void	ft_safe_free_single_ptr(void **target);
+void	ft_safe_free_double_ptr(void ***target);
+char	*ft_strcpy_forward(char *dest, char *src);
 
 #endif

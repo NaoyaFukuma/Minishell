@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 00:57:11 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 01:42:58 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/26 13:34:39 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,15 @@ bool	util_is_digit_str(const char *str)
 		return (true);
 	else
 		return (false);
+}
+
+bool	is_directory(const char *path)
+{
+	t_stat path_stat;
+
+	if (stat(path, &path_stat) == -1)
+		return (false);
+	if (S_ISDIR(path_stat.st_mode))
+		return (true);
+	return (false);
 }
