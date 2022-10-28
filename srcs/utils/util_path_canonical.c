@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 01:19:59 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 16:35:01 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/27 14:01:34 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	cpy_canonical_path(char **split, char **res)
 		path_p = cpy_path_elem(path_p, split[i], start);
 		if (path_p == start)
 			path_p = ft_strcpy_forward(path_p, "/");
-		if (!is_directory(start))
+		if (!util_is_directory(start))
 			return (false);
 		i++;
 	}

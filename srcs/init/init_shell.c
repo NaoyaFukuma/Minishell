@@ -6,14 +6,13 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:19:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 16:53:46 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/27 14:44:48 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static t_env	*dup_envs(void);
-// static void		print_env(t_env *envs);
 static void		shell_level_update(void);
 
 void	init_minishell(void)
@@ -21,9 +20,9 @@ void	init_minishell(void)
 	extern t_shell	g_shell;
 
 	g_shell.envs = dup_envs();
-	if (!g_shell.envs)
-		util_put_cmd_err_and_exit("dup_envs");
 	shell_level_update();
+	init_pwd();
+	init_oldpwd();
 }
 
 static t_env	*dup_envs(void)
@@ -39,7 +38,7 @@ static t_env	*dup_envs(void)
 	{
 		tmp_env = util_list_new_envnode(environ[i]);
 		if (!tmp_env)
-			return (NULL);
+			util_put_cmd_err_and_exit("malloc in dup_envs");
 		util_list_add_last_new_envnode(&envs, tmp_env);
 	}
 	return (envs);
@@ -52,7 +51,12 @@ static void	shell_level_update(void)
 	int				shlvl;
 
 	env_shlvl = util_env_get("SHLVL");
-	if (!util_is_digit_str(env_shlvl->value))
+	if (!env_shlvl)
+	{
+		env_shlvl = util_list_new_envnode("SHLVL");
+		util_list_add_last_new_envnode(&g_shell.envs, env_shlvl);
+	}
+	if (!env_shlvl->value || !util_is_digit_str(env_shlvl->value))
 		shlvl = 0;
 	else
 		shlvl = ft_atoi(env_shlvl->value);
@@ -67,12 +71,3 @@ static void	shell_level_update(void)
 	else
 		env_shlvl->value = ft_itoa(shlvl);
 }
-//
-// static void	print_env(t_env *envs)
-// {
-// 	while (envs)
-// 	{
-// 		printf("%s=%s\n", envs->name, envs->value);
-// 		envs = envs->next;
-// 	}
-// }

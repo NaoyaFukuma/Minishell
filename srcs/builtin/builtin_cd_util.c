@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 09:28:27 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 16:30:00 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/27 11:23:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_cwd_path(char *cmd)
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
-		ft_putstr_fd(WHITE_COLOR, STDERR_FILENO);
+		ft_putstr_fd(DEFAULT_COLOR, STDERR_FILENO);
 	}
 	return (cwd);
 }
@@ -105,7 +105,7 @@ char	*set_cd_path(char *arg, bool *is_canon_path)
 	if (*arg == '/')
 		physical_path = ft_strdup(arg);
 	else
-		physical_path = util_join_path(g_shell.pwd, arg);
+		physical_path = util_join_path(util_env_get("PWD")->value, arg);
 	if (!physical_path)
 		util_put_cmd_err_and_exit(NULL);
 	canon_path = path_canonical(physical_path);
@@ -132,5 +132,7 @@ bool	try_change_dir(char *dst_path)
 	path = set_cd_path(dst_path, &is_canon_path_flag);
 	res = cd_process(path, dst_path, is_canon_path_flag);
 	ft_safe_free_single_ptr((void **)&path);
-	return (res);
+	if (res == 0)
+		return (true);
+	return (false);
 }
