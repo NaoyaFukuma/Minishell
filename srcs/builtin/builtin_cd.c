@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:46:26 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 16:30:04 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/27 11:23:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,5 @@ static void	put_cd_err(char *dir, char *message)
 	ft_putstr_fd(dir, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(message, STDERR_FILENO);
-	ft_putstr_fd(WHITE_COLOR, STDERR_FILENO);
+	ft_putstr_fd(DEFAULT_COLOR, STDERR_FILENO);
 }

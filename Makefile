@@ -22,7 +22,7 @@ INCLUDES = -I $(shell brew --prefix readline)/include -I ./libft -I ./includes -
 # OBJS = $(patsubst $(SRCS_DIR)/%, $(OBJS_DIR)/%, $(SRCS:.c=.o))
 OBJS = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Werror -Wextra $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address $(INCLUDES)
 
 LIBS = -L $(shell brew --prefix readline)/lib -lreadline -lhistory -L ./libft -lft
 

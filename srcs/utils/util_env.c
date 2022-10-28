@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 14:48:38 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/28 13:32:49 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,38 @@ void		util_env_update_value(const char *env_name, const char *new_value, bool is
 	set_env_value(env, new_value, append_flag);
 }
 
-
-int	util_envs_print(t_env *envs)
+bool	util_validate_env_name(char *name)
 {
-	while (envs)
-	{
-		if (envs->is_env == true && envs->value != NULL)
-			printf("%s=%s\n", envs->name, envs->value);
-		envs = envs->next;
-	}
-	return (EXIT_SUCCESS);
+	size_t i;
+
+	i = 0;
+	if (name[i] != '_' && !ft_isalpha(name[i]))
+		return (false);
+	while (name[++i])
+		if (name[i] != '_' && !ft_isalnum(name[i]))
+			return (false);
+	return (true);
 }
 
+t_env	*util_copy_envs(t_env *envs_list)
+{
+	t_env	*res_list;
+	t_env	*now_env;
+	t_env	*copy_env;
 
+	now_env = envs_list;
+	res_list = NULL;
+	while (now_env)
+	{
+		copy_env = malloc(sizeof(t_env));
+		if (!copy_env)
+			util_put_cmd_err_and_exit("malloc in util_copy_envs");
+		copy_env->name = now_env->name;
+		copy_env->value = now_env->value;
+		copy_env->is_env = now_env->is_env;
+		copy_env->next = NULL;
+		util_list_add_last_new_envnode(&res_list, copy_env);
+		now_env = now_env->next;
+	}
+	return (res_list);
+}
