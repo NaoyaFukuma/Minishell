@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_cd1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:46:26 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 14:57:08 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 21:52:50 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*set_dst_dir(char **args);
-static void	put_cd_err(char *dir, char *message);
 static bool	needs_cdpath(char **args, char *dst_dir);
+static bool	try_cdpath(char *dst_dir);
+static void	put_cd_err(char *dir, char *message);
 
 int	builtin_cd(char **args)
 {
@@ -69,7 +70,7 @@ static bool	needs_cdpath(char **args, char *dst_dir)
 	return (true);
 }
 
-bool	try_cdpath(char *dst_dir)
+static bool	try_cdpath(char *dst_dir)
 {
 	char	**split_cdpath;
 	bool	res;

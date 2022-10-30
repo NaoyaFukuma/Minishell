@@ -13,7 +13,7 @@ int	main(void)
 	g_shell.status = 129;
 	while (1)
 	{
-		prompt = create_prompt_str();
+		prompt = util_create_prompt_str();
 		line = readline(prompt);
 		free(prompt);
 		if (line == NULL)

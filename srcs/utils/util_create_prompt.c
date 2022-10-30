@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:43:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:38:54 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 21:54:58 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 static char	*join_and_free_err_exit(char *str1, bool free_str1, char *str2, bool free_str2);
 
-char	*create_prompt_str(void)
+char	*util_create_prompt_str(void)
 {
 	char	*ret_str;
-	char	*tmp_for_free;
 	extern t_shell	g_shell;
 	char	*status;
 
@@ -40,7 +39,6 @@ char	*create_prompt_str(void)
 static char	*join_and_free_err_exit(char *str1, bool free_str1, char *str2, bool free_str2)
 {
 	char	*ret_str;
-	char	*tmp_for_free;
 
 	ret_str = ft_strjoin(str1, str2);
 	if (!ret_str)

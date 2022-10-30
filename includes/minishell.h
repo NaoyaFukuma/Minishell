@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:21:12 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 21:54:25 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <stdio.h>             // for printf() perror() strerror()
 # include <errno.h>             // for errno
 # include <readline/history.h>  // for add_history()
 # include <readline/readline.h> // for readline()
 # include <stdbool.h>           // for type bool
-# include <stdio.h>             // for printf() perror() strerror()
 # include <stdlib.h>            // for free()
 # include <string.h>
 # include <sys/stat.h> // for stat()
@@ -102,6 +102,9 @@ typedef struct s_token_info
 
 t_token_list				*lexer(char *str);
 
+// in utils/util_create_prompt_str.c
+char	*util_create_prompt_str(void);
+
 // in utils/utils.c
 bool						util_is_builtin(const char *arg);
 bool						util_is_digit_str(const char *str);
@@ -151,13 +154,13 @@ int							builtin_cd(char **args);
 
 // in builtin/builtin_cd2.c
 bool						try_change_dir(char *dst_path);
-char						*set_cd_path(char *arg, bool *is_canon_path);
 char						*get_cwd_path(char *cmd);
 char						*get_new_pwd(char *path, bool flag,
 								bool is_abs_path);
 
 // in builtin/builtin_cd3.c
 void						bind_pwd_value(void);
+char	*try_splitted_cdpath(char **split_cd, char *dst_dir);
 
 // in builtin/builtin_echo.c
 int							builtin_echo(char **args);
