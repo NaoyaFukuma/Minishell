@@ -6,20 +6,20 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 15:22:22 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/28 15:29:41 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 21:25:44 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	export_set_envs(char **args);
-static void sep_arg(char *arg, char **sep_posi, char **value, bool *append_flag);
-static void		restore_arg(char *sep, bool append_flag);
+static void	sep_arg(char *arg, char **sep_posi, char **value,
+				bool *append_flag);
+static void	restore_arg(char *sep, bool append_flag);
 
-
-int		builtin_export(char **args)
+int	builtin_export(char **args)
 {
-	if (args[1])
+	if (args[1] == NULL)
 		return (export_print_envs());
 	else
 		return (export_set_envs(args));
@@ -33,7 +33,7 @@ static int	export_set_envs(char **args)
 	bool	append_flag;
 	int		ret;
 
-	ret	= EXIT_SUCCESS;
+	ret = EXIT_SUCCESS;
 	value = NULL;
 	while (++args)
 	{
@@ -51,7 +51,7 @@ static int	export_set_envs(char **args)
 	return (ret);
 }
 
-static void sep_arg(char *arg, char **sep_posi, char **value, bool *append_flag)
+static void	sep_arg(char *arg, char **sep_posi, char **value, bool *append_flag)
 {
 	*sep_posi = ft_strchr(arg, '=');
 	if (*sep_posi)
@@ -68,7 +68,7 @@ static void sep_arg(char *arg, char **sep_posi, char **value, bool *append_flag)
 		*value = NULL;
 }
 
-static void		restore_arg(char *sep, bool append_flag)
+static void	restore_arg(char *sep, bool append_flag)
 {
 	if (sep)
 	{

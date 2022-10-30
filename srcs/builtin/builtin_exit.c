@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 01:05:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 16:28:13 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 21:22:48 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 static void	put_num_args_error(char *arg);
 static bool	has_error(char **args, int i);
 
-int	builtin_exit(char	**args)
+int	builtin_exit(char **args)
 {
 	extern t_shell	g_shell;
 	int				i;
-	int				status;
 
 	if (g_shell.interactive == true)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
@@ -28,9 +27,8 @@ int	builtin_exit(char	**args)
 		i++;
 	if (!args[i])
 		exit(g_shell.status);
-	status = ft_atoi(args[i]);
 	if (has_error(args, i) == false)
-		exit(status);
+		exit(ft_atoi(args[i]));
 	g_shell.exited = true;
 	return (EXIT_FAILURE);
 }
@@ -52,7 +50,7 @@ static bool	has_error(char **args, int i)
 
 static void	put_num_args_error(char *arg)
 {
-	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd("tsh: exit: ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 }
