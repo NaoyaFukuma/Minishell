@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/28 15:10:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 21:54:25 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@
 # define BACK_CURSOR "\e[2D"
 # define CLEAR_FROM_CURSOR "\e[K"
 # define UP_LINE_CURSOR "\e[A"
-# define ADVANCE_CURSOR "\e[6C"
+# define ADVANCE_CURSOR "\e[2C"
 
 # define ENV_TRUNC 0
 # define ENV_APPEND 1
 # define RED_COLOR "\e[31m"
+# define GREEN_COLOR "\e[32m"
+# define YELLOW_COLOR "\e[33m"
 # define DEFAULT_COLOR "\e[m"
 
 typedef struct stat			t_stat;
@@ -100,6 +102,8 @@ typedef struct s_token_info
 
 t_token_list				*lexer(char *str);
 
+// in utils/util_create_prompt_str.c
+char	*util_create_prompt_str(void);
 
 // in utils/utils.c
 bool						util_is_builtin(const char *arg);
@@ -121,9 +125,10 @@ void	util_list_add_last_new_envnode(t_env **envs,
 
 // in utils/util_env.c
 t_env						*util_env_get(const char *name);
-void						util_env_update_value(const char *env_name,
-								const char *new_value, bool is_env_var,
-								bool append_flag);
+void	util_env_update_value(const char *env_name,
+							const char *new_value,
+							bool is_env_var,
+							bool append_flag);
 bool						util_validate_env_name(char *name);
 t_env						*util_copy_envs(t_env *envs_list);
 
@@ -133,7 +138,7 @@ void						**util_ptrarr_add_back(void **ptrarr, void *ptr);
 char						*util_join_path(char *prv_path, char *nxt_path);
 
 // in utils/util_path_canonical.c
-char						*path_canonical(char *path);
+char						*util_path_canonical(char *path);
 char						**util_colon_split(char *src_str, char *def);
 
 // in init/init_shell.c
@@ -144,22 +149,42 @@ void						init_oldpwd(void);
 // in exec/exec_builtin.c
 int							exec_builtin(char **args);
 
-// in builtin
+// in builtin/builtin_cd1.c
 int							builtin_cd(char **args);
-int							builtin_pwd(void);
-int							builtin_unset(char **args);
-int							builtin_exit(char **args);
-int							builtin_echo(char **args);
-int							builtin_env(void);
+
+// in builtin/builtin_cd2.c
 bool						try_change_dir(char *dst_path);
-int							cd_process(char *cd_path, char *arg, bool flag);
-char						*set_cd_path(char *arg, bool *is_canon_path);
 char						*get_cwd_path(char *cmd);
 char						*get_new_pwd(char *path, bool flag,
 								bool is_abs_path);
+
+// in builtin/builtin_cd3.c
 void						bind_pwd_value(void);
+char	*try_splitted_cdpath(char **split_cd, char *dst_dir);
+
+// in builtin/builtin_echo.c
+int							builtin_echo(char **args);
+
+// in builtin/builtin_env.c
+int							builtin_env(void);
+
+// in builtin/builtin_exit.c
+int							builtin_exit(char **args);
+
+// in builtin/builtin_export.c
 int							builtin_export(char **args);
+
+// in builtin/builtin_export_sort.c
 void						env_mergesort(t_env **lst, int (*cmp)());
+
+// in builtin/builtin_expor_print.c
 int							export_print_envs(void);
+
+// in builtin/builtin_pwd.c
+int							builtin_pwd(void);
+
+// in builtin/builtin_unset.c
+int							builtin_unset(char **args);
+
 
 #endif

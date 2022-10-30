@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 14:31:10 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/27 14:12:08 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 15:02:44 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ size_t				util_ptrarr_len(void **ptrarr);
 void				**util_ptrarr_add_back(void **ptrarr, void *ptr);
 char				*util_join_path(char *prv_path, char *nxt_path);
 
-// in path_canonical.c
-char				*path_canonical(char *path);
+// in util_path_canonical.c
+char				*util_path_canonical(char *path);
 char				**util_colon_split(char *src_str, char *def);
 
 #endif

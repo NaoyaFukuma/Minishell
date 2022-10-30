@@ -2,62 +2,30 @@
 
 t_shell	g_shell;
 
-void	exe_cmd(char *str)
-{
-	extern char	**environ;
-	pid_t	pid;
-	int		status;
-	char	**argv = malloc(sizeof(char *) * 2);
-
-	argv[0] = str;
-	argv[1] = NULL;
-
-	if (!access(str, 1))
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			printf("hoge\n");
-			//未実装
-			execve(str, argv, environ);
-		}
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			//未実装
-			printf("waitpid\n");
-		}
-		printf("exit_status : %d\n", status);
-		printf("exit_status : %d\n", WEXITSTATUS(status));
-		status = 1000;
-		printf("exit_status : %d\n", status);
-		printf("exit_status : %d\n", WEXITSTATUS(status));
-
-	}
-	//printf("%s\n", environ[0]);
-}
-
 int	main(void)
 {
 	extern t_shell	g_shell;
 	char	*line;
-// 	int		i;
-//
-// 	i = -1;
+	char	*prompt;
+
 	init_minishell();
-	line = NULL;
+	// set_sig_for_interactive_shell();
+	g_shell.status = 129;
 	while (1)
 	{
-		line = readline("tsh > ");
-
-		if (line == NULL) // ctrl - D
+		prompt = util_create_prompt_str();
+		line = readline(prompt);
+		free(prompt);
+		if (line == NULL)
 			break ;
+		if (*line)
+			add_history(line);
 		printf("line is [%s]\n", line);
 		lexer(line);
-		exec_builtin(&line);
 		free(line);
 	}
 	ft_putstr_fd(UP_LINE_CURSOR, STDERR_FILENO);
 	ft_putstr_fd(ADVANCE_CURSOR, STDERR_FILENO);
 	ft_putstr_fd("exit\n", STDERR_FILENO);
-	exit(g_shell.status);
+	exit(EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 01:19:59 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/27 14:01:34 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/30 15:02:44 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	cpy_canonical_path(char **split, char **res)
 	return (true);
 }
 
-char	*path_canonical(char *path)
+char	*util_path_canonical(char *path)
 {
 	char			**split;
 	char			*res;
