@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/31 01:34:33 by hommayunosu       #+#    #+#             */
+/*   Updated: 2022/10/31 01:34:34 by hommayunosu      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 #include "../../libft/libft.h"
 
@@ -59,7 +71,6 @@ void	add_new_token_list(t_token_info *token_info, t_token_type type)
 
 	new_token = init_token(token_info->token, type);
 	token_info->token->next = new_token;
-	//トークンのアドレスを変更することで現在のトークンは実質空みたいに
 	token_info->token = new_token;
 	token_info->each_i = 0;
 	token_info->quote_flag = false;
@@ -80,24 +91,30 @@ int	args_end(char *str)
 	return (0);
 }
 
-void	type_char_sep_process(t_token_info *token_info, t_token_type type, char *str)
+void	change_status_quoted(t_token_info *token_info, t_token_type type)
 {
+	if (type == CHAR_QUOTE)
+		token_info->status = QUOTED;
+	else
+		token_info->status = D_QUOTED;
+	token_info->quote_flag = true;
+}
+
+void	type_char_sep_process(t_token_info *token_info, \
+								t_token_type type, char *str)
+{
+	token_info->token->comp = ft_substr(&str[token_info->str_i - \
+						token_info->each_i], 0, token_info->each_i);
 	if (token_info->each_i != 0 && (type == CHAR_SPACE || type == CHAR_TAB))
 		add_new_token_list(token_info, type);
-	//特殊な文字の時の処理
 	else if (type != CHAR_SPACE && type != CHAR_TAB && type != CHAR_OTHER)
 	{
-		//必要以上に新しいトークンを作らないような処理
 		if (token_info->each_i != 0)
 			add_new_token_list(token_info, type);
 		token_info->token->type = type;
 		if (type == CHAR_QUOTE || type == CHAR_D_QUOTE)
 		{
-			if (type == CHAR_QUOTE)
-				token_info->status = QUOTED;
-			else
-				token_info->status = D_QUOTED;
-			token_info->quote_flag = true;
+			change_status_quoted(token_info, type);
 			token_info->each_i++;
 		}
 		else
@@ -105,7 +122,8 @@ void	type_char_sep_process(t_token_info *token_info, t_token_type type, char *st
 			token_info->each_i++;
 			if (get_token_type(str[token_info->str_i + 1]) == CHAR_OTHER)
 			{
-				token_info->token->comp = ft_substr(&str[token_info->str_i - token_info->each_i + 1], 0, 1);
+				token_info->token->comp = ft_substr(&str[token_info->str_i - \
+									token_info->each_i + 1], 0, 1);
 				add_new_token_list(token_info, CHAR_OTHER);
 			}
 		}
@@ -127,32 +145,26 @@ t_token_list	*split_token(char *str)
 	t_token_type	type;
 
 	init_token_info(&token_info, str);
-	//全ての文字は一つずつこのwhile文でみていくのがいいかも
 	while (str[token_info.str_i] != '\0')
 	{
 		type = get_token_type(str[token_info.str_i]);
 		if (token_info.quote_flag == false)
 		{
-			//特殊な文字じゃないときの普通の処理
 			if (type == CHAR_OTHER)
 			{
 				if (token_info.each_i == 0)
 					token_info.token->type = type;
 				token_info.each_i++;
 			}
-			//新しいトークンが必要な処理->CHAR_OTHERじゃない処理
 			else
-			{
-				token_info.token->comp = ft_substr(&str[token_info.str_i - token_info.each_i], 0, token_info.each_i);
 				type_char_sep_process(&token_info, type, str);
-			}
 		}
 		else
 			status_quoted_process(&token_info, type);
 		token_info.str_i++;
 	}
-	if (token_info.token->comp == NULL)
-		token_info.token->comp = ft_substr(&str[token_info.str_i - token_info.each_i], 0, token_info.each_i);
+	token_info.token->comp = ft_substr(&str[token_info.str_i - \
+						token_info.each_i], 0, token_info.each_i);
 	return (token_info.first_token);
 }
 
@@ -191,7 +203,6 @@ t_token_list	*lexer(char *str)
 	t_token_list	*token;
 	size_t			i;
 
-//	printf("str: %s\n", str);
 	token = split_token(str);
 	i = 0;
 	while (token)
