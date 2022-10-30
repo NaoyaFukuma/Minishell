@@ -1,4 +1,7 @@
-#include "minishell.h"
+#include "../../includes/minishell.h"
+#include "../../libft/libft.h"
+
+t_token_type	get_token_type(char c);
 
 t_token_list	*init_token(t_token_list *prev, t_token_type type)
 {
@@ -14,12 +17,12 @@ t_token_list	*init_token(t_token_list *prev, t_token_type type)
 	return (ret_token);
 }
 
-void	init_token_info(t_token_info *token_info, char *av)
+void	init_token_info(t_token_info *token_info, char *str)
 {
 	token_info->str_i = 0;
 	token_info->each_i = 0;
-	token_info->len = ft_strlen(av);
-	token_info->token = init_token(NULL, CHAR_OTHER);
+	token_info->len = ft_strlen(str);
+	token_info->token = init_token(NULL, get_token_type(*str));
 	token_info->first_token = token_info->token;
 	token_info->quote_flag = false;
 }
@@ -44,6 +47,8 @@ t_token_type	get_token_type(char c)
 		return (CHAR_SPACE);
 	else if (c == '\t')
 		return (CHAR_TAB);
+	else if (c == '\0')
+		return (CHAR_NIL);
 	else
 		return (CHAR_OTHER);
 }
@@ -59,6 +64,20 @@ void	add_new_token_list(t_token_info *token_info, t_token_type type)
 	token_info->each_i = 0;
 	token_info->quote_flag = false;
 	token_info->status = NOT_QUOTED;
+}
+
+int	args_end(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 void	type_char_sep_process(t_token_info *token_info, t_token_type type, char *str)
@@ -102,16 +121,16 @@ void	status_quoted_process(t_token_info *token_info, t_token_type type)
 	token_info->each_i++;
 }
 
-t_token_list	*split_token(char *av)
+t_token_list	*split_token(char *str)
 {
 	t_token_info	token_info;
 	t_token_type	type;
 
-	init_token_info(&token_info, av);
+	init_token_info(&token_info, str);
 	//全ての文字は一つずつこのwhile文でみていくのがいいかも
-	while (av[token_info.str_i] != '\0')
+	while (str[token_info.str_i] != '\0')
 	{
-		type = get_token_type(av[token_info.str_i]);
+		type = get_token_type(str[token_info.str_i]);
 		if (token_info.quote_flag == false)
 		{
 			//特殊な文字じゃないときの普通の処理
@@ -124,15 +143,16 @@ t_token_list	*split_token(char *av)
 			//新しいトークンが必要な処理->CHAR_OTHERじゃない処理
 			else
 			{
-				token_info.token->comp = ft_substr(&av[token_info.str_i - token_info.each_i], 0, token_info.each_i);
-				type_char_sep_process(&token_info, type, av);
+				token_info.token->comp = ft_substr(&str[token_info.str_i - token_info.each_i], 0, token_info.each_i);
+				type_char_sep_process(&token_info, type, str);
 			}
 		}
 		else
 			status_quoted_process(&token_info, type);
 		token_info.str_i++;
 	}
-	token_info.token->comp = ft_substr(&av[token_info.str_i - token_info.each_i], 0, token_info.each_i);
+	if (token_info.token->comp == NULL)
+		token_info.token->comp = ft_substr(&str[token_info.str_i - token_info.each_i], 0, token_info.each_i);
 	return (token_info.first_token);
 }
 
@@ -161,6 +181,8 @@ void	print_type(t_token_type type)
 		str = "TAB";
 	else if (type == CHAR_OTHER)
 		str = "OTHER";
+	else if (type == CHAR_NIL)
+		str = "(NULL)";
 	printf("type->[%s]\n", str);
 }
 

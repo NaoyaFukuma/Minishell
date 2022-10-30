@@ -66,6 +66,7 @@ typedef enum e_token_type
 	CHAR_GREATER = '>',
 	CHAR_SPACE = ' ',
 	CHAR_TAB = '\t',
+	CHAR_NIL = '\0',
 	CHAR_OTHER,
 }							t_token_type;
 
