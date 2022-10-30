@@ -84,7 +84,7 @@ struct						s_token_list
 	t_token_list			*prev;
 	t_token_list			*next;
 	t_token_type			type;
-	char *comp; //component
+	char					*comp; //component
 };
 
 typedef struct s_token_info
