@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:54:25 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/31 12:21:10 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <sys/stat.h> // for stat()
 # include <unistd.h>   // for write(), access(), execve()
 
-# define BACK_CURSOR "\e[2D"
+# define BACK_CURSOR "\e[1D"
 # define CLEAR_FROM_CURSOR "\e[K"
 # define UP_LINE_CURSOR "\e[A"
-# define ADVANCE_CURSOR "\e[2C"
+# define ADVANCE_CURSOR "\e[3C"
 
 # define ENV_TRUNC 0
 # define ENV_APPEND 1
@@ -106,12 +106,15 @@ t_token_list				*lexer(char *str);
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
 
+// in signal/signal.c
+void	set_sig_for_interactive_shell(void);
+
 // in utils/utils.c
 bool						util_is_builtin(const char *arg);
 bool						util_is_digit_str(const char *str);
 bool						util_is_directory(const char *path);
-bool						util_is_directory(const char *path);
 bool						util_is_same_dir(char *dir1, char *dir2);
+void	util_set_status(int status);
 
 // in utils/util_error.c
 void						util_put_cmd_err_and_exit(char *cmd);

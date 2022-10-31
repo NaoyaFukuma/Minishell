@@ -6,37 +6,39 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:43:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:54:58 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/10/31 12:24:04 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*join_and_free_err_exit(char *str1, bool free_str1, char *str2, bool free_str2);
+static char	*join_and_free_err_exit(char *str1, bool free_str1, char *str2,
+				bool free_str2);
 
 char	*util_create_prompt_str(void)
 {
-	char	*ret_str;
+	char			*ret_str;
 	extern t_shell	g_shell;
-	char	*status;
+	char			*tmp_str;
 
-	status = ft_itoa(g_shell.status);
-	if (!status)
-		util_put_cmd_err_and_exit("in create_prompt_str");
-	ret_str = join_and_free_err_exit("\n", false, status, true);
-	ret_str = join_and_free_err_exit(ret_str, true, ":", false);
-	ret_str = join_and_free_err_exit(ret_str, true, g_shell.pwd, false);
 	if (g_shell.status == 0)
-		;
+		ret_str = join_and_free_err_exit(DEFAULT_COLOR, false, "[", false);
 	else if (0 < g_shell.status && g_shell.status < 128)
-		ret_str = join_and_free_err_exit(ret_str, true, RED_COLOR, false);
+		ret_str = join_and_free_err_exit(RED_COLOR, false, "[", false);
 	else
-		ret_str = join_and_free_err_exit(ret_str, true, YELLOW_COLOR, false);
-	ret_str = join_and_free_err_exit(ret_str, true, "\n> \e[m", false);
+		ret_str = join_and_free_err_exit(YELLOW_COLOR, false, "[", false);
+	tmp_str = ft_itoa(g_shell.status);
+	if (!tmp_str)
+		util_put_cmd_err_and_exit("in create_prompt_str");
+	ret_str = join_and_free_err_exit(ret_str, true, tmp_str, true);
+	ret_str = join_and_free_err_exit(ret_str, true, "] \e[m", false);
+	ret_str = join_and_free_err_exit(ret_str, true, g_shell.pwd, false);
+	ret_str = join_and_free_err_exit(ret_str, true, " > ", false);
 	return (ret_str);
 }
 
-static char	*join_and_free_err_exit(char *str1, bool free_str1, char *str2, bool free_str2)
+static char	*join_and_free_err_exit(char *str1, bool free_str1, char *str2,
+		bool free_str2)
 {
 	char	*ret_str;
 
