@@ -68,6 +68,7 @@ typedef enum e_token_type
 	CHAR_GREATER = '>',
 	CHAR_SPACE = ' ',
 	CHAR_TAB = '\t',
+	CHAR_NIL = '\0',
 	CHAR_OTHER,
 }							t_token_type;
 
@@ -85,7 +86,7 @@ struct						s_token_list
 	t_token_list			*prev;
 	t_token_list			*next;
 	t_token_type			type;
-	char *comp; //component
+	char					*comp; //component
 };
 
 typedef struct s_token_info
