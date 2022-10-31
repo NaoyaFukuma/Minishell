@@ -9,7 +9,7 @@ int	main(void)
 	char	*prompt;
 
 	init_minishell();
-	// set_sig_for_interactive_shell();
+	set_sig_for_interactive_shell();
 	g_shell.status = 129;
 	while (1)
 	{
