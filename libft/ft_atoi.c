@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 22:10:28 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/23 01:58:17 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/02 00:00:58 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,33 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return ((int)res);
+}
+
+bool			ft_atoi_limit(const char *str, int *return_value)
+{
+	int				i;
+	int				sign;
+	unsigned long	div;
+	unsigned long	res;
+
+	i = 0;
+	res = 0;
+	div = INT_MAX / 10;
+	while ((9 <= str[i] && str[i] <= 13) || str[i] == 32)
+		i++;
+	sign = str[i] == '-' ? -1 : 1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i] && ('0' <= str[i] && str[i] <= '9'))
+	{
+		if ((div < res || (div == res && str[i] > '7')) && sign == 1)
+			return (false);
+		else if ((div < res || (div == res && str[i] > '8'))
+		&& sign == -1)
+			return (false);
+		res *= 10;
+		res += str[i++] - '0';
+	}
+	*return_value = (int)res * sign;
+	return (true);
 }
