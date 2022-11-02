@@ -6,7 +6,7 @@
 #    By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/08 14:26:40 by nfukuma           #+#    #+#              #
-#    Updated: 2022/10/26 16:36:00 by nfukuma          ###   ########.fr        #
+#    Updated: 2022/11/02 00:16:17 by nfukuma          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCNAMES = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
 					ft_ultoa_base.c ft_pow.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 					ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
 					ft_lstmap.c ft_remalloc.c get_next_line_bonus.c get_next_line_utils_bonus.c \
-					ft_isspace.c ft_safe_free.c
+					ft_isspace.c ft_safe_free.c ft_puthex_fd.c
 
 CFLAGS = -Wall -Wextra -Werror
 CC = gcc
