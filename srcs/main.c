@@ -6,15 +6,16 @@ static void	ctrl_d_exit_put_msg(void);
 
 static void	run_cmdline(char *line)
 {
-	t_token_list	*tokens;
-	t_token_list	*start_token_for_free;
-	t_node			*nodes;
+	// t_token_list	*tokens;
+	// t_token_list	*start_token_for_free;
+	// t_node			*nodes;
 
-	tokens = lexer(line);
-	start_token_for_free = tokens;
-	if (parser(&nodes, &tokens) == false) // 未着手
-		put_parse_syntax_error(tokens); // 未着手
-	exec_nodes(nodes); // 福間対応
+	lexer(line);
+	// tokens = lexer(line);
+	// start_token_for_free = tokens;
+	// if (parser(&nodes, &tokens) == false) // 未着手
+		// put_parse_syntax_error(tokens); // 未着手
+	// exec_nodes(nodes); // 福間対応
 	// del_token_list(&start_token_for_free);
 	// del_node_list(&nodes);
 	return ;
