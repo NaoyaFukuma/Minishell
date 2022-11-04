@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 22:17:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/26 16:31:02 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/03 00:15:30 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ char	**util_colon_split(char *src_str, char *def)
 	else
 		res = (char **)util_ptrarr_add_back((void **)res, ft_strdup(src_str));
 	free(tmp);
-	return ((char **)res);
+	return (res);
 }

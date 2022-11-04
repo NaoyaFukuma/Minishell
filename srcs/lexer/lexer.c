@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 01:34:33 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/10/31 01:34:34 by hommayunosu      ###   ########.fr       */
+/*   Updated: 2022/11/03 22:19:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token_list	*init_token(t_token_list *prev, t_token_type type)
 
 	ret_token = malloc(sizeof(t_token_list));
 	if (!ret_token)
-		util_put_cmd_err_and_exit("malloc");
+		util_put_cmd_err_and_exit("in init_token");
 	ret_token->next = NULL;
 	ret_token->prev = prev;
 	ret_token->type = type;
@@ -201,15 +201,17 @@ void	print_type(t_token_type type)
 t_token_list	*lexer(char *str)
 {
 	t_token_list	*token;
+	t_token_list	*tmp_for_print;
 	size_t			i;
 
 	token = split_token(str);
+	tmp_for_print = token;
 	i = 0;
-	while (token)
+	while (tmp_for_print)
 	{
-		printf("%zu [%s]\t", i, token->comp);
-		print_type(token->type);
-		token = token->next;
+		printf("%zu [%s]\t", i, tmp_for_print->comp);
+		print_type(tmp_for_print->type);
+		tmp_for_print = tmp_for_print->next;
 		i++;
 	}
 	return (token);

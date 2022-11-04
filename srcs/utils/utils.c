@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 00:57:11 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 23:55:03 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/03 22:29:26 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	util_is_builtin(const char *arg)
 		return (false);
 	i = -1;
 	while (builtin_cmd[++i])
-		if (ft_strcmp(arg, builtin_cmd[i]))
+		if (!ft_strcmp(arg, builtin_cmd[i]))
 			return (true);
 	return (false);
 }
