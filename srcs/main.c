@@ -46,32 +46,40 @@ static void	run_cmdline(char *line)
 	return ;
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	extern t_shell	g_shell;
 	char	*line;
 	char	*prompt;
 
 	init_minishell();
-	while (1)
+	if (argc > 2 && !ft_strcmp(argv[1], "-c"))
 	{
-		g_shell.interrupted = false;
-		g_shell.exited = false;
-		set_sig_for_interactive_shell();
-		prompt = util_create_prompt_str();
-		line = readline(prompt);
-		free(prompt);
-		if (line == NULL)
-			break ;
-		// printf("line is [%s]\n", line);
-		if (*line)
-		{
-			add_history(line);
-			run_cmdline(line);
-		}
-		free(line);
+		g_shell.interactive = false;
+		run_cmdline(argv[2]);
 	}
-	ctrl_d_exit_put_msg();
+	else
+	{
+		g_shell.interactive = true;
+		while (1)
+		{
+			g_shell.interrupted = false;
+			g_shell.exited = false;
+			set_sig_for_interactive_shell();
+			prompt = util_create_prompt_str();
+			line = readline(prompt);
+			free(prompt);
+			if (line == NULL)
+				break ;
+			if (*line)
+			{
+				add_history(line);
+				run_cmdline(line);
+			}
+			free(line);
+		}
+		ctrl_d_exit_put_msg();
+	}
 	exit(EXIT_SUCCESS);
 }
 
