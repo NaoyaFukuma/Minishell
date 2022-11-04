@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:37:28 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/04 09:56:53 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/04 11:33:18 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char	**create_environ(t_env *envs)
 			if (!env_str)
 				util_put_cmd_err_and_exit("in create_environ");
 			free(tmp_for_free);
-			res_env = (char **)util_ptrarr_add_back((void **)res_env, (char *)env_str);
+			res_env = (char **)util_ptrarr_add_back((void **)res_env,
+					(char *)env_str);
 		}
 		envs = envs->next;
 	}
@@ -73,7 +74,7 @@ char	*get_binary_path(char *src_path)
 	split_paths = util_colon_split(util_env_get("PATH")->value, ".");
 	if (!split_paths)
 		util_put_cmd_err_and_exit("in get_binary_path");
-	i = - 1;
+	i = -1;
 	while (split_paths[++i])
 	{
 		res_path = util_join_path(split_paths[i], src_path);
@@ -110,7 +111,7 @@ char	*get_exe_path(char *src_path)
 	return (res_path);
 }
 
-bool		is_executable(const char *path)
+bool	is_executable(const char *path)
 {
 	t_stat	path_stat;
 
@@ -123,7 +124,7 @@ bool		is_executable(const char *path)
 	return (true);
 }
 
-void		execve_error_handle(char *path)
+void	execve_error_handle(char *path)
 {
 	int	status;
 
@@ -146,9 +147,9 @@ void		execve_error_handle(char *path)
 
 int	exec_external(char **args)
 {
-	pid_t	pid;
-	char	*exe_path;
-	char	**environ;
+	pid_t			pid;
+	char			*exe_path;
+	char			**environ;
 	extern t_shell	g_shell;
 
 	pid = fork();
@@ -159,7 +160,6 @@ int	exec_external(char **args)
 		set_sig_for_cmd_running();
 		environ = create_environ(g_shell.envs);
 		exe_path = get_exe_path(args[0]);
-		printf("exepath %s\n", exe_path);
 		execve(exe_path, args, environ);
 		execve_error_handle(exe_path);
 	}

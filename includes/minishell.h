@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/03 21:40:43 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/04 11:47:47 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define RED_COLOR "\e[31m"
 # define GREEN_COLOR "\e[32m"
 # define YELLOW_COLOR "\e[33m"
+# define WHITE_COLOR "\e[37m"
 # define DEFAULT_COLOR "\e[m"
 
 # define SYNTAX_ERROR		258

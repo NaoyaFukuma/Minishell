@@ -41,7 +41,6 @@ static void	run_cmdline(char *line)
 	// start_token_for_free = tokens;
 	// if (parser(&nodes, &tokens) == false) // 未着手
 		// put_parse_syntax_error(tokens); // 未着手
-	// exec_nodes(nodes); // 福間対応
 	// del_token_list(&start_token_for_free);
 	// del_node_list(&nodes);
 	return ;
@@ -64,10 +63,12 @@ int	main(void)
 		free(prompt);
 		if (line == NULL)
 			break ;
+		// printf("line is [%s]\n", line);
 		if (*line)
+		{
 			add_history(line);
-		printf("line is [%s]\n", line);
-		run_cmdline(line);
+			run_cmdline(line);
+		}
 		free(line);
 	}
 	ctrl_d_exit_put_msg();

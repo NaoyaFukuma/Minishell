@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:43:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/31 17:11:02 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/04 11:48:05 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*util_create_prompt_str(void)
 	char			*tmp_str;
 
 	if (g_shell.status == 0)
-		ret_str = util_join_and_free_err_exit("\n", false, DEFAULT_COLOR, false);
+		ret_str = util_join_and_free_err_exit("\n", false, WHITE_COLOR, false);
 	else if (0 < g_shell.status && g_shell.status < 128)
 		ret_str = util_join_and_free_err_exit("\n", false, RED_COLOR, false);
 	else
