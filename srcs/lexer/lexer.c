@@ -131,8 +131,17 @@ void	type_char_sep_process(t_token_info *token_info, \
 	}
 }
 
+void	esc_in_quoted(t_token_info *token_info)
+{
+	token_info->each_i++;
+	token_info->str_i++;
+	token_info->each_i++;
+}
+
 void	status_quoted_process(char *str, t_token_info *token_info, t_token_type type)
 {
+	if (type == CHAR_BACKSLASH)
+		return (esc_in_quoted(token_info));
 	if (token_info->status == QUOTED && type == CHAR_QUOTE)
 	{
 		token_info->token->comp = ft_substr(&str[token_info->str_i - \
@@ -141,7 +150,7 @@ void	status_quoted_process(char *str, t_token_info *token_info, t_token_type typ
 		token_info->each_i++;
 		if (args_end(&str[token_info->str_i + 1]))
 			add_new_token_list(token_info, type);
-		return;
+		return ;
 	}
 	else if (token_info->status == D_QUOTED && type == CHAR_D_QUOTE)
 	{
@@ -151,7 +160,7 @@ void	status_quoted_process(char *str, t_token_info *token_info, t_token_type typ
 		token_info->each_i++;
 		if (args_end(&str[token_info->str_i + 1]))
 			add_new_token_list(token_info, type);
-		return;
+		return ;
 	}
 	token_info->each_i++;
 }
