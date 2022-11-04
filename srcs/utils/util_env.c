@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/28 13:32:49 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/02 23:53:23 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*util_env_get(const char *name)
 	env_ptr = g_shell.envs;
 	while (env_ptr)
 	{
-		if (!ft_strncmp(env_ptr->name, name, ft_strlen(name)))
+		if (!ft_strcmp(env_ptr->name, name))
 			return (env_ptr);
 		env_ptr = env_ptr->next;
 	}

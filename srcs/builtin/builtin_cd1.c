@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:46:26 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:52:50 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/04 10:07:07 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	builtin_cd(char **args)
 			return (EXIT_SUCCESS);
 		}
 	}
-	else if (try_change_dir(dst_dir))
+	if (try_change_dir(dst_dir))
 	{
 		bind_pwd_value();
 		return (EXIT_SUCCESS);
@@ -78,6 +78,8 @@ static bool	try_cdpath(char *dst_dir)
 	extern t_shell	g_shell;
 
 	res = false;
+	if (!util_env_get("CDPATH") || !util_env_get("CDPATH")->value)
+		return (res);
 	split_cdpath = util_colon_split(util_env_get("CDPATH")->value, "");
 	if (!split_cdpath)
 		util_put_cmd_err_and_exit(NULL);

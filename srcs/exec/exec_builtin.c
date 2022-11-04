@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 01:03:46 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/28 13:27:35 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/02 15:10:41 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ int		exec_builtin(char **args)
 		return (builtin_export(args));
 	if (ft_strcmp(args[0], "unset") == 0)
 		return (builtin_unset(args));
-	(void)args;
 	return (EXIT_FAILURE);
 }

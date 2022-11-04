@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 09:28:27 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:22:24 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/04 10:02:59 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*try_splitted_cdpath(char **split_cd, char *dst_dir)
 		if (try_change_dir(joined_dst_dir))
 			break ;
 	}
-	ft_safe_free_single_ptr((void *)&joined_dst_dir);
+	ft_safe_free_single_ptr((void **)&joined_dst_dir);
 	if (split_cd[i])
 		return (split_cd[i]);
 	return (NULL);

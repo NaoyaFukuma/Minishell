@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/02 13:03:50 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/03 21:40:43 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@
 # define GREEN_COLOR "\e[32m"
 # define YELLOW_COLOR "\e[33m"
 # define DEFAULT_COLOR "\e[m"
+
+# define SYNTAX_ERROR		258
+# define TOKEN_ERROR		2
+# define CMD_NOT_FOUND		127
+# define CMD_NOT_EXECUTABLE	126
 
 typedef struct stat			t_stat;
 
@@ -102,6 +107,21 @@ typedef struct s_token_info
 	t_token_status			status;
 }							t_token_info;
 
+typedef enum			e_pipe_state
+{
+	NO_PIPE,
+	PIPE_READ_ONLY,
+	PIPE_WRITE_ONLY,
+	PIPE_READ_WRITE
+}						t_pipe_state;
+
+typedef enum			e_cmd_type
+{
+	ABSOLUTE,
+	RELATIVE,
+	COMMAND
+}						t_cmd_type;
+
 // in lexer/lexer.c
 t_token_list				*lexer(char *str);
 
@@ -112,6 +132,9 @@ char	*util_join_and_free_err_exit(char *str1, bool free_str1, char *str2,
 
 // in signal/signal.c
 void	set_sig_for_interactive_shell(void);
+void	set_sig_for_cmd_running(void);
+void	set_sig_for_wait_child(void);
+
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
@@ -162,6 +185,9 @@ void						init_oldpwd(void);
 
 // in exec/exec_builtin.c
 int							exec_builtin(char **args);
+
+// in exec/exec_external.c
+int							exec_external(char **cmd_args);
 
 // in builtin/builtin_cd1.c
 int							builtin_cd(char **args);

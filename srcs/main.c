@@ -4,13 +4,39 @@ t_shell	g_shell;
 
 static void	ctrl_d_exit_put_msg(void);
 
+char	**tokens_convert_args(t_token_list *tokens)
+{
+	char	**res_args;
+	char	**tmp_for_free;
+
+	res_args = NULL;
+	while (tokens)
+	{
+		tmp_for_free = res_args;
+		res_args = (char **)util_ptrarr_add_back((void *)res_args, (void *)ft_strdup(tokens->comp));
+		if (!res_args)
+			util_put_cmd_err_and_exit("in tokens_conbert_args");
+		free(tmp_for_free);
+		tokens = tokens->next;
+	}
+	return (res_args);
+}
+
 static void	run_cmdline(char *line)
 {
-	// t_token_list	*tokens;
+	extern t_shell	g_shell;
+	t_token_list	*tokens;
+	char			**cmd_args;
 	// t_token_list	*start_token_for_free;
 	// t_node			*nodes;
 
-	lexer(line);
+	tokens = lexer(line);
+	cmd_args = tokens_convert_args(tokens);
+	if (util_is_builtin(cmd_args[0]))
+		g_shell.status = exec_builtin(cmd_args);
+	else
+		g_shell.status = exec_external(cmd_args);
+	ft_safe_free_double_ptr((void ***)&cmd_args);
 	// tokens = lexer(line);
 	// start_token_for_free = tokens;
 	// if (parser(&nodes, &tokens) == false) // 未着手
