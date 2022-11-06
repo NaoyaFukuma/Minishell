@@ -77,6 +77,7 @@ typedef enum e_token_type
 	CHAR_TAB = '\t',
 	CHAR_NIL = '\0',
 	CHAR_OTHER,
+	TOKEN,
 }							t_token_type;
 
 typedef enum e_token_status

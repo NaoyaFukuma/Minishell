@@ -93,6 +93,7 @@ int	args_end(char *str)
 
 void	change_status_quoted(t_token_info *token_info, t_token_type type)
 {
+	token_info->token->type = TOKEN;
 	if (type == CHAR_QUOTE)
 		token_info->status = QUOTED;
 	else
@@ -130,12 +131,37 @@ void	type_char_sep_process(t_token_info *token_info, \
 	}
 }
 
-void	status_quoted_process(t_token_info *token_info, t_token_type type)
+void	esc_in_quoted(t_token_info *token_info)
 {
+	token_info->each_i++;
+	token_info->str_i++;
+	token_info->each_i++;
+}
+
+void	status_quoted_process(char *str, t_token_info *token_info, t_token_type type)
+{
+	if (type == CHAR_BACKSLASH)
+		return (esc_in_quoted(token_info));
 	if (token_info->status == QUOTED && type == CHAR_QUOTE)
+	{
+		token_info->token->comp = ft_substr(&str[token_info->str_i - \
+									token_info->each_i], 0, token_info->each_i + 1);
 		token_info->quote_flag = false;
+		token_info->each_i++;
+		if (args_end(&str[token_info->str_i + 1]))
+			add_new_token_list(token_info, type);
+		return ;
+	}
 	else if (token_info->status == D_QUOTED && type == CHAR_D_QUOTE)
+	{
+		token_info->token->comp = ft_substr(&str[token_info->str_i - \
+									token_info->each_i], 0, token_info->each_i + 1);
 		token_info->quote_flag = false;
+		token_info->each_i++;
+		if (args_end(&str[token_info->str_i + 1]))
+			add_new_token_list(token_info, type);
+		return ;
+	}
 	token_info->each_i++;
 }
 
@@ -160,7 +186,7 @@ t_token_list	*split_token(char *str)
 				type_char_sep_process(&token_info, type, str);
 		}
 		else
-			status_quoted_process(&token_info, type);
+			status_quoted_process(str, &token_info, type);
 		token_info.str_i++;
 	}
 	token_info.token->comp = ft_substr(&str[token_info.str_i - \
@@ -193,6 +219,8 @@ void	print_type(t_token_type type)
 		str = "TAB";
 	else if (type == CHAR_OTHER)
 		str = "OTHER";
+	else if (type == TOKEN)
+		str = "TOKEN";
 	else if (type == CHAR_NIL)
 		str = "(NULL)";
 	printf("type->[%s]\n", str);
@@ -204,6 +232,7 @@ t_token_list	*lexer(char *str)
 	t_token_list	*tmp_for_print;
 	size_t			i;
 
+	printf("original: [%s]\n", str);
 	token = split_token(str);
 	tmp_for_print = token;
 	i = 0;
