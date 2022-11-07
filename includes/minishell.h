@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/04 11:47:47 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/07 12:56:30 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ typedef enum e_token_type
 	CHAR_SPACE = ' ',
 	CHAR_TAB = '\t',
 	CHAR_NIL = '\0',
-	CHAR_OTHER,
-	TOKEN,
+	CHAR_OTHER = -1,
+	TOKEN = -1,
+	IO_NUMBER = -2,
+	D_GREATER = -3,
+	D_SEMICOLON = -4,
 }							t_token_type;
 
 typedef enum e_token_status
@@ -100,13 +103,14 @@ struct						s_token_list
 typedef struct s_token_info
 {
 	size_t					str_i;
-	//それぞれのトークンのindex
 	size_t					each_i;
 	size_t					len;
 	t_token_list			*first_token;
 	t_token_list			*token;
 	bool					quote_flag;
 	t_token_status			status;
+	bool					esc_flag;
+	char					*quote_start;
 }							t_token_info;
 
 typedef enum			e_pipe_state
@@ -125,7 +129,20 @@ typedef enum			e_cmd_type
 }						t_cmd_type;
 
 // in lexer/lexer.c
-t_token_list				*lexer(char *str);
+t_token_list				*lexer(char *str, bool esc_flag);
+t_token_list	*init_token(t_token_list *prev, size_t len);
+
+// in lexer_not_in_qoute.c
+void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str);
+
+
+// in lexer_in_qoute.c
+void	in_quote_lexer(t_token_info *info, t_token_type type, char *str);
+void	in_d_quote_lexer(t_token_info *info, t_token_type type, char *str);
+
+// in lexer_set_fin_nullchar_and_check_token_list.c
+void	set_fin_nullchar_and_check_token_list(t_token_info *info);
+
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
