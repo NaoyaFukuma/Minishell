@@ -30,7 +30,7 @@ static void	run_cmdline(char *line)
 	// t_token_list	*start_token_for_free;
 	// t_node			*nodes;
 
-	tokens = lexer(line);
+	tokens = lexer(line, false);
 	cmd_args = tokens_convert_args(tokens);
 	if (util_is_builtin(cmd_args[0]))
 		g_shell.status = exec_builtin(cmd_args);
