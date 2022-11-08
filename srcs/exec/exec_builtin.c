@@ -6,11 +6,20 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 01:03:46 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/02 15:10:41 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/08 15:57:49 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		exec_builtin_parent(t_command *command, char **args)
+{
+	if (!redirect_util_setup(command))
+		return (EXIT_FAILURE);
+	if (!redirect_util_dupfd(command, true))
+		return (EXIT_FAILURE);
+	return (exec_builtin(args));
+}
 
 int		exec_builtin(char **args)
 {

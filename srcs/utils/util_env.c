@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/02 23:53:23 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/08 16:05:38 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_env	*util_env_get(const char *name)
 	return (NULL);
 }
 
-static void	set_env_value(t_env *env, const char *new_value, bool append_flag)
+static void	env_value_set(t_env *env, const char *new_value, bool append_flag)
 {
 	char	*old_value;
 
@@ -80,7 +80,7 @@ void		util_env_update_value(const char *env_name, const char *new_value, bool is
 		if (!new_value)
 			return ;
 	}
-	set_env_value(env, new_value, append_flag);
+	env_value_set(env, new_value, append_flag);
 }
 
 bool	util_validate_env_name(char *name)

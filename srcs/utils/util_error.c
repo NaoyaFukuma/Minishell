@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:11:05 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/28 23:27:30 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/08 09:50:53 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,20 @@ void	util_put_env_name_error(char *command, char *name)
 	ft_putstr_fd(": `", STDERR_FILENO);
 	ft_putstr_fd(name, STDERR_FILENO);
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+}
+
+void	util_put_bad_fd_error(int fd)
+{
+	char	*fd_str;
+
+	if (fd < 0)
+		util_put_cmd_err("file descriptor out of range", strerror(errno));
+	else
+	{
+		fd_str = ft_itoa(fd);
+		if (!fd_str)
+			util_put_cmd_err_and_exit("in util_put_bad_fd_error");
+		util_put_cmd_err(fd_str, strerror(errno));
+		free(fd_str);
+	}
 }

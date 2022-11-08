@@ -6,15 +6,13 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:51:03 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/07 12:55:21 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/08 16:21:00 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	print_token_error(t_token_status state);
-static void	del_token_list(t_token_list **token_p);
-static void	del_token(t_token_list **token_p);
 
 void	set_fin_nullchar_and_check_token_list(t_token_info *info)
 {
@@ -47,7 +45,7 @@ static void	print_token_error(t_token_status state)
 	g_shell.status = TOKEN_ERROR;
 }
 
-static void	del_token_list(t_token_list **token_p)
+void	del_token_list(t_token_list **token_p)
 {
 	t_token_list	*now;
 	t_token_list	*tmp;
@@ -64,7 +62,7 @@ static void	del_token_list(t_token_list **token_p)
 	*token_p = NULL;
 }
 
-static void	del_token(t_token_list **token_p)
+void	del_token(t_token_list **token_p)
 {
 	t_token_list	*token;
 

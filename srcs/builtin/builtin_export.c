@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 15:22:22 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:25:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/08 16:09:31 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	restore_arg(char *sep, bool append_flag);
 int	builtin_export(char **args)
 {
 	if (args[1] == NULL)
-		return (export_print_envs());
+		return (print_each_envs());
 	else
 		return (export_set_envs(args));
 	return (EXIT_SUCCESS);
