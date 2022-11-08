@@ -6,21 +6,22 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:08:01 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 21:25:38 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/07 22:14:29 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env	*env_merge(t_env *left, t_env *right, int (*cmp)());
-static t_env	*env_mergesort_sub(t_env *lst, int (*cmp)());
+static t_env	*merge_step(t_env *left, t_env *right, int (*cmp)());
+static t_env	*sep_step(t_env *lst, int (*cmp)());
+static int		comp_func(t_env *left, t_env *right);
 
-void	env_mergesort(t_env **lst, int (*cmp)())
+void	env_sort_for_export(t_env **lst)
 {
-	*lst = env_mergesort_sub(*lst, cmp);
+	*lst = sep_step(*lst, comp_func);
 }
 
-static t_env	*env_mergesort_sub(t_env *lst, int (*cmp)())
+static t_env	*sep_step(t_env *lst, int (*cmp)())
 {
 	t_env	*left;
 	t_env	*right;
@@ -41,12 +42,15 @@ static t_env	*env_mergesort_sub(t_env *lst, int (*cmp)())
 	}
 	right_head = left->next;
 	left->next = NULL;
-	return (env_merge(env_mergesort_sub(lst, cmp),
-						env_mergesort_sub(right_head, cmp),
-						cmp));
+	return (merge_step(sep_step(lst, cmp), sep_step(right_head, cmp), cmp));
 }
 
-static t_env	*env_merge(t_env *left, t_env *right, int (*cmp)())
+static int	comp_func(t_env *left, t_env *right)
+{
+	return (ft_strcmp(left->name, right->name));
+}
+
+static t_env	*merge_step(t_env *left, t_env *right, int (*cmp)())
 {
 	t_env	elem;
 	t_env	*next;
