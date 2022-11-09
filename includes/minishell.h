@@ -207,7 +207,8 @@ void	set_fin_nullchar_and_check_token_list(t_token_info *info);
 void	del_token_list(t_token_list **token_p);
 void	del_token(t_token_list **token_p);
 
-
+// in parser
+bool	parser(t_node **parent_node, t_token_list **token);
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
