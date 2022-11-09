@@ -1,5 +1,7 @@
-#include "../includes/minishell.h"
-#include "../libft/libft.h"
+#include "../../includes/minishell.h"
+
+//#include "../../includes/minishell.h"
+//#include "../../libft/libft.h"
 
 t_node	*create_and_init_node()
 {
@@ -17,6 +19,7 @@ t_node	*create_and_init_node()
 	new_node->command->args = NULL;
 	new_node->command->redirects = NULL;
 	new_node->command->next = NULL;
+	return (new_node);
 }
 
 t_token_list	*duplicate_token(t_token_list *token)
@@ -66,11 +69,34 @@ void	input_cmd_args(t_command *command, t_token_list **token)
 	}
 }
 
+void	print_this(t_token_list *token)
+{
+	t_token_list	*tmp_token = token;
+
+	while (tmp_token)
+	{
+		printf("comp: [%s]\n", tmp_token->comp);
+		tmp_token = tmp_token->next;
+	}
+}
+
+void	print_parser(t_command *cmd)
+{
+	t_command	*tmp_cmd;
+
+	tmp_cmd = cmd;
+	while (tmp_cmd)
+	{
+		print_this(tmp_cmd->args);
+		tmp_cmd = tmp_cmd->next;
+	}
+}
+
 //cmdを入れてく関数
-void	parse_command(t_node **node, t_token_list **token)
+bool	parse_command(t_node **node, t_token_list **token)
 {
 	if (!*node)
-		return ;
+		return (false);
 	*node = create_and_init_node();
 	//前回のコマンドを記録
 	while (*token)
@@ -81,13 +107,22 @@ void	parse_command(t_node **node, t_token_list **token)
 			input_cmd_args((*node)->command, token);
 		}
 		else if ((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER \
-					(*token)->type == D_GREATER || (*token)->type == IO_NUMBER)
+				|| (*token)->type == D_GREATER || (*token)->type == IO_NUMBER)
 		{
 			//redirectの処理
 		}
 		else
 			break ;
 	}
+	/*この処理の起こるときがあまり理解できてない
+	if (!(*node)->command->args && !(*node)->command->redirects)
+	{
+		del_node_list(node);
+		return (FALSE);
+	}
+	*/
+	print_parser((*node)->command);
+	return (true);
 }
 
 t_node	*add_parent_node(t_node *left, t_node *right)
@@ -99,20 +134,21 @@ t_node	*add_parent_node(t_node *left, t_node *right)
 		util_put_cmd_err_and_exit("malloc");
 	new_parent_node->type = NODE_PIPE;
 	new_parent_node->command = NULL;
-	new_parent_node->right = *right;
-	new_parent_node->left = *left;
+	new_parent_node->right = right;
+	new_parent_node->left = left;
 	return (new_parent_node);
 }
 
 //前回のコマンドを保持する構造体に何をいれるのかわからない状況
-void	parser(t_node **parent_node, t_token_list **token)
+bool	parser(t_node **parent_node, t_token_list **token)
 {
 	t_node	*child;
 
 	if (*token)
 	{
 		//親ノード(左側)に入れてく
-		parse_command(parent_node, token);
+		if (parse_command(parent_node, token) == false)
+			return (false);
 	}
 	while (*token)
 	{
@@ -120,13 +156,15 @@ void	parser(t_node **parent_node, t_token_list **token)
 		{
 			(*token) = (*token)->next;
 			if (!*token)
-				return ;
+				return (false);
 			//右側に入れてく
-			parse_command(&child, token);
+			if (parse_command(&child, token) == false)
+				return (false);
 			//親ノードに移動する
 			*parent_node = add_parent_node(*parent_node, child);
 		}
 		else
 			break ;
 	}
+	return (true);
 }
