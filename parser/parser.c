@@ -88,10 +88,45 @@ void	parse_command(t_node **node, t_token_list **token)
 		else
 			break ;
 	}
-
 }
 
-void	parser(t_token_list **token)
+t_node	*add_parent_node(t_node *left, t_node *right)
 {
+	t_node	*new_parent_node;
 
+	new_parent_node = (t_node *) malloc(sizeof(t_node));
+	if (!new_parent_node)
+		util_put_cmd_err_and_exit("malloc");
+	new_parent_node->type = NODE_PIPE;
+	new_parent_node->command = NULL;
+	new_parent_node->right = *right;
+	new_parent_node->left = *left;
+	return (new_parent_node);
+}
+
+//前回のコマンドを保持する構造体に何をいれるのかわからない状況
+void	parser(t_node **parent_node, t_token_list **token)
+{
+	t_node	*child;
+
+	if (*token)
+	{
+		//親ノード(左側)に入れてく
+		parse_command(parent_node, token);
+	}
+	while (*token)
+	{
+		if ((*token)->type == CHAR_PIPE)
+		{
+			(*token) = (*token)->next;
+			if (!*token)
+				return ;
+			//右側に入れてく
+			parse_command(&child, token);
+			//親ノードに移動する
+			*parent_node = add_parent_node(*parent_node, child);
+		}
+		else
+			break ;
+	}
 }
