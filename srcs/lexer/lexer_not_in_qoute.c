@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 00:04:02 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/07 13:01:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/10 00:43:14 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ static void	token_separate(t_token_info *info, t_token_type type, char *str);
 static bool	is_io_number_token(t_token_info *info, t_token_type type);
 static void	tokeniser_add_new_token(t_token_info *info);
 
+
 void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str)
 {
 	if (type == CHAR_OTHER || type == CHAR_QUOTE || type == CHAR_D_QUOTE
-		|| type == CHAR_BACKSLASH)
+		|| type == CHAR_BACKSLASH || type == CHAR_OPEN_PARENTHESES)
 	{
 		char_set_token(info, type, str);
 		if (type == CHAR_QUOTE)
@@ -33,6 +34,13 @@ void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str)
 		else if (type == CHAR_D_QUOTE)
 		{
 			info->status = D_QUOTED;
+			info->quote_flag = true;
+			if (info->esc_flag)
+				info->each_i -= 1;
+		}
+		else if (type == CHAR_OPEN_PARENTHESES)
+		{
+			info->status = PARENTHESESED;
 			info->quote_flag = true;
 			if (info->esc_flag)
 				info->each_i -= 1;
@@ -76,10 +84,15 @@ static void	token_separate(t_token_info *info, t_token_type type, char *str)
 				info->token->comp[info->each_i++] = str[++info->str_i];
 				type = D_GREATER;
 			}
-			else if (type == CHAR_SEMICOLON)
+			else if (type == CHAR_PIPE)
 			{
 				info->token->comp[info->each_i++] = str[++info->str_i];
-				type = D_SEMICOLON;
+				type = OR_OPERATER;
+			}
+			else if (type == CHAR_AMPERSAND)
+			{
+				info->token->comp[info->each_i++] = str[++info->str_i];
+				type = AND_OPERATER;
 			}
 		}
 		info->token->type = type;
