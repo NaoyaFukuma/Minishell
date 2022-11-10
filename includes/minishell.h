@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 16:09:17 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/10 01:37:18 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,27 @@ typedef enum e_token_type
 	CHAR_QUOTE = '\'',
 	CHAR_D_QUOTE = '\"',
 	CHAR_PIPE = '|',
+	CHAR_AMPERSAND = '&',
 	CHAR_LESS = '<',
 	CHAR_GREATER = '>',
 	CHAR_SPACE = ' ',
 	CHAR_TAB = '\t',
 	CHAR_NIL = '\0',
+	CHAR_OPEN_PARENTHESES = '(',
+	CHAR_CLOSE_PARENTHESES = ')',
 	CHAR_OTHER = -1,
 	TOKEN = -1,
 	IO_NUMBER = -2,
 	D_GREATER = -3,
-	D_SEMICOLON = -4,
+	AND_OPERATER = -5,
+	OR_OPERATER = -6,
 }							t_token_type;
 
 typedef enum e_token_status
 {
 	QUOTED,
 	D_QUOTED,
+	PARENTHESESED,
 	NOT_QUOTED,
 }							t_token_status;
 
@@ -137,12 +142,21 @@ typedef struct			s_redirect
 	struct s_redirect	*prev;
 }						t_redirect;
 
+typedef enum			e_logical_ope_state
+{
+	NO_OPE,
+	AND,
+	OR,
+}						t_logical_ope_state;
+
 typedef struct			s_command
 {
 	t_token_list		*args;
 	t_redirect			*redirects;
 	pid_t				pid;
 	struct s_command	*next;
+	t_logical_ope_state	logi_state;
+	bool				subshell_flag;
 }						t_command;
 
 typedef enum			e_pipe_state
@@ -165,6 +179,7 @@ typedef enum	e_node_type
 	NODE_COMMAND,
 	NODE_PIPE,
 	NODE_SEMICOLON,
+	NODE_OPERATER
 }				t_node_type;
 
 typedef struct	s_node
@@ -188,6 +203,9 @@ typedef struct	s_expander
 	char			*str;
 }				t_expander;
 
+// in main.c
+void	run_cmdline(char *line);
+
 // in lexer/lexer.c
 t_token_list				*lexer(char *str, bool esc_flag);
 t_token_list	*init_token(t_token_list *prev, size_t len);
@@ -201,6 +219,8 @@ void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str);
 // in lexer_in_qoute.c
 void	in_quote_lexer(t_token_info *info, t_token_type type, char *str);
 void	in_d_quote_lexer(t_token_info *info, t_token_type type, char *str);
+void	in_parentheses_lexer(t_token_info *info, t_token_type type, char *str);
+
 
 // in lexer_set_fin_nullchar_and_check_token_list.c
 void	set_fin_nullchar_and_check_token_list(t_token_info *info);
@@ -281,6 +301,7 @@ char	*create_esc_val(char *str, t_token_status state);
 
 // in exec/exec.c
 void			exec_nodes(t_node *nodes);
+int	exec_cmd(t_command *cmd, t_pipe_state *pipe_state, int *old_pipe);
 
 // in exec/redirect_util.c
 bool	redirect_util_setup(t_command *cmd);
@@ -296,13 +317,14 @@ void	pipe_util_cleanup(t_pipe_state state, int old_pipe[], int new_pipe[]);
 // in exec/args_util.c
 bool		token_to_args(t_command *cmd, char ***args);
 
+// in exec/exec_logi_ope.c
+void	exec_logi_ope(t_command *cmd);
 
-// in exec/exec_cmd_child.c
+
+// in exec/exec_cmd.c
 void	exec_cmd_child(t_command *cmd, char **args, t_pipe_state pipe_state,
 		int old_pipe[]);
-
-// in exec/exec_builtin.c
-int		exec_builtin_parent(t_command *command, char **args);
+int		exec_cmd_parent(t_command *command, char **args);
 int		exec_builtin(char **args);
 
 

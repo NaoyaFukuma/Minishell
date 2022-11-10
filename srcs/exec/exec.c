@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 16:51:24 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/09 17:13:32 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	exec_list(t_node *nodes);
 static void	exec_pipeline(t_node *nodes);
-static int	exec_cmd(t_command *cmd, t_pipe_state *pipe_state, int *old_pipe);
 static void		update_pipe_state(t_command *cmd, t_pipe_state *pipe_state);
 
 void	exec_nodes(t_node *nodes)
@@ -23,7 +22,9 @@ void	exec_nodes(t_node *nodes)
 
 	if (!nodes || g_shell.exited == true)
 		return ;
-	if (nodes->type == NODE_SEMICOLON)
+	if (nodes->type == NODE_OPERATER)
+		exec_logi_ope(nodes->left->command);
+	else if (nodes->type == NODE_SEMICOLON)
 	{
 		exec_nodes(nodes->left);
 		exec_nodes(nodes->right);
@@ -78,16 +79,15 @@ static void		update_pipe_state(t_command *cmd, t_pipe_state *pipe_state)
 		*pipe_state = PIPE_READ_ONLY;
 }
 
-static int	exec_cmd(t_command *cmd, t_pipe_state *pipe_state, int *old_pipe)
+int	exec_cmd(t_command *cmd, t_pipe_state *pipe_state, int *old_pipe)
 {
 	char	**args;
 	int		status;
 
 	status = EXIT_SUCCESS;
 	token_to_args(cmd, &args);
-
 	if (*pipe_state == NO_PIPE && util_is_builtin(args[0]))
-		status = exec_builtin_parent(cmd, args);
+		status = exec_cmd_parent(cmd, args);
 	else
 		exec_cmd_child(cmd, args, *pipe_state, old_pipe);
 	redirects_util_cleanup(cmd);

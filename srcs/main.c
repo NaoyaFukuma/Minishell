@@ -2,7 +2,6 @@
 
 t_shell	g_shell;
 
-static void	run_cmdline(char *line);
 static void	ctrl_d_exit_put_msg(void);
 
 int	main(int argc, char **argv)
@@ -42,7 +41,7 @@ int	main(int argc, char **argv)
 	exit(EXIT_SUCCESS);
 }
 
-static void	run_cmdline(char *line)
+void	run_cmdline(char *line)
 {
 	extern t_shell	g_shell;
 	// t_node 			*nodes;
@@ -56,10 +55,12 @@ static void	run_cmdline(char *line)
 		// put_syntax_error(tokens);
 
 	// 疑似パーサー
-	t_command cmds = {tokens, NULL, NO_PID, NULL};
+	t_command cmds = {tokens, NULL, NO_PID, NULL, NO_OPE, true};
 	t_node nodes = {NODE_COMMAND, &cmds, NULL, NULL};
 	//
 	exec_nodes(&nodes);
+
+
 	// del_token_list(&start_token_for_free);
 	// del_node_list(&nodes);
 	return ;
