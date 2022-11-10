@@ -118,8 +118,7 @@ t_token_list	*init_token(t_token_list *prev, size_t len)
 		util_put_cmd_err_and_exit("in init_token");
 	ret_token->comp = malloc(len + 1);
 	if (!ret_token->comp)
-		if (!ret_token)
-			util_put_cmd_err_and_exit("in init_token");
+		util_put_cmd_err_and_exit("in init_token");
 	ret_token->comp[0] = '\0';
 	ret_token->next = NULL;
 	ret_token->prev = prev;

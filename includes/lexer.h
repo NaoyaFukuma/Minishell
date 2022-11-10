@@ -1,4 +1,4 @@
-#ifndef LEXER_H
+/*#ifndef LEXER_H
 # define LEXER_H
 
 # include "minishell.h"
@@ -49,3 +49,4 @@ typedef struct	s_token_info
 t_token_list	*lexer(char *str);
 
 #endif
+*/

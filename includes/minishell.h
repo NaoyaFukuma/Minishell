@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/10 01:37:18 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/10 16:38:16 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_shell
 	int						prompt_len;
 }							t_shell;
 
-typedef enum e_token_type
+typedef enum	e_token_type
 {
 	CHAR_BACKSLASH = '\\',
 	CHAR_SEMICOLON = ';',
@@ -91,17 +91,17 @@ typedef enum e_token_type
 	D_GREATER = -3,
 	AND_OPERATER = -5,
 	OR_OPERATER = -6,
-}							t_token_type;
+}				t_token_type;
 
-typedef enum e_token_status
+typedef enum	e_token_status
 {
 	QUOTED,
 	D_QUOTED,
 	PARENTHESESED,
 	NOT_QUOTED,
-}							t_token_status;
+}				t_token_status;
 
-typedef struct s_token_list	t_token_list;
+typedef struct	s_token_list	t_token_list;
 
 struct						s_token_list
 {
@@ -111,7 +111,7 @@ struct						s_token_list
 	char					*comp; //component
 };
 
-typedef struct s_token_info
+typedef struct	s_token_info
 {
 	size_t					str_i;
 	size_t					each_i;
@@ -122,7 +122,7 @@ typedef struct s_token_info
 	t_token_status			status;
 	bool					esc_flag;
 	char					*quote_start;
-}							t_token_info;
+}				t_token_info;
 
 typedef enum			e_redirect_type
 {
@@ -227,6 +227,8 @@ void	set_fin_nullchar_and_check_token_list(t_token_info *info);
 void	del_token_list(t_token_list **token_p);
 void	del_token(t_token_list **token_p);
 
+// in parser
+bool	parser(t_node **parent_node, t_token_list **token);
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
