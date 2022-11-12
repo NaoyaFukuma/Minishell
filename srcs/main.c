@@ -50,7 +50,7 @@ void	run_cmdline(char *line)
 
 	tokens = lexer(line, false);
 	// start_token_for_free = tokens;
-	// nodes = perser(tokens);
+	// nodes = parser(tokens);
 	// if (!nodes)
 		// put_syntax_error(tokens);
 
