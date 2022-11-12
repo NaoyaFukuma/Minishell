@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:43:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/04 11:48:05 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:48:57 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char	*util_create_prompt_str(void)
 		util_put_cmd_err_and_exit("in create_prompt_str");
 	ret_str = util_join_and_free_err_exit(ret_str, true, "[", false);
 	ret_str = util_join_and_free_err_exit(ret_str, true, tmp_str, true);
-	ret_str = util_join_and_free_err_exit(ret_str, true, "] \e[m", false);
+	ret_str = util_join_and_free_err_exit(ret_str, true, "] \e[m\e[32m", false);
 	ret_str = util_join_and_free_err_exit(ret_str, true, g_shell.pwd, false);
-	ret_str = util_join_and_free_err_exit(ret_str, true, " > ", false);
+	ret_str = util_join_and_free_err_exit(ret_str, true, " > \e[m", false);
 	g_shell.prompt_len = ft_strlen(ret_str) - 9;
 	return (ret_str);
 }

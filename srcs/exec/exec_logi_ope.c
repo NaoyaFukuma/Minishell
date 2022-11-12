@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_subshell.c                                    :+:      :+:    :+:   */
+/*   exec_logi_ope.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:41:59 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/09 17:14:23 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/13 00:16:24 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	exec_logi_ope(t_command *cmd)
 	pipe_state = NO_PIPE;
 	g_shell.status = exec_cmd(cmd, &pipe_state, NULL);
 	wait_external_cmds(cmd);
-	if ((g_shell.status == 0 && cmd->logi_state == OR)
-		|| (g_shell.status != 0 && cmd->logi_state == AND))
+	if ((g_shell.status == 0 && cmd->logi_state == OR) || (g_shell.status != 0
+			&& cmd->logi_state == AND))
 		exit(g_shell.status);
 	else
 	{

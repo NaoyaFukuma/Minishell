@@ -6,14 +6,14 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 01:34:33 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/10 00:46:52 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:29:24 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void			init_token_info(t_token_info *token_info, char *str,
-						bool esc_flag);
+static void		init_token_info(t_token_info *token_info, char *str,
+					bool esc_flag);
 
 // debug
 void	print_type(t_token_type type)
@@ -68,7 +68,6 @@ void	print_type(t_token_type type)
 // 	printf("status->[%s]\n", str);
 // }
 
-
 t_token_list	*lexer(char *str, bool esc_flag)
 {
 	t_token_info	token_info;
@@ -89,23 +88,21 @@ t_token_list	*lexer(char *str, bool esc_flag)
 		token_info.str_i++;
 	}
 	set_fin_nullchar_and_check_token_list(&token_info);
-
 	// debug
-	t_token_list	*tmp_for_print;
-	size_t			i;
-
-	printf("original: [%s]\n", str);
-	tmp_for_print = token_info.first_token;
-	i = 0;
-	while (tmp_for_print)
-	{
-		printf("%zu [%s]\t", i, tmp_for_print->comp);
-		print_type(tmp_for_print->type);
-		tmp_for_print = tmp_for_print->next;
-		i++;
-	}
+	// 	t_token_list	*tmp_for_print;
+	// 	size_t			i;
+	//
+	// 	printf("original: [%s]\n", str);
+	// 	tmp_for_print = token_info.first_token;
+	// 	i = 0;
+	// 	while (tmp_for_print)
+	// 	{
+	// 		printf("%zu [%s]\t", i, tmp_for_print->comp);
+	// 		print_type(tmp_for_print->type);
+	// 		tmp_for_print = tmp_for_print->next;
+	// 		i++;
+	// 	}
 	// debug end
-
 	return (token_info.first_token);
 }
 
@@ -141,32 +138,42 @@ static void	init_token_info(t_token_info *token_info, char *str, bool esc_flag)
 
 t_token_type	get_token_type(char c)
 {
-	if (c == '\\')
-		return (CHAR_BACKSLASH);
-	else if (c == ';')
-		return (CHAR_SEMICOLON);
-	else if (c == '\'')
-		return (CHAR_QUOTE);
-	else if (c == '\"')
-		return (CHAR_D_QUOTE);
-	else if (c == '|')
-		return (CHAR_PIPE);
-	else if (c == '<')
-		return (CHAR_LESS);
-	else if (c == '>')
-		return (CHAR_GREATER);
-	else if (c == ' ')
-		return (CHAR_SPACE);
-	else if (c == '\t')
-		return (CHAR_TAB);
-	else if (c == '\0')
-		return (CHAR_NIL);
-	else if (c == '&')
-		return (CHAR_AMPERSAND);
-	else if (c == '(')
-		return (CHAR_OPEN_PARENTHESES);
-	else if (c == ')')
-		return (CHAR_CLOSE_PARENTHESES);
-	else
-		return (CHAR_OTHER);
+	char	*dst_chars;
+
+	dst_chars = "\\;\'\"|<> \t&()";
+	while (*dst_chars)
+	{
+		if (*dst_chars == c)
+			return ((t_token_type)*dst_chars);
+		dst_chars++;
+	}
+	return (CHAR_OTHER);
+	// if (c == '\\')
+	// 	return (CHAR_BACKSLASH);
+	// else if (c == ';')
+	// 	return (CHAR_SEMICOLON);
+	// else if (c == '\'')
+	// 	return (CHAR_QUOTE);
+	// else if (c == '\"')
+	// 	return (CHAR_D_QUOTE);
+	// else if (c == '|')
+	// 	return (CHAR_PIPE);
+	// else if (c == '<')
+	// 	return (CHAR_LESS);
+	// else if (c == '>')
+	// 	return (CHAR_GREATER);
+	// else if (c == ' ')
+	// 	return (CHAR_SPACE);
+	// else if (c == '\t')
+	// 	return (CHAR_TAB);
+	// else if (c == '\0')
+	// 	return (CHAR_NIL);
+	// else if (c == '&')
+	// 	return (CHAR_AMPERSAND);
+	// else if (c == '(')
+	// 	return (CHAR_OPEN_PARENTHESES);
+	// else if (c == ')')
+	// 	return (CHAR_CLOSE_PARENTHESES);
+	// else
+	// return (CHAR_OTHER);
 }

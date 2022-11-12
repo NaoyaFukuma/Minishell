@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:18:14 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/10 01:01:49 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:46:42 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 static void				expander_init(t_expander *exper, char *src_str);
 static t_token_status	get_token_status(t_token_status state,
-							t_token_type type);
-static void	env_expand(t_expander *exper);
+										t_token_type type);
+static void				env_expand(t_expander *exper);
 
 char	*expand_env(char *src_str)
 {
@@ -54,7 +54,7 @@ static void	expander_init(t_expander *exper, char *src_str)
 }
 
 static t_token_status	get_token_status(t_token_status state,
-		t_token_type type)
+										t_token_type type)
 {
 	if (state == NOT_QUOTED)
 	{
@@ -68,6 +68,17 @@ static t_token_status	get_token_status(t_token_status state,
 	else if (state == QUOTED && type != CHAR_QUOTE)
 		return (QUOTED);
 	return (NOT_QUOTED);
+}
+
+static void	clean_up_free(char **vars, char *env_value, t_expander *exper)
+{
+	free(vars[ENV_VALUE]);
+	free(vars[ENV_NAME]);
+	free(vars[TMP]);
+	free(env_value);
+	free(exper->str);
+	exper->str_i = ft_strlen(vars[TMP]) - 1;
+	exper->str = vars[RES];
 }
 
 static void	env_expand(t_expander *exper)
@@ -96,11 +107,5 @@ static void	env_expand(t_expander *exper)
 	vars[RES] = ft_strjoin(vars[TMP], &exper->str[after_env_name_i]);
 	if (!vars[RES])
 		util_put_cmd_err_and_exit("env_expand");
-	exper->str_i = ft_strlen(vars[TMP]) - 1;
-	free(vars[ENV_VALUE]);
-	free(vars[ENV_NAME]);
-	free(vars[TMP]);
-	free(env_value);
-	free(exper->str);
-	exper->str = vars[RES];
+	clean_up_free(vars, env_value, exper);
 }

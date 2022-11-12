@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 00:04:02 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/10 00:43:14 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:29:12 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static void	char_set_token(t_token_info *info, t_token_type type, char *str);
 static void	token_separate(t_token_info *info, t_token_type type, char *str);
 static bool	is_io_number_token(t_token_info *info, t_token_type type);
-static void	tokeniser_add_new_token(t_token_info *info);
-
 
 void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str)
 {
@@ -24,30 +22,20 @@ void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str)
 		|| type == CHAR_BACKSLASH || type == CHAR_OPEN_PARENTHESES)
 	{
 		char_set_token(info, type, str);
-		if (type == CHAR_QUOTE)
-		{
-			info->status = QUOTED;
-			info->quote_flag = true;
-			if (info->esc_flag)
-				info->each_i -= 1;
-		}
-		else if (type == CHAR_D_QUOTE)
-		{
-			info->status = D_QUOTED;
-			info->quote_flag = true;
-			if (info->esc_flag)
-				info->each_i -= 1;
-		}
-		else if (type == CHAR_OPEN_PARENTHESES)
-		{
-			info->status = PARENTHESESED;
-			info->quote_flag = true;
-			if (info->esc_flag)
-				info->each_i -= 1;
-		}
-		else
-			info->status = NOT_QUOTED;
 		info->token->type = TOKEN;
+		if (type == CHAR_QUOTE || type == CHAR_D_QUOTE
+			|| type == CHAR_OPEN_PARENTHESES)
+		{
+			info->quote_flag = true;
+			if (info->esc_flag)
+				info->each_i -= 1;
+			if (type == CHAR_QUOTE)
+				info->status = QUOTED;
+			else if (type == CHAR_D_QUOTE)
+				info->status = D_QUOTED;
+			else if (type == CHAR_OPEN_PARENTHESES)
+				info->status = PARENTHESESED;
+		}
 	}
 	else
 		token_separate(info, type, str);
@@ -73,27 +61,23 @@ static void	token_separate(t_token_info *info, t_token_type type, char *str)
 {
 	if (is_io_number_token(info, type))
 		info->token->type = IO_NUMBER;
+	if (is_containing_asterisk(info))
+		expand_wildcard_asterisk(info);
 	tokeniser_add_new_token(info);
 	if (type != CHAR_SPACE && type != CHAR_TAB)
 	{
 		info->token->comp[info->each_i++] = str[info->str_i];
 		if (str[info->str_i + 1] == str[info->str_i])
 		{
+			if (type == CHAR_GREATER || type == CHAR_PIPE
+				|| type == CHAR_AMPERSAND)
+				info->token->comp[info->each_i++] = str[++info->str_i];
 			if (type == CHAR_GREATER)
-			{
-				info->token->comp[info->each_i++] = str[++info->str_i];
 				type = D_GREATER;
-			}
 			else if (type == CHAR_PIPE)
-			{
-				info->token->comp[info->each_i++] = str[++info->str_i];
 				type = OR_OPERATER;
-			}
 			else if (type == CHAR_AMPERSAND)
-			{
-				info->token->comp[info->each_i++] = str[++info->str_i];
 				type = AND_OPERATER;
-			}
 		}
 		info->token->type = type;
 		tokeniser_add_new_token(info);
@@ -116,11 +100,11 @@ static bool	is_io_number_token(t_token_info *info, t_token_type type)
 	return (false);
 }
 
-static void	tokeniser_add_new_token(t_token_info *info)
+void	tokeniser_add_new_token(t_token_info *info)
 {
 	t_token_list	*tmp_token;
 
-	if (info->each_i > 0 || (info->quote_flag))
+	if (info->each_i > 0 || info->quote_flag)
 	{
 		info->token->comp[info->each_i] = '\0';
 		tmp_token =
