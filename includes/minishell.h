@@ -237,8 +237,25 @@ void	set_fin_nullchar_and_check_token_list(t_token_info *info);
 void	del_token_list(t_token_list **token_p);
 void	del_token(t_token_list **token_p);
 
-// in parser
+// in parser.c
 bool	parser(t_node **parent_node, t_token_list **token);
+
+// in parser_print.c
+void	print_parser(t_command *cmd);
+
+// in parser_util.c
+void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token);
+void	input_cmd_args(t_command *command, t_token_list **token);
+
+// in parser_redirect_util.c
+t_redirect	*create_and_init_redirect(void);
+void	delete_redirect_list(t_redirect **redirect);
+bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect);
+void	input_redirect(t_redirect **dst, t_redirect *new);
+
+/// in util/util_node.c
+t_node	*create_and_init_node();
+t_node	*add_parent_node(t_node *left, t_node *right);
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
