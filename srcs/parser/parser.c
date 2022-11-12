@@ -101,12 +101,12 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 	//数字指定ありリダイレクト
 	if ((*token)->type == IO_NUMBER)
 	{
-		if (ft_atoi_limit((*token)->comp, &rediret->fd_io) == false) {
-			rediret->fd_io = REDIRECT_IO_NUM_ERROR;
+		if (ft_atoi_limit((*token)->comp, &redirect->fd_io) == false) {
+			redirect->fd_io = REDIRECT_IO_NUM_ERROR;
 			*token = (*token)->next;
 		}
 	}
-	if (input_redirect_type(*token, redirect, &redirect) == false)
+	if (input_redirect_type_and_fd(*token, redirect) == false)
 		return (false);
 	*token = (*token)->next;
 	if (!*token || (*token)->type != TOKEN)
@@ -196,7 +196,7 @@ bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 				|| (*token)->type == D_GREATER || (*token)->type == IO_NUMBER)
 		{
 			//redirectの処理
-			parse_redirect_process();
+			parse_redirect_process(*node, token);
 		}
 		else
 			break ;
