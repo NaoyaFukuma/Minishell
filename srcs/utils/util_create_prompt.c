@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:43:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/12 23:48:57 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/13 01:50:21 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*util_create_prompt_str(void)
 	ret_str = util_join_and_free_err_exit(ret_str, true, "] \e[m\e[32m", false);
 	ret_str = util_join_and_free_err_exit(ret_str, true, g_shell.pwd, false);
 	ret_str = util_join_and_free_err_exit(ret_str, true, " > \e[m", false);
-	g_shell.prompt_len = ft_strlen(ret_str) - 9;
+	g_shell.prompt_len = ft_strlen(ret_str) - 17;
 	return (ret_str);
 }
 
