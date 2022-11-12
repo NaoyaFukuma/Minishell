@@ -33,3 +33,33 @@ void	delete_token_list(t_token_list **token_list)
 	}
 	*token_list = NULL;
 }
+
+t_token_list	*duplicate_token(t_token_list *token)
+{
+	t_token_list	*dup_token;
+	size_t			comp_len;
+
+	comp_len = ft_strlen(token->comp);
+	dup_token = init_token(NULL, comp_len);
+	ft_strlcpy(dup_token->comp, token->comp, comp_len + 1);
+	dup_token->type = token->type;
+	return (dup_token);
+}
+
+void	add_token_into_original(t_token_list **token, t_token_list *original)
+{
+	t_token_list	*now;
+	t_token_list	*dup_token;
+
+	dup_token = duplicate_token(original);
+	if (!*token)
+		*token = dup_token;
+	else
+	{
+		now = *token;
+		while (now->next)
+			now = now->next;
+		now->next = dup_token;
+		dup_token->prev = now->next;
+	}
+}
