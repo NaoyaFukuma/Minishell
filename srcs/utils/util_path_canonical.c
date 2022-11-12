@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 01:19:59 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 15:02:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:37:57 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*cpy_path_elem(char *path_p, char *elem, char *start)
 
 void	add_slash_path_front(char *path, char **res)
 {
-	char *added_res;
+	char	*added_res;
 
 	if (!path || !res || !*res)
 		return ;
@@ -71,8 +71,8 @@ bool	cpy_canonical_path(char **split, char **res)
 
 char	*util_path_canonical(char *path)
 {
-	char			**split;
-	char			*res;
+	char	**split;
+	char	*res;
 
 	if (!path)
 		return (NULL);

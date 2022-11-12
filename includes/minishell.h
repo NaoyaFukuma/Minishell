@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/10 16:38:16 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/11 13:41:16 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <unistd.h>   // for write(), access(), execve()
 # include <sys/types.h>
 # include <fcntl.h>
+#include <dirent.h> // opendir(), readdir(), closedir()
 
 # define BACK_CURSOR "\e[1D"
 # define CLEAR_FROM_CURSOR "\e[K"
@@ -214,12 +215,17 @@ t_token_type	get_token_type(char c);
 
 // in lexer_not_in_qoute.c
 void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str);
+void	tokeniser_add_new_token(t_token_info *info);
 
 
 // in lexer_in_qoute.c
 void	in_quote_lexer(t_token_info *info, t_token_type type, char *str);
 void	in_d_quote_lexer(t_token_info *info, t_token_type type, char *str);
 void	in_parentheses_lexer(t_token_info *info, t_token_type type, char *str);
+
+// in lexer_expand_asterisk.c
+bool	is_containing_asterisk(t_token_info *info);
+void	expand_wildcard_asterisk(t_token_info *info);
 
 
 // in lexer_set_fin_nullchar_and_check_token_list.c

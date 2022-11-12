@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/09 17:13:32 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/13 00:16:28 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	exec_list(t_node *nodes);
 static void	exec_pipeline(t_node *nodes);
-static void		update_pipe_state(t_command *cmd, t_pipe_state *pipe_state);
+static void	update_pipe_state(t_command *cmd, t_pipe_state *pipe_state);
 
 void	exec_nodes(t_node *nodes)
 {
@@ -69,7 +69,7 @@ static void	exec_pipeline(t_node *nodes)
 	wait_external_cmds(nodes->command);
 }
 
-static void		update_pipe_state(t_command *cmd, t_pipe_state *pipe_state)
+static void	update_pipe_state(t_command *cmd, t_pipe_state *pipe_state)
 {
 	if (*pipe_state == NO_PIPE)
 		return ;

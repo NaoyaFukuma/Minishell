@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 00:11:52 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 11:25:08 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/13 00:19:14 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,16 @@ void	redirects_util_cleanup(t_command *command)
 		redirect = redirect->next;
 	while (redirect)
 	{
-		if (redirect->fd_file >= 0)
-		{
-			if (close(redirect->fd_file) < 0)
-				util_put_cmd_err_and_exit("in redirects_util_cleanup");
-		}
-		if (redirect->fd_backup >= 0)
-		{
-			if (dup2(redirect->fd_backup, redirect->fd_io) < 0 ||
-				close(redirect->fd_backup) < 0)
-				util_put_cmd_err_and_exit("in redirects_util_cleanup");
-		}
+		if (redirect->fd_file >= 0 && close(redirect->fd_file) < 0)
+			util_put_cmd_err_and_exit("in redirects_util_cleanup");
+		if (redirect->fd_backup >= 0 && (dup2(redirect->fd_backup,
+					redirect->fd_io) < 0 || close(redirect->fd_backup) < 0))
+			util_put_cmd_err_and_exit("in redirects_util_cleanup");
 		redirect = redirect->prev;
 	}
 }
 
-bool			redirect_util_dupfd(t_command *command, bool is_parent)
+bool	redirect_util_dupfd(t_command *command, bool is_parent)
 {
 	t_redirect	*redirect;
 

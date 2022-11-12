@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 22:17:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/03 00:15:30 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:37:47 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ char	**util_colon_split(char *src_str, char *def)
 		if (next_index - src_str == 0)
 			res = (char **)util_ptrarr_add_back((void **)res, ft_strdup(def));
 		else
-			res = (char **)util_ptrarr_add_back((void **)res, ft_substr(src_str, 0, next_index
-				- src_str));
+			res = (char **)util_ptrarr_add_back((void **)res, ft_substr(src_str,
+				0, next_index - src_str));
 		free(tmp);
 		src_str = next_index + 1;
 		next_index = ft_strchr(src_str, ':');

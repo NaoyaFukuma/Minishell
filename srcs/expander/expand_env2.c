@@ -6,14 +6,14 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 22:20:40 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/07 22:40:25 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/13 00:12:41 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static size_t	calc_len(char *str, char *esc_chars);
-static void	add_esc_and_dup_val(char *src, char *esc_chars, char *dest);
+static void		add_esc_and_dup_val(char *src, char *esc_chars, char *dest);
 
 char	*set_env_name(char *str)
 {
@@ -68,7 +68,7 @@ char	*create_esc_val(char *str, t_token_status state)
 	char	*res;
 
 	if (state == D_QUOTED)
-		esc_chars = "\"\\$";
+		esc_chars = "\"\\$*";
 	if (state == NOT_QUOTED)
 		esc_chars = "\'\"\\$|;><";
 	res = malloc(sizeof(char *) * (calc_len(str, esc_chars) + 1));
@@ -101,13 +101,8 @@ static void	add_esc_and_dup_val(char *src, char *esc_chars, char *dst)
 	while (*src)
 	{
 		if (ft_strchr(esc_chars, *src))
-		{
-			dst[i] = '\\';
-			i++;
-		}
-		dst[i] = *src;
-		i++;
-		src++;
+			dst[i++] = '\\';
+		dst[i++] = (*src++);
 	}
 	dst[i] = '\0';
 }

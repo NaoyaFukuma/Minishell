@@ -62,8 +62,6 @@ static t_token_list	*find_last_token(t_token_list *tokens)
 		return (NULL);
 	now = tokens;
 	while (now->next != NULL)
-	{
 		now = now->next;
-	}
 	return (now);
 }

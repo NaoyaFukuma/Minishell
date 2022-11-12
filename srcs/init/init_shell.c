@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:19:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/27 14:44:48 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:39:39 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	shell_level_update(void)
 	{
 		env_shlvl->value = ft_itoa(shlvl);
 		ft_putstr_fd("warning: shell level (1000) too high, resetting to 1\n",
-				STDERR_FILENO);
+			STDERR_FILENO);
 	}
 	else
 		env_shlvl->value = ft_itoa(shlvl);

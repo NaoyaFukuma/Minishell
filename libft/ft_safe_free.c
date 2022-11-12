@@ -6,12 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 01:28:05 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/04 09:49:54 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/11 01:55:05 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-	#include <stdio.h>
 
 void	ft_safe_free_single_ptr(void **target)
 {

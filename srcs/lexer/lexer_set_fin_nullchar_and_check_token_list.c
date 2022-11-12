@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 12:51:03 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 16:21:00 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:28:54 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ void	set_fin_nullchar_and_check_token_list(t_token_info *info)
 			del_token(&info->token);
 	}
 	else
+	{
+		if (is_containing_asterisk(info))
+			expand_wildcard_asterisk(info);
 		info->token->comp[info->each_i] = '\0';
+	}
 }
 
 static void	print_token_error(t_token_status state)
@@ -39,7 +43,7 @@ static void	print_token_error(t_token_status state)
 
 	if (state == D_QUOTED)
 		util_put_cmd_err(NULL,
-				"unexpected EOF while looking for matching `\"'");
+			"unexpected EOF while looking for matching `\"'");
 	if (state == QUOTED)
 		util_put_cmd_err(NULL, "unexpected EOF while looking for matching `''");
 	g_shell.status = TOKEN_ERROR;

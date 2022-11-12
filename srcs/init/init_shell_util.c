@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:43:48 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/27 14:18:48 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:39:56 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,3 @@ void	init_oldpwd(void)
 		util_list_add_last_new_envnode(&g_shell.envs, oldpwd_env);
 	}
 }
-

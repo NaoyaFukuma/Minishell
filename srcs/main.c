@@ -1,14 +1,15 @@
 #include "minishell.h"
 
-t_shell	g_shell;
-
+static void	interactive_loop(void);
 static void	ctrl_d_exit_put_msg(void);
+
+t_shell	g_shell;
 
 int	main(int argc, char **argv)
 {
 	extern t_shell	g_shell;
-	char	*line;
-	char	*prompt;
+	// char	*line;
+	// char	*prompt;
 
 	init_minishell();
 	if (argc > 2 && !ft_strcmp(argv[1], "-c"))
@@ -17,28 +18,35 @@ int	main(int argc, char **argv)
 		run_cmdline(argv[2]);
 	}
 	else
-	{
-		g_shell.interactive = true;
-		while (1)
-		{
-			g_shell.interrupted = false;
-			g_shell.exited = false;
-			set_sig_for_interactive_shell();
-			prompt = util_create_prompt_str();
-			line = readline(prompt);
-			free(prompt);
-			if (line == NULL)
-				break ;
-			if (*line)
-			{
-				add_history(line);
-				run_cmdline(line);
-			}
-			free(line);
-		}
-		ctrl_d_exit_put_msg();
-	}
+		interactive_loop();
 	exit(EXIT_SUCCESS);
+}
+
+static void	interactive_loop(void)
+{
+	extern t_shell	g_shell;
+	char	*line;
+	char	*prompt;
+
+	g_shell.interactive = true;
+	while (1)
+	{
+		g_shell.interrupted = false;
+		g_shell.exited = false;
+		set_sig_for_interactive_shell();
+		prompt = util_create_prompt_str();
+		line = readline(prompt);
+		free(prompt);
+		if (line == NULL)
+			break ;
+		if (*line)
+		{
+			add_history(line);
+			run_cmdline(line);
+		}
+		free(line);
+	}
+	ctrl_d_exit_put_msg();
 }
 
 void	run_cmdline(char *line)

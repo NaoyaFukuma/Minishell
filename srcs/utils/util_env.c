@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 16:05:38 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:38:16 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static void	env_value_set(t_env *env, const char *new_value, bool append_flag)
 	ft_safe_free_single_ptr((void *)&old_value);
 }
 
-void		util_env_update_value(const char *env_name, const char *new_value, bool is_env_var, bool append_flag)
+void	util_env_update_value(const char *env_name, const char *new_value,
+		bool is_env_var, bool append_flag)
 {
 	extern t_shell	g_shell;
 	t_env			*env;
@@ -85,7 +86,7 @@ void		util_env_update_value(const char *env_name, const char *new_value, bool is
 
 bool	util_validate_env_name(char *name)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (name[i] != '_' && !ft_isalpha(name[i]))

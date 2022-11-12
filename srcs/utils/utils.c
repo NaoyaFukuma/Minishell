@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 00:57:11 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/03 22:29:26 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/12 23:36:28 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 bool	util_is_builtin(const char *arg)
 {
-	const char	*builtin_cmd[] = { "exit", "cd", "echo", "pwd", "env", "export", "unset",
-		NULL};
+	const char	*cmds[] = {"exit", "cd", "echo", "pwd", "env", "export", "unset", NULL};
 	int			i;
 
 	if (!arg)
 		return (false);
 	i = -1;
-	while (builtin_cmd[++i])
-		if (!ft_strcmp(arg, builtin_cmd[i]))
+	while (cmds[++i])
+		if (!ft_strcmp(arg, cmds[i]))
 			return (true);
 	return (false);
 }
@@ -56,7 +55,7 @@ bool	util_is_digit_str(const char *str)
 
 bool	util_is_directory(const char *path)
 {
-	t_stat path_stat;
+	t_stat	path_stat;
 
 	if (stat(path, &path_stat) == -1)
 		return (false);
@@ -72,9 +71,9 @@ bool	util_is_same_dir(char *dir1, char *dir2)
 
 	if (!dir1 || !dir2)
 		return (false);
-	if (stat(dir1, &stat_dir1)  == -1)
+	if (stat(dir1, &stat_dir1) == -1)
 		return (false);
-	if (stat(dir2, &stat_dir2)  == -1)
+	if (stat(dir2, &stat_dir2) == -1)
 		return (false);
 	if (stat_dir1.st_ino == stat_dir2.st_ino)
 		return (true);
