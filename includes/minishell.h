@@ -44,9 +44,13 @@
 # define CMD_NOT_FOUND		127
 # define CMD_NOT_EXECUTABLE	126
 
-#define NO_PID -1
-#define PIPE_WRITE 1
-#define PIPE_READ 0
+# define NO_PID -1
+# define PIPE_WRITE 1
+# define PIPE_READ 0
+
+# define REDIRECT_IO_NUM_ERROR -1
+# define REDIRECT_UNDEFINED -1
+
 
 typedef struct stat			t_stat;
 
@@ -205,6 +209,12 @@ typedef struct	s_expander
 
 // in main.c
 void	run_cmdline(char *line);
+
+// in util/util_token.c
+void	delete_token(t_token_list **token_list);
+void	delete_token_list(t_token_list **token_list);
+t_token_list	*duplicate_token(t_token_list *token);
+void	add_token_into_original(t_token_list **token, t_token_list *original);
 
 // in lexer/lexer.c
 t_token_list				*lexer(char *str, bool esc_flag);
