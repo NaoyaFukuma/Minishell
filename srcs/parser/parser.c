@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
-
-//#include "../../includes/minishell.h"
-//#include "../../libft/libft.h"
+#include "../../libft/libft.h"
 
 t_node	*create_and_init_node()
 {
@@ -21,18 +19,6 @@ t_node	*create_and_init_node()
 	new_node->command->next = NULL;
 	return (new_node);
 }
-/*
-typedef struct			s_redirect
-{
-	int					fd_io;
-	int					fd_file;
-	int					fd_backup;
-	t_redirect_type		type;
-	t_token_list		*filename;
-	struct s_redirect	*next;
-	struct s_redirect	*prev;
-}						t_redirect;
-*/
 
 t_redirect	*create_and_init_redirect(void)
 {
@@ -44,30 +30,93 @@ t_redirect	*create_and_init_redirect(void)
 	ret->fd_io = NO_PID;
 	ret->fd_file = NO_PID;
 	ret->fd_backup = NO_PID;
-	//ret->typeの初期化は不要？
 	ret->filename = NULL;
 	ret->next = NULL;
 	ret->prev = NULL;
 	return (ret);
 }
 
-bool	parse_redirect_process(t_node *node, t_token_list **token)
+void	delete_redirect_list(t_redirect **redirect)
 {
-	t_redirect	*rediret;
+	t_redirect	*tmp;
+	t_redirect	*now;
 
-	rediret = create_and_init_redirect();
+	if (!redirect)
+		return ;
+	now = *redirect;
+	while (now)
+	{
+		tmp = now->next;
+		del_token_list(&now->filename);
+		now = tmp;
+	}
+	*redirect = NULL;
 }
 
-t_token_list	*duplicate_token(t_token_list *token)
+bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect)
 {
-	t_token_list	*dup_token;
-	size_t			comp_len;
+	if (token->type == CHAR_LESS)
+		redirect->type = REDIR_INPUT;
+	else if (token->type == CHAR_GREATER)
+		redirect->type = REDIR_OUTPUT;
+	else if (token->type == D_GREATER)
+		redirect->type = REDIR_APPEND_OUTPUT;
+	else
+	{
+		delete_redirect_list(&redirect);
+		return (false);
+	}
+	if (redirect->fd_io == REDIRECT_UNDEFINED)
+	{
+		if (redirect->type == REDIR_INPUT)
+			redirect->fd_io = STDIN_FILENO;
+		else
+			redirect->fd_io = STDOUT_FILENO;
+	}
+	return (true);
+}
 
-	comp_len = ft_strlen(token->comp);
-	dup_token = init_token(NULL, comp_len);
-	ft_strlcpy(dup_token->comp, token->comp, comp_len + 1);
-	dup_token->type = token->type;
-	return (dup_token);
+void	input_redirect(t_redirect **dst, t_redirect *new)
+{
+	t_redirect	*now;
+
+	if (!*dst)
+		*dst = new;
+	else
+	{
+		now = *dst;
+		while (now->next)
+			now = now->next;
+		now->next = new;
+		new->next = NULL;
+		new->prev = now;
+	}
+}
+
+bool	parse_redirect_process(t_node *node, t_token_list **token)
+{
+	t_redirect	*redirect;
+
+	redirect = create_and_init_redirect();
+	//数字指定ありリダイレクト
+	if ((*token)->type == IO_NUMBER)
+	{
+		if (ft_atoi_limit((*token)->comp, &rediret->fd_io) == false) {
+			rediret->fd_io = REDIRECT_IO_NUM_ERROR;
+			*token = (*token)->next;
+		}
+	}
+	if (input_redirect_type(*token, redirect, &redirect) == false)
+		return (false);
+	*token = (*token)->next;
+	if (!*token || (*token)->type != TOKEN)
+	{
+		delete_redirect_list(&redirect);
+		return (false);
+	}
+	add_token_into_original(&redirect->filename, *token);
+	input_redirect(&node->command->redirects, redirect);
+	return (true);
 }
 
 void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token)
