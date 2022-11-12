@@ -21,6 +21,42 @@ t_node	*create_and_init_node()
 	new_node->command->next = NULL;
 	return (new_node);
 }
+/*
+typedef struct			s_redirect
+{
+	int					fd_io;
+	int					fd_file;
+	int					fd_backup;
+	t_redirect_type		type;
+	t_token_list		*filename;
+	struct s_redirect	*next;
+	struct s_redirect	*prev;
+}						t_redirect;
+*/
+
+t_redirect	*create_and_init_redirect(void)
+{
+	t_redirect	*ret;
+
+	ret = (t_redirect *) malloc(sizeof(t_redirect));
+	if (!ret)
+		util_put_cmd_err_and_exit("malloc");
+	ret->fd_io = NO_PID;
+	ret->fd_file = NO_PID;
+	ret->fd_backup = NO_PID;
+	//ret->typeの初期化は不要？
+	ret->filename = NULL;
+	ret->next = NULL;
+	ret->prev = NULL;
+	return (ret);
+}
+
+bool	parse_redirect_process(t_node *node, t_token_list **token)
+{
+	t_redirect	*rediret;
+
+	rediret = create_and_init_redirect();
+}
 
 t_token_list	*duplicate_token(t_token_list *token)
 {
@@ -54,9 +90,6 @@ void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token)
 			cmd_args_tail = cmd_args_tail->next;
 		}
 		cmd_args_tail->next = dup_token;
-		/* ここがわからない
-		dup_token->prev = cmd_args_tail->next;
-		*/
 	}
 }
 
@@ -93,11 +126,15 @@ void	print_parser(t_command *cmd)
 }
 
 //cmdを入れてく関数
-bool	parse_command(t_node **node, t_token_list **token)
+bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 {
 	if (!*node)
 		return (false);
 	*node = create_and_init_node();
+	if (last_cmd)
+		last_cmd->next = (*node)->command;
+	else // last_cmd == NULL
+		last_cmd = (*node)->command;
 	//前回のコマンドを記録
 	while (*token)
 	{
@@ -110,6 +147,7 @@ bool	parse_command(t_node **node, t_token_list **token)
 				|| (*token)->type == D_GREATER || (*token)->type == IO_NUMBER)
 		{
 			//redirectの処理
+			parse_redirect_process();
 		}
 		else
 			break ;
@@ -142,12 +180,13 @@ t_node	*add_parent_node(t_node *left, t_node *right)
 //前回のコマンドを保持する構造体に何をいれるのかわからない状況
 bool	parser(t_node **parent_node, t_token_list **token)
 {
-	t_node	*child;
+	t_node		*child;
+	t_command	last_cmd;
 
 	if (*token)
 	{
 		//親ノード(左側)に入れてく
-		if (parse_command(parent_node, token) == false)
+		if (parse_command(&last_cmd, parent_node, token) == false)
 			return (false);
 	}
 	while (*token)
@@ -158,7 +197,7 @@ bool	parser(t_node **parent_node, t_token_list **token)
 			if (!*token)
 				return (false);
 			//右側に入れてく
-			if (parse_command(&child, token) == false)
+			if (parse_command(&last_cmd, &child, token) == false)
 				return (false);
 			//親ノードに移動する
 			*parent_node = add_parent_node(*parent_node, child);
