@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 01:05:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/13 01:44:25 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/13 02:34:35 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	builtin_exit(char **args)
 {
 	extern t_shell	g_shell;
 	int				i;
+	int				status;
 
 	if (g_shell.interactive == true)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
@@ -27,15 +28,17 @@ int	builtin_exit(char **args)
 		i++;
 	if (!args[i])
 		exit(g_shell.status);
+	errno = 0;
+	status = ft_atoi(args[i]);
 	if (has_error(args, i) == false)
-		exit(ft_atoi(args[i]));
+		exit(status);
 	g_shell.exited = true;
 	return (EXIT_FAILURE);
 }
 
 static bool	has_error(char **args, int i)
 {
-	if (util_is_digit_str(args[i]) == false)
+	if (errno || util_is_digit_str(args[i]) == false)
 	{
 		put_num_args_error(args[i]);
 		exit(255);
