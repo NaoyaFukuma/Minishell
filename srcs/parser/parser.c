@@ -196,18 +196,22 @@ bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 				|| (*token)->type == D_GREATER || (*token)->type == IO_NUMBER)
 		{
 			//redirectの処理
-			parse_redirect_process(*node, token);
+			if (parse_redirect_process(*node, token) == false)
+			{
+				//ここの処理まだ
+			}
 		}
 		else
 			break ;
 	}
-	/*この処理の起こるときがあまり理解できてない
+	//同じくここのエラー処理未完成
+	/*
 	if (!(*node)->command->args && !(*node)->command->redirects)
 	{
 		del_node_list(node);
 		return (FALSE);
 	}
-	*/
+	 */
 	print_parser((*node)->command);
 	return (true);
 }
