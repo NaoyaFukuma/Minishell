@@ -45,9 +45,13 @@
 # define CMD_NOT_FOUND		127
 # define CMD_NOT_EXECUTABLE	126
 
-#define NO_PID -1
-#define PIPE_WRITE 1
-#define PIPE_READ 0
+# define NO_PID -1
+# define PIPE_WRITE 1
+# define PIPE_READ 0
+
+# define REDIRECT_IO_NUM_ERROR -1
+# define REDIRECT_UNDEFINED -1
+
 
 typedef struct stat			t_stat;
 
@@ -207,6 +211,12 @@ typedef struct	s_expander
 // in main.c
 void	run_cmdline(char *line);
 
+// in util/util_token.c
+void	delete_token(t_token_list **token_list);
+void	delete_token_list(t_token_list **token_list);
+t_token_list	*duplicate_token(t_token_list *token);
+void	add_token_into_original(t_token_list **token, t_token_list *original);
+
 // in lexer/lexer.c
 t_token_list				*lexer(char *str, bool esc_flag);
 t_token_list	*init_token(t_token_list *prev, size_t len);
@@ -233,8 +243,25 @@ void	set_fin_nullchar_and_check_token_list(t_token_info *info);
 void	del_token_list(t_token_list **token_p);
 void	del_token(t_token_list **token_p);
 
-// in parser
+// in parser.c
 bool	parser(t_node **parent_node, t_token_list **token);
+
+// in parser_print.c
+void	print_parser(t_command *cmd);
+
+// in parser_util.c
+void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token);
+void	input_cmd_args(t_command *command, t_token_list **token);
+
+// in parser_redirect_util.c
+t_redirect	*create_and_init_redirect(void);
+void	delete_redirect_list(t_redirect **redirect);
+bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect);
+void	input_redirect(t_redirect **dst, t_redirect *new);
+
+/// in util/util_node.c
+t_node	*create_and_init_node();
+t_node	*add_parent_node(t_node *left, t_node *right);
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
