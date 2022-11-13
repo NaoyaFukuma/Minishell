@@ -52,21 +52,18 @@ static void	interactive_loop(void)
 void	run_cmdline(char *line)
 {
 	extern t_shell	g_shell;
-	// t_node 			*nodes;
+	t_node 			*nodes;
 	t_token_list	*tokens;
 	// t_token_list	*start_token_for_free;
 
 	tokens = lexer(line, false);
 	// start_token_for_free = tokens;
-	// nodes = parser(tokens);
+	if (parser(&nodes, &tokens))
+		printf("syntax error\n");
 	// if (!nodes)
-		// put_syntax_error(tokens);
+	// 	put_syntax_error(tokens);
 
-	// 疑似パーサー
-	t_command cmds = {tokens, NULL, NO_PID, NULL, NO_OPE, true};
-	t_node nodes = {NODE_COMMAND, &cmds, NULL, NULL};
-	//
-	exec_nodes(&nodes);
+	exec_nodes(nodes);
 
 
 	// del_token_list(&start_token_for_free);
