@@ -51,13 +51,13 @@ bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 			//redirectの処理
 			if (parse_redirect_process(*node, token) == false)
 			{
-				//ここの処理まだ
+				delete_node_list(node);
+				return (false);
 			}
 		}
 		else
 			break ;
 	}
-	//同じくここのエラー処理未完成
 	if (!(*node)->command->args && !(*node)->command->redirects)
 	{
 		delete_node_list(node);
