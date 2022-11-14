@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/11 13:41:16 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/14 21:59:49 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef enum	e_token_type
 	TOKEN = -1,
 	IO_NUMBER = -2,
 	D_GREATER = -3,
+	D_LESS = -4,
 	AND_OPERATER = -5,
 	OR_OPERATER = -6,
 }				t_token_type;
