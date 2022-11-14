@@ -21,7 +21,7 @@ void	delete_redirect_list(t_redirect **redirect)
 	t_redirect	*tmp;
 	t_redirect	*now;
 
-	if (!redirect)
+	if (!redirect || !*redirect)
 		return ;
 	now = *redirect;
 	while (now)

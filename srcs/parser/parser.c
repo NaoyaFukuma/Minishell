@@ -58,13 +58,11 @@ bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 			break ;
 	}
 	//同じくここのエラー処理未完成
-	/*
 	if (!(*node)->command->args && !(*node)->command->redirects)
 	{
-		del_node_list(node);
-		return (FALSE);
+		delete_node_list(node);
+		return (false);
 	}
-	 */
 	print_parser((*node)->command);
 	return (true);
 }
