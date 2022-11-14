@@ -28,16 +28,14 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 }
 
 //cmdを入れてく関数
-bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
+bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 {
 	if (!*node)
 		return (false);
 	*node = create_and_init_node();
-	if (last_cmd)
-		last_cmd->next = (*node)->command;
-	else // last_cmd == NULL
-		last_cmd = (*node)->command;
-	//前回のコマンドを記録
+	if (*last_cmd)
+		(*last_cmd)->next = (*node)->command;
+	*last_cmd = (*node)->command;
 	while (*token)
 	{
 		if ((*token)->type == TOKEN)
@@ -71,8 +69,9 @@ bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 bool	parser(t_node **parent_node, t_token_list **token)
 {
 	t_node		*child;
-	t_command	last_cmd;
+	t_command	*last_cmd;
 
+	last_cmd = NULL;
 	if (*token)
 	{
 		//親ノード(左側)に入れてく

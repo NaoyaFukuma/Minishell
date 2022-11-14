@@ -31,3 +31,5 @@ void	input_cmd_args(t_command *command, t_token_list **token)
 		*token = (*token)->next;
 	}
 }
+
+//bool
