@@ -32,3 +32,14 @@ t_node	*add_parent_node(t_node *left, t_node *right)
 	new_parent_node->left = left;
 	return (new_parent_node);
 }
+
+void	delete_node_list(t_node **node)
+{
+	if (!node || !*node)
+		return ;
+	if ((*node)->type == NODE_COMMAND && (*node)->command)
+	{
+		delete_token_list(&(*node)->command->args);
+
+	}
+}

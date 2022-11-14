@@ -54,20 +54,20 @@ void	run_cmdline(char *line)
 	extern t_shell	g_shell;
 	t_node 			*nodes;
 	t_token_list	*tokens;
-	// t_token_list	*start_token_for_free;
+	 t_token_list	*start_token_for_free;
 
 	tokens = lexer(line, false);
-	// start_token_for_free = tokens;
-	if (parser(&nodes, &tokens))
+	start_token_for_free = tokens;
+	if (parser(&nodes, &tokens) == false)
 		printf("syntax error\n");
-	// if (!nodes)
+//	 if (!nodes)
 	// 	put_syntax_error(tokens);
 
 	exec_nodes(nodes);
 
 
-	// del_token_list(&start_token_for_free);
-	// del_node_list(&nodes);
+	delete_token_list(&start_token_for_free);
+	delete_node_list(&nodes);
 	return ;
 }
 

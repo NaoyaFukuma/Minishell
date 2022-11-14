@@ -262,6 +262,7 @@ void	input_redirect(t_redirect **dst, t_redirect *new);
 /// in util/util_node.c
 t_node	*create_and_init_node();
 t_node	*add_parent_node(t_node *left, t_node *right);
+void	delete_node_list(t_node **node);
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
