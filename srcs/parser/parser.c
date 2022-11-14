@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
+/*   Updated: 2022/11/14 22:47:43 by hommayunosu      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 #include "../../libft/libft.h"
 
@@ -28,16 +40,14 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 }
 
 //cmdを入れてく関数
-bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
+bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 {
 	if (!*node)
 		return (false);
 	*node = create_and_init_node();
-	if (last_cmd)
-		last_cmd->next = (*node)->command;
-	else // last_cmd == NULL
-		last_cmd = (*node)->command;
-	//前回のコマンドを記録
+	if (*last_cmd)
+		(*last_cmd)->next = (*node)->command;
+	*last_cmd = (*node)->command;
 	while (*token)
 	{
 		if ((*token)->type == TOKEN)
@@ -51,13 +61,13 @@ bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 			//redirectの処理
 			if (parse_redirect_process(*node, token) == false)
 			{
-				//ここの処理まだ
+				delete_node_list(node);
+				return (false);
 			}
 		}
 		else
 			break ;
 	}
-	//同じくここのエラー処理未完成
 	if (!(*node)->command->args && !(*node)->command->redirects)
 	{
 		delete_node_list(node);
@@ -71,8 +81,9 @@ bool	parse_command(t_command *last_cmd, t_node **node, t_token_list **token)
 bool	parser(t_node **parent_node, t_token_list **token)
 {
 	t_node		*child;
-	t_command	last_cmd;
+	t_command	*last_cmd;
 
+	last_cmd = NULL;
 	if (*token)
 	{
 		//親ノード(左側)に入れてく

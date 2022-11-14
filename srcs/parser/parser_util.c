@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_util.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/14 22:47:40 by hommayunosu       #+#    #+#             */
+/*   Updated: 2022/11/14 22:47:41 by hommayunosu      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token)
@@ -31,3 +43,5 @@ void	input_cmd_args(t_command *command, t_token_list **token)
 		*token = (*token)->next;
 	}
 }
+
+//bool
