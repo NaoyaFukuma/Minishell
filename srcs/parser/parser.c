@@ -42,7 +42,7 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 //cmdを入れてく関数
 bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 {
-	if (!*node)
+	if (!*token)
 		return (false);
 	*node = create_and_init_node();
 	if (*last_cmd)
@@ -83,6 +83,7 @@ bool	parser(t_node **parent_node, t_token_list **token)
 	t_node		*child;
 	t_command	*last_cmd;
 
+	*parent_node = NULL;
 	last_cmd = NULL;
 	if (*token)
 	{
