@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:18:14 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 12:23:10 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 14:02:45 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ char	*expand_env(char *src_str)
 
 	while (exper.str[exper.str_i])
 	{
-	printf("exper.str %s\n", &exper.str[exper.str_i]);
-
-
 		exper.type = get_token_type(exper.str[exper.str_i]);
 		exper.status = get_token_status(exper.status, exper.type);
 		if (exper.type == CHAR_BACKSLASH && exper.str[exper.str_i + 1] &&

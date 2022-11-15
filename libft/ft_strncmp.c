@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 11:00:21 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 13:31:03 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 13:40:38 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 	int i;
 
 	i = 0;
-	ft_putstr_fd(s1,1);
-	ft_putstr_fd("\n",1);
-	ft_putstr_fd(s2,1);
-	ft_putstr_fd("\n",1);
 	while (1)
 	{
 		if ((s1[i] - s2[i]) != 0)
@@ -51,7 +47,5 @@ int	ft_strcmp(const char *s1, const char *s2)
 			break ;
 		i++;
 	}
-
-	ft_putstr_fd("bbbbbbbbbbbbbbbbb\n",1);
 	return (0);
 }
