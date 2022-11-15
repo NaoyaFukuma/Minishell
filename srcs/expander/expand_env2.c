@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 22:20:40 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/13 00:12:41 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 11:42:21 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*set_env_value(char *name)
 
 	if (ft_strcmp("?", name) == 0)
 	{
-		res = ft_itoa(g_shell.status);
+		res = ft_itoa((int)g_shell.status);
 		if (!res)
 			util_put_cmd_err_and_exit("set_env_value");
 	}

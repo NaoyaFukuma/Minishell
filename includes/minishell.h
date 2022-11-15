@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 02:15:12 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 11:43:09 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ typedef struct s_env
 typedef struct s_shell
 {
 	t_env					*envs;
-	volatile sig_atomic_t	status;
+	// volatile sig_atomic_t	status;
+	int						status;
 	char					*pwd;
 	bool					interactive;
 	bool					interrupted;
