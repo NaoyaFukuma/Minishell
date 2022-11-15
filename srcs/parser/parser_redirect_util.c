@@ -19,9 +19,9 @@ t_redirect	*create_and_init_redirect(void)
 	ret = (t_redirect *) malloc(sizeof(t_redirect));
 	if (!ret)
 		util_put_cmd_err_and_exit("malloc");
-	ret->fd_io = NO_PID;
-	ret->fd_file = NO_PID;
-	ret->fd_backup = NO_PID;
+	ret->fd_io = REDIRECT_UNDEFINED;
+	ret->fd_file = REDIRECT_UNDEFINED;
+	ret->fd_backup = REDIRECT_UNDEFINED;
 	ret->filename = NULL;
 	ret->next = NULL;
 	ret->prev = NULL;
