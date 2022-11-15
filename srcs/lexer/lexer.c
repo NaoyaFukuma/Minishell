@@ -16,6 +16,7 @@ static void		init_token_info(t_token_info *token_info, char *str,
 					bool esc_flag);
 
 // debug
+/*
 void	print_type(t_token_type type)
 {
 	char	*str;
@@ -51,22 +52,7 @@ void	print_type(t_token_type type)
 		str = "(NULL)";
 	printf("type->[%s]\n", str);
 }
-//
-// void	print_status(t_token_status status)
-// {
-// 	char	*str;
-//
-// 	str = NULL;
-// 	if (status == QUOTED)
-// 		str = "QUOTED";
-// 	else if (status == D_QUOTED)
-// 		str = "QUOTED";
-// 	else if (status == PARENTHESESED)
-// 		str = "PARENTHESESED";
-// 	else if (status == NOT_QUOTED)
-// 		str = "NOT_QUOTED";
-// 	printf("status->[%s]\n", str);
-// }
+*/
 
 t_token_list	*lexer(char *str, bool esc_flag)
 {
@@ -88,21 +74,6 @@ t_token_list	*lexer(char *str, bool esc_flag)
 		token_info.str_i++;
 	}
 	set_fin_nullchar_and_check_token_list(&token_info);
-	// debug
-	// 	t_token_list	*tmp_for_print;
-	// 	size_t			i;
-	//
-	// 	printf("original: [%s]\n", str);
-	// 	tmp_for_print = token_info.first_token;
-	// 	i = 0;
-	// 	while (tmp_for_print)
-	// 	{
-	// 		printf("%zu [%s]\t", i, tmp_for_print->comp);
-	// 		print_type(tmp_for_print->type);
-	// 		tmp_for_print = tmp_for_print->next;
-	// 		i++;
-	// 	}
-	// debug end
 	return (token_info.first_token);
 }
 
@@ -144,36 +115,8 @@ t_token_type	get_token_type(char c)
 	while (*dst_chars)
 	{
 		if (*dst_chars == c)
-			return ((t_token_type)*dst_chars);
+			return ((t_token_type)(*dst_chars));
 		dst_chars++;
 	}
 	return (CHAR_OTHER);
-	// if (c == '\\')
-	// 	return (CHAR_BACKSLASH);
-	// else if (c == ';')
-	// 	return (CHAR_SEMICOLON);
-	// else if (c == '\'')
-	// 	return (CHAR_QUOTE);
-	// else if (c == '\"')
-	// 	return (CHAR_D_QUOTE);
-	// else if (c == '|')
-	// 	return (CHAR_PIPE);
-	// else if (c == '<')
-	// 	return (CHAR_LESS);
-	// else if (c == '>')
-	// 	return (CHAR_GREATER);
-	// else if (c == ' ')
-	// 	return (CHAR_SPACE);
-	// else if (c == '\t')
-	// 	return (CHAR_TAB);
-	// else if (c == '\0')
-	// 	return (CHAR_NIL);
-	// else if (c == '&')
-	// 	return (CHAR_AMPERSAND);
-	// else if (c == '(')
-	// 	return (CHAR_OPEN_PARENTHESES);
-	// else if (c == ')')
-	// 	return (CHAR_CLOSE_PARENTHESES);
-	// else
-	// return (CHAR_OTHER);
 }
