@@ -35,14 +35,6 @@ void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str)
 				info->status = D_QUOTED;
 			else if (type == CHAR_OPEN_PARENTHESES)
 				info->status = PARENTHESESED;
-
-			// else if (type == CHAR_OPEN_PARENTHESES)
-			// {
-			// 	if (info->esc_flag)
-			// 		info->token->comp[info->each_i++] = '\"';
-			// 	info->status = PARENTHESESED;
-			// }
-
 		}
 	}
 	else
@@ -77,11 +69,9 @@ static void	token_separate(t_token_info *info, t_token_type type, char *str)
 		info->token->comp[info->each_i++] = str[info->str_i];
 		if (str[info->str_i + 1] == str[info->str_i])
 		{
-			if (type == CHAR_GREATER || type == CHAR_LESS || type == CHAR_PIPE
-				|| type == CHAR_AMPERSAND)
+			if (type == CHAR_GREATER || type == CHAR_LESS || \
+				type == CHAR_PIPE || type == CHAR_AMPERSAND)
 				info->token->comp[info->each_i++] = str[++info->str_i];
-
-
 			if (type == CHAR_GREATER)
 				type = D_GREATER;
 			else if (type == CHAR_LESS)
@@ -100,9 +90,8 @@ static bool	is_io_number_token(t_token_info *info, t_token_type type)
 {
 	size_t	i;
 
-	if (!info || !info->token || !info->token->comp ||
-		info->each_i == 0 ||
-		(type != CHAR_GREATER && type != CHAR_LESS))
+	if (!info || !info->token || !info->token->comp || info->each_i == 0 \
+		|| (type != CHAR_GREATER && type != CHAR_LESS))
 		return (false);
 	i = info->each_i;
 	while (i != 0 && ft_isdigit(info->token->comp[i - 1]))
@@ -119,8 +108,7 @@ void	tokeniser_add_new_token(t_token_info *info)
 	if (info->each_i > 0 || info->quote_flag)
 	{
 		info->token->comp[info->each_i] = '\0';
-		tmp_token =
-			init_token(info->token, info->len - info->str_i);
+		tmp_token = init_token(info->token, info->len - info->str_i);
 		info->token->next = tmp_token;
 		info->token = tmp_token;
 		info->each_i = 0;
