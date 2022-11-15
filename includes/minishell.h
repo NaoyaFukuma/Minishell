@@ -262,7 +262,7 @@ t_redirect	*create_and_init_redirect(void);
 void	delete_redirect_list(t_redirect **redirect);
 bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect);
 void	input_redirect(t_redirect **dst, t_redirect *new);
-void	run_heredoc(char *limitter, t_redirect	*redirect);
+void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token);
 
 /// in util/util_node.c
 t_node	*create_and_init_node();

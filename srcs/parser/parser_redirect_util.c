@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:37 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/15 13:32:04 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 14:01:53 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,38 +87,29 @@ void	input_redirect(t_redirect **dst, t_redirect *new)
 	}
 }
 
-void	run_heredoc(char *limitter, t_redirect	*redirect)
+void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 {
 	int		file;
 	char	*buf;
-
-	printf("limitter == %s\n",limitter);
 
 	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
 	if (file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
 	while (1)
 	{
-		write(1, "> ", 2);
-		buf = get_next_line(0);
-		if (!buf)
-			break ;
-
-	printf("buf == %s\n",buf);
-
-
+		buf = readline("> ");
 		if (!ft_strcmp(limitter, buf))
+		{
 			break ;
+		}
 		write(file, buf, ft_strlen(buf));
 		free(buf);
 	}
 	free(buf);
 	close(file);
 	redirect->fd_file = open(".heredoc_tmp", O_RDONLY);
-
+	unlink(".heredoc_tmp");
 	if (redirect->fd_file < 0)
-	{
-		unlink(".heredoc_tmp");
 		util_put_cmd_err_and_exit("in run_heredoc");
-	}
+	*token = (*token)->next;
 }

@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/15 13:12:53 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 14:02:21 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 	t_redirect	*redirect;
 
 	redirect = create_and_init_redirect();
-	//数字指定ありリダイレクト
 	if ((*token)->type == IO_NUMBER)
 	{
 		if (ft_atoi_limit((*token)->comp, &redirect->fd_io) == false)
@@ -29,27 +28,16 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 	}
 	if (input_redirect_type_and_fd(*token, redirect) == false)
 		return (false);
-	if ((*token)->type == D_LESS)
+	*token = (*token)->next;
+	if (!*token || (*token)->type != TOKEN)
 	{
-		*token = (*token)->next;
-		if (!*token || (*token)->type != TOKEN)
-		{
-			delete_redirect_list(&redirect);
-			printf("(*token)->comp %s\n", (*token)->comp);
-			return (false);
-		}
-		run_heredoc((*token)->comp , redirect);
+		delete_redirect_list(&redirect);
+		return (false);
 	}
+	if ((*token)->prev->type == D_LESS)
+		run_heredoc((*token)->comp, redirect, token);
 	else
-	{
-		*token = (*token)->next;
-		if (!*token || (*token)->type != TOKEN)
-		{
-			delete_redirect_list(&redirect);
-			return (false);
-		}
 		add_token_into_original(&redirect->filename, *token);
-	}
 	input_redirect(&node->command->redirects, redirect);
 	return (true);
 }
@@ -87,7 +75,7 @@ bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 		delete_node_list(node);
 		return (false);
 	}
-	print_parser((*node)->command);
+	// print_parser((*node)->command);
 	return (true);
 }
 

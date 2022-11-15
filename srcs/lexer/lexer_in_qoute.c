@@ -38,8 +38,8 @@ void	in_parentheses_lexer(t_token_info *info, t_token_type type, char *str)
 
 void	in_d_quote_lexer(t_token_info *info, t_token_type type, char *str)
 {
-	if (type == CHAR_BACKSLASH && str[info->str_i + 1] != '\0' &&
-		ft_strchr("\"\\$", str[info->str_i + 1]) != NULL)
+	if (type == CHAR_BACKSLASH && str[info->str_i + 1] != '\0' \
+		&& ft_strchr("\"\\$", str[info->str_i + 1]) != NULL)
 	{
 		if (info->esc_flag)
 			info->token->comp[info->each_i++] = str[++info->str_i];
