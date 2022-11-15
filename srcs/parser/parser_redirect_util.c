@@ -152,6 +152,7 @@ void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 	heredoc_signal_process();
 	while (!g_shell.heredoc_interrupted)
 	{
+//		printf("here: [%d]\n", g_shell.heredoc_interrupted);
 		buf = readline("> ");
 		if (!buf || !ft_strcmp(limitter, buf))
 			break ;
