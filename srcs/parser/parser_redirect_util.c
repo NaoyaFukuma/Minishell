@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_util.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:37 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/15 14:01:53 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/16 00:16:34 by hommayunosu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,59 @@ bool	put_line_into_file(int file, char *buf, bool flag)
 	return (flag);
 }
 
+/*
+static void	heredoc_sigint_sighandler(int sig)
+{
+	g_shell.heredoc_interruption = 1;
+	set_status(128 + sig);
+}
+
+void	cmd_set_heredoc_sighandlers(void)
+{
+	g_shell.heredoc_interruption = 0;
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR
+		|| signal(SIGINT, heredoc_sigint_sighandler) == SIG_ERR)
+	{
+		printf("signal() failed\n");
+		exit(1);
+	}
+}
+*/
+
+void	heredoc_sigint_handler(int signal)
+{
+	extern t_shell	g_shell;
+
+	g_shell.heredoc_interrupted = 1;
+	//signalをexit_statusにいれる処理したいけどふくまさん作ってたかも？
+	g_shell.status = 128 + signal;
+}
+
+void	heredoc_signal_process()
+{
+	extern t_shell	g_shell;
+
+	g_shell.heredoc_interrupted = 0;
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR || \
+		signal(SIGINT, heredoc_sigint_handler) == SIG_ERR)
+	{
+		//signalのエラーの場合はどの関数使えばいいんだっけ
+	}
+}
+
 void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 {
-	int		file;
-	char	*buf;
-	bool	flag;
+	int				file;
+	char			*buf;
+	bool			flag;
+	extern t_shell	g_shell;
 
 	flag = false;
 	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
 	if (file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
-	while (1)
+	heredoc_signal_process();
+	while (!g_shell.heredoc_interrupted)
 	{
 		buf = readline("> ");
 		if (!buf || !ft_strcmp(limitter, buf))
