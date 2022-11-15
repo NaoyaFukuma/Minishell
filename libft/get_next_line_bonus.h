@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 11:51:00 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/19 21:59:15 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 13:28:08 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-#define BUFFER_SIZE 255
+#define BUFFER_SIZE 1
 
 typedef struct s_gnl_list
 {
