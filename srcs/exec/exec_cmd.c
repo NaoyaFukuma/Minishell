@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:28:38 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 00:10:14 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 13:06:59 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	exec_cmd_child(t_command *cmd, char **args, t_pipe_state pipe_state,
 	pipe_util_cleanup(pipe_state, old_pipe, new_pipe);
 }
 
-int	exec_cmd_parent(t_command *command, char **args)
+int	exec_cmd_parent(t_command *cmd, char **args)
 {
-	if (!redirect_util_setup(command))
+	if (cmd->redirects->fd_file == REDIRECT_UNDEFINED && !redirect_util_setup(cmd))
 		return (EXIT_FAILURE);
-	if (!redirect_util_dupfd(command, true))
+	if (!redirect_util_dupfd(cmd, true))
 		return (EXIT_FAILURE);
 	return (exec_builtin(args));
 }

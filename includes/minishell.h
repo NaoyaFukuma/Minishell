@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 11:43:09 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 13:02:14 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ t_redirect	*create_and_init_redirect(void);
 void	delete_redirect_list(t_redirect **redirect);
 bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect);
 void	input_redirect(t_redirect **dst, t_redirect *new);
+void	run_heredoc(char *limitter, t_redirect	*redirect);
 
 /// in util/util_node.c
 t_node	*create_and_init_node();
@@ -347,6 +348,7 @@ int	exec_cmd(t_command *cmd, t_pipe_state *pipe_state, int *old_pipe);
 bool	redirect_util_setup(t_command *cmd);
 void			redirects_util_cleanup(t_command *command);
 bool			redirect_util_dupfd(t_command *command, bool is_parent);
+
 
 // in exec/pipe_util.c
 void	pipe_util_create_new_pipe(t_pipe_state pipe_state, int new_pipe[]);

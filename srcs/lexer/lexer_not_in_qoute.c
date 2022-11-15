@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 00:04:02 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 11:25:00 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 13:16:15 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ static void	token_separate(t_token_info *info, t_token_type type, char *str)
 		info->token->comp[info->each_i++] = str[info->str_i];
 		if (str[info->str_i + 1] == str[info->str_i])
 		{
-			if (type == CHAR_GREATER || type == CHAR_PIPE
+			if (type == CHAR_GREATER || type == CHAR_LESS || type == CHAR_PIPE
 				|| type == CHAR_AMPERSAND)
 				info->token->comp[info->each_i++] = str[++info->str_i];
+
+
 			if (type == CHAR_GREATER)
 				type = D_GREATER;
 			else if (type == CHAR_LESS)
