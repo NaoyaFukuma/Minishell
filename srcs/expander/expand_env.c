@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:18:14 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/12 23:46:42 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 12:23:10 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ char	*expand_env(char *src_str)
 	if (!src_str)
 		return (NULL);
 	expander_init(&exper, src_str);
+
 	while (exper.str[exper.str_i])
 	{
+	printf("exper.str %s\n", &exper.str[exper.str_i]);
+
+
 		exper.type = get_token_type(exper.str[exper.str_i]);
 		exper.status = get_token_status(exper.status, exper.type);
 		if (exper.type == CHAR_BACKSLASH && exper.str[exper.str_i + 1] &&
@@ -74,10 +78,14 @@ static void	clean_up_free(char **vars, char *env_value, t_expander *exper)
 {
 	free(vars[ENV_VALUE]);
 	free(vars[ENV_NAME]);
+	exper->str_i = ft_strlen(vars[TMP]) - 1;
+
+	printf("vars[TMP] %s\n", vars[TMP]);
+	printf("exper->str_i %zu\n", exper->str_i);
 	free(vars[TMP]);
 	free(env_value);
 	free(exper->str);
-	exper->str_i = ft_strlen(vars[TMP]) - 1;
+
 	exper->str = vars[RES];
 }
 
@@ -88,6 +96,7 @@ static void	env_expand(t_expander *exper)
 	size_t	after_env_name_i;
 
 	vars[ENV_NAME] = set_env_name(&exper->str[exper->str_i + 1]);
+	printf("vars[ENV_NAME] == %s\n",vars[ENV_NAME]);
 	if (!vars[ENV_NAME])
 		util_put_cmd_err_and_exit(NULL);
 	if (ft_strlen(vars[ENV_NAME]) == 0)
@@ -97,6 +106,7 @@ static void	env_expand(t_expander *exper)
 	}
 	exper->str[exper->str_i] = '\0';
 	env_value = set_env_value(vars[ENV_NAME]);
+	printf("env_value %s\n", env_value);
 	after_env_name_i = exper->str_i + ft_strlen(vars[ENV_NAME]) + 1;
 	vars[ENV_VALUE] = create_esc_val(env_value, exper->status);
 	if (!vars[ENV_VALUE])
@@ -105,6 +115,7 @@ static void	env_expand(t_expander *exper)
 	if (!vars[TMP])
 		util_put_cmd_err_and_exit("env_expand");
 	vars[RES] = ft_strjoin(vars[TMP], &exper->str[after_env_name_i]);
+	printf("vars[RES] %s\n", vars[RES]);
 	if (!vars[RES])
 		util_put_cmd_err_and_exit("env_expand");
 	clean_up_free(vars, env_value, exper);
