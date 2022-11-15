@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/15 01:15:24 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 13:12:53 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,27 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 	}
 	if (input_redirect_type_and_fd(*token, redirect) == false)
 		return (false);
-	*token = (*token)->next;
-	if (!*token || (*token)->type != TOKEN)
+	if ((*token)->type == D_LESS)
 	{
-		delete_redirect_list(&redirect);
-		return (false);
+		*token = (*token)->next;
+		if (!*token || (*token)->type != TOKEN)
+		{
+			delete_redirect_list(&redirect);
+			printf("(*token)->comp %s\n", (*token)->comp);
+			return (false);
+		}
+		run_heredoc((*token)->comp , redirect);
 	}
-	add_token_into_original(&redirect->filename, *token);
+	else
+	{
+		*token = (*token)->next;
+		if (!*token || (*token)->type != TOKEN)
+		{
+			delete_redirect_list(&redirect);
+			return (false);
+		}
+		add_token_into_original(&redirect->filename, *token);
+	}
 	input_redirect(&node->command->redirects, redirect);
 	return (true);
 }
@@ -56,7 +70,7 @@ bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 		else if ((*token)->type == CHAR_CLOSE_PARENTHESES)
 			input_subshell_args((*node)->command, token);
 		else if ((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER
-				|| (*token)->type == D_GREATER || (*token)->type == IO_NUMBER)
+				|| (*token)->type == D_GREATER || (*token)->type == D_LESS || (*token)->type == IO_NUMBER)
 		{
 			//redirectの処理
 			if (parse_redirect_process(*node, token) == false)
@@ -88,7 +102,6 @@ bool	parse_logical_ope(t_command **last_cmd, t_node **node,
 		return (false);
 	while (*token)
 	{
-		printf("in parse_logical_ope\n");
 
 		if ((*token)->type == AND_OPERATER || (*token)->type == OR_OPERATER)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_util.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:37 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/14 22:47:38 by hommayunosu      ###   ########.fr       */
+/*   Updated: 2022/11/15 13:32:04 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ void	delete_redirect_list(t_redirect **redirect)
 
 bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect)
 {
-	if (token->type == CHAR_LESS)
+	if (token->type == CHAR_LESS || token->type == D_LESS)
 		redirect->type = REDIR_INPUT;
 	else if (token->type == CHAR_GREATER)
 		redirect->type = REDIR_OUTPUT;
 	else if (token->type == D_GREATER)
+		redirect->type = REDIR_APPEND_OUTPUT;
+	else if (token->type == D_LESS)
 		redirect->type = REDIR_APPEND_OUTPUT;
 	else
 	{
@@ -82,5 +84,41 @@ void	input_redirect(t_redirect **dst, t_redirect *new)
 		now->next = new;
 		new->next = NULL;
 		new->prev = now;
+	}
+}
+
+void	run_heredoc(char *limitter, t_redirect	*redirect)
+{
+	int		file;
+	char	*buf;
+
+	printf("limitter == %s\n",limitter);
+
+	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
+	if (file < 0)
+		util_put_cmd_err_and_exit("in run_heredoc");
+	while (1)
+	{
+		write(1, "> ", 2);
+		buf = get_next_line(0);
+		if (!buf)
+			break ;
+
+	printf("buf == %s\n",buf);
+
+
+		if (!ft_strcmp(limitter, buf))
+			break ;
+		write(file, buf, ft_strlen(buf));
+		free(buf);
+	}
+	free(buf);
+	close(file);
+	redirect->fd_file = open(".heredoc_tmp", O_RDONLY);
+
+	if (redirect->fd_file < 0)
+	{
+		unlink(".heredoc_tmp");
+		util_put_cmd_err_and_exit("in run_heredoc");
 	}
 }
