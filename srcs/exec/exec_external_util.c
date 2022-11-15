@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:36:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 14:43:35 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 02:08:12 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	cmd_status_handler(int status, bool catch_sigint)
 void	wait_external_cmds(t_command *cmd)
 {
 	extern t_shell	g_shell;
+	// volatile sig_atomic_t		status;
 	int				status;
 	bool			has_child;
 	bool			catch_sigint;
@@ -85,13 +86,37 @@ void	wait_external_cmds(t_command *cmd)
 	{
 		if (cmd->pid != NO_PID)
 		{
-			if (waitpid(cmd->pid, &status, 0) == -1)
+			if (waitpid(cmd->pid, (int *)&status, 0) == -1)
 				util_put_cmd_err_and_exit("in wait_cmd");
 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 				catch_sigint = true;
 			has_child = true;
 		}
 		cmd = cmd->next;
+	}
+	if (has_child == false)
+		return ;
+	cmd_status_handler(status, catch_sigint);
+}
+
+void	wait_external_cmd(t_command *cmd)
+{
+	extern t_shell	g_shell;
+	// volatile sig_atomic_t				status;
+	int				status;
+	bool			has_child;
+	bool			catch_sigint;
+
+	has_child = false;
+	catch_sigint = false;
+	if (cmd->pid != NO_PID)
+	{
+		if (waitpid(cmd->pid, &status, 0) == -1)
+			util_put_cmd_err_and_exit("in wait_cmd");
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			catch_sigint = true;
+		has_child = true;
+		cmd->pid = NO_PID;
 	}
 	if (has_child == false)
 		return ;

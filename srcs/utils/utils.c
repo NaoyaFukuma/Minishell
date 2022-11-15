@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 00:57:11 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/12 23:36:28 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 02:15:00 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,4 @@ bool	util_is_same_dir(char *dir1, char *dir2)
 	if (stat_dir1.st_ino == stat_dir2.st_ino)
 		return (true);
 	return (false);
-}
-
-void	util_set_status(int status)
-{
-	extern t_shell	g_shell;
-
-	g_shell.status = status;
 }

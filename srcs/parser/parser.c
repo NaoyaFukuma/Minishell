@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/14 22:47:43 by hommayunosu      ###   ########.fr       */
+/*   Updated: 2022/11/15 01:15:24 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 	//数字指定ありリダイレクト
 	if ((*token)->type == IO_NUMBER)
 	{
-		if (ft_atoi_limit((*token)->comp, &redirect->fd_io) == false) {
+		if (ft_atoi_limit((*token)->comp, &redirect->fd_io) == false)
+		{
 			redirect->fd_io = REDIRECT_IO_NUM_ERROR;
 			*token = (*token)->next;
 		}
@@ -51,11 +52,10 @@ bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 	while (*token)
 	{
 		if ((*token)->type == TOKEN)
-		{
-			//nodeのargsにコマンドを入れてく処理
 			input_cmd_args((*node)->command, token);
-		}
-		else if ((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER \
+		else if ((*token)->type == CHAR_CLOSE_PARENTHESES)
+			input_subshell_args((*node)->command, token);
+		else if ((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER
 				|| (*token)->type == D_GREATER || (*token)->type == IO_NUMBER)
 		{
 			//redirectの処理
@@ -78,6 +78,34 @@ bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 }
 
 //前回のコマンドを保持する構造体に何をいれるのかわからない状況
+bool	parse_logical_ope(t_command **last_cmd, t_node **node,
+		t_token_list **token)
+{
+	t_node			*child;
+	t_token_type	logi_type;
+
+	if (*token && parse_command(last_cmd, node, token) == false)
+		return (false);
+	while (*token)
+	{
+		printf("in parse_logical_ope\n");
+
+		if ((*token)->type == AND_OPERATER || (*token)->type == OR_OPERATER)
+		{
+			logi_type = (*token)->type;
+			(*token) = (*token)->next;
+			if (!*token)
+				return (false);
+			if (parse_command(last_cmd, &child, token) == false)
+				return (false);
+			*node = add_parent_logi_node(*node, child, logi_type);
+		}
+		else
+			break ;
+	}
+	return (true);
+}
+
 bool	parser(t_node **parent_node, t_token_list **token)
 {
 	t_node		*child;
@@ -85,12 +113,8 @@ bool	parser(t_node **parent_node, t_token_list **token)
 
 	*parent_node = NULL;
 	last_cmd = NULL;
-	if (*token)
-	{
-		//親ノード(左側)に入れてく
-		if (parse_command(&last_cmd, parent_node, token) == false)
-			return (false);
-	}
+	if (*token && parse_logical_ope(&last_cmd, parent_node, token) == false)
+		return (false);
 	while (*token)
 	{
 		if ((*token)->type == CHAR_PIPE)
@@ -98,10 +122,8 @@ bool	parser(t_node **parent_node, t_token_list **token)
 			(*token) = (*token)->next;
 			if (!*token)
 				return (false);
-			//右側に入れてく
-			if (parse_command(&last_cmd, &child, token) == false)
+			if (parse_logical_ope(&last_cmd, &child, token) == false)
 				return (false);
-			//親ノードに移動する
 			*parent_node = add_parent_node(*parent_node, child);
 		}
 		else
