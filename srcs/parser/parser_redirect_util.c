@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:37 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/15 13:32:04 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 14:01:53 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_redirect	*create_and_init_redirect(void)
 	ret = (t_redirect *) malloc(sizeof(t_redirect));
 	if (!ret)
 		util_put_cmd_err_and_exit("malloc");
-	ret->fd_io = NO_PID;
-	ret->fd_file = NO_PID;
-	ret->fd_backup = NO_PID;
+	ret->fd_io = REDIRECT_UNDEFINED;
+	ret->fd_file = REDIRECT_UNDEFINED;
+	ret->fd_backup = REDIRECT_UNDEFINED;
 	ret->filename = NULL;
 	ret->next = NULL;
 	ret->prev = NULL;
@@ -92,8 +92,6 @@ void	run_heredoc(char *limitter, t_redirect	*redirect)
 	int		file;
 	char	*buf;
 
-	printf("limitter == %s\n",limitter);
-
 	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
 	if (file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
@@ -103,11 +101,7 @@ void	run_heredoc(char *limitter, t_redirect	*redirect)
 		buf = get_next_line(0);
 		if (!buf)
 			break ;
-
-	printf("buf == %s\n",buf);
-
-
-		if (!ft_strcmp(limitter, buf))
+		if (!ft_strncmp(limitter, buf, ft_strlen(buf) - 1))
 			break ;
 		write(file, buf, ft_strlen(buf));
 		free(buf);
@@ -115,7 +109,6 @@ void	run_heredoc(char *limitter, t_redirect	*redirect)
 	free(buf);
 	close(file);
 	redirect->fd_file = open(".heredoc_tmp", O_RDONLY);
-
 	if (redirect->fd_file < 0)
 	{
 		unlink(".heredoc_tmp");

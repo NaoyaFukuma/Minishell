@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/15 13:12:53 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 14:02:21 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 		if (!*token || (*token)->type != TOKEN)
 		{
 			delete_redirect_list(&redirect);
-			printf("(*token)->comp %s\n", (*token)->comp);
 			return (false);
 		}
 		run_heredoc((*token)->comp , redirect);
+		*token = (*token)->next;
 	}
 	else
 	{
@@ -87,7 +87,7 @@ bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 		delete_node_list(node);
 		return (false);
 	}
-	print_parser((*node)->command);
+	// print_parser((*node)->command);
 	return (true);
 }
 
