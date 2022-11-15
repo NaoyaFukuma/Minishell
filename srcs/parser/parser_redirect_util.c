@@ -87,22 +87,33 @@ void	input_redirect(t_redirect **dst, t_redirect *new)
 	}
 }
 
+bool	put_line_into_file(int file, char *buf, bool flag)
+{
+	if (flag == true)
+	{
+		write(file, "\n", 1);
+	}
+	write(file, buf, ft_strlen(buf));
+	flag = true;
+	return (flag);
+}
+
 void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 {
 	int		file;
 	char	*buf;
+	bool	flag;
 
+	flag = false;
 	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
 	if (file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
 	while (1)
 	{
 		buf = readline("> ");
-		if (!ft_strcmp(limitter, buf))
-		{
+		if (!buf || !ft_strcmp(limitter, buf))
 			break ;
-		}
-		write(file, buf, ft_strlen(buf));
+		flag = put_line_into_file(file, buf, flag);
 		free(buf);
 	}
 	free(buf);
