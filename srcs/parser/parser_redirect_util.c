@@ -114,4 +114,5 @@ void	run_heredoc(char *limitter, t_redirect	*redirect)
 		unlink(".heredoc_tmp");
 		util_put_cmd_err_and_exit("in run_heredoc");
 	}
+	unlink(".heredoc_tmp");
 }
