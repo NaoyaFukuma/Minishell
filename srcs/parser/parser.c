@@ -18,7 +18,6 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 	t_redirect	*redirect;
 
 	redirect = create_and_init_redirect();
-	//数字指定ありリダイレクト
 	if ((*token)->type == IO_NUMBER)
 	{
 		if (ft_atoi_limit((*token)->comp, &redirect->fd_io) == false)
@@ -29,27 +28,16 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 	}
 	if (input_redirect_type_and_fd(*token, redirect) == false)
 		return (false);
-	if ((*token)->type == D_LESS)
+	*token = (*token)->next;
+	if (!*token || (*token)->type != TOKEN)
 	{
-		*token = (*token)->next;
-		if (!*token || (*token)->type != TOKEN)
-		{
-			delete_redirect_list(&redirect);
-			return (false);
-		}
-		run_heredoc((*token)->comp , redirect);
-		*token = (*token)->next;
+		delete_redirect_list(&redirect);
+		return (false);
 	}
+	if ((*token)->prev->type == D_LESS)
+		run_heredoc((*token)->comp, redirect, token);
 	else
-	{
-		*token = (*token)->next;
-		if (!*token || (*token)->type != TOKEN)
-		{
-			delete_redirect_list(&redirect);
-			return (false);
-		}
 		add_token_into_original(&redirect->filename, *token);
-	}
 	input_redirect(&node->command->redirects, redirect);
 	return (true);
 }

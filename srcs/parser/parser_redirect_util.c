@@ -87,7 +87,7 @@ void	input_redirect(t_redirect **dst, t_redirect *new)
 	}
 }
 
-void	run_heredoc(char *limitter, t_redirect	*redirect)
+void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 {
 	int		file;
 	char	*buf;
@@ -97,22 +97,19 @@ void	run_heredoc(char *limitter, t_redirect	*redirect)
 		util_put_cmd_err_and_exit("in run_heredoc");
 	while (1)
 	{
-		write(1, "> ", 2);
-		buf = get_next_line(0);
-		if (!buf)
+		buf = readline("> ");
+		if (!ft_strcmp(limitter, buf))
+		{
 			break ;
-		if (!ft_strncmp(limitter, buf, ft_strlen(buf) - 1))
-			break ;
+		}
 		write(file, buf, ft_strlen(buf));
 		free(buf);
 	}
 	free(buf);
 	close(file);
 	redirect->fd_file = open(".heredoc_tmp", O_RDONLY);
-	if (redirect->fd_file < 0)
-	{
-		unlink(".heredoc_tmp");
-		util_put_cmd_err_and_exit("in run_heredoc");
-	}
 	unlink(".heredoc_tmp");
+	if (redirect->fd_file < 0)
+		util_put_cmd_err_and_exit("in run_heredoc");
+	*token = (*token)->next;
 }
