@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/14 21:59:49 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 02:15:12 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_env
 typedef struct s_shell
 {
 	t_env					*envs;
-	int						status;
+	volatile sig_atomic_t	status;
 	char					*pwd;
 	bool					interactive;
 	bool					interrupted;
@@ -162,7 +162,6 @@ typedef struct			s_command
 	pid_t				pid;
 	struct s_command	*next;
 	t_logical_ope_state	logi_state;
-	bool				subshell_flag;
 }						t_command;
 
 typedef enum			e_pipe_state
@@ -247,12 +246,15 @@ void	del_token(t_token_list **token_p);
 // in parser.c
 bool	parser(t_node **parent_node, t_token_list **token);
 
+
 // in parser_print.c
 void	print_parser(t_command *cmd);
 
 // in parser_util.c
 void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token);
 void	input_cmd_args(t_command *command, t_token_list **token);
+
+void	input_subshell_args(t_command *command, t_token_list **token);
 
 // in parser_redirect_util.c
 t_redirect	*create_and_init_redirect(void);
@@ -264,6 +266,7 @@ void	input_redirect(t_redirect **dst, t_redirect *new);
 t_node	*create_and_init_node();
 t_node	*add_parent_node(t_node *left, t_node *right);
 void	delete_node_list(t_node **node);
+t_node	*add_parent_logi_node(t_node *left, t_node *right ,t_token_type	logi_type);
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
@@ -287,7 +290,6 @@ bool						util_is_builtin(const char *arg);
 bool						util_is_digit_str(const char *str);
 bool						util_is_directory(const char *path);
 bool						util_is_same_dir(char *dir1, char *dir2);
-void	util_set_status(int status);
 
 // in utils/util_error.c
 void						util_put_cmd_err_and_exit(char *cmd);
@@ -355,7 +357,7 @@ void	pipe_util_cleanup(t_pipe_state state, int old_pipe[], int new_pipe[]);
 bool		token_to_args(t_command *cmd, char ***args);
 
 // in exec/exec_logi_ope.c
-void	exec_logi_ope(t_command *cmd);
+// void	exec_logi_ope(t_command *cmd);
 
 
 // in exec/exec_cmd.c
@@ -372,6 +374,7 @@ void							exec_external(char **cmd_args);
 char	*get_binary_path(char *src_path);
 bool	is_executable(const char *path);
 void	wait_external_cmds(t_command *cmd);
+void	wait_external_cmd(t_command *cmd);
 
 // in builtin/builtin_cd1.c
 int							builtin_cd(char **args);

@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 00:04:02 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/14 22:06:27 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 11:25:00 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str)
 				info->status = D_QUOTED;
 			else if (type == CHAR_OPEN_PARENTHESES)
 				info->status = PARENTHESESED;
+
+			// else if (type == CHAR_OPEN_PARENTHESES)
+			// {
+			// 	if (info->esc_flag)
+			// 		info->token->comp[info->each_i++] = '\"';
+			// 	info->status = PARENTHESESED;
+			// }
+
 		}
 	}
 	else

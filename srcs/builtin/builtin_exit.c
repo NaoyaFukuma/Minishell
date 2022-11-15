@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 01:05:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/13 02:34:35 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 02:24:07 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,12 @@ static bool	has_error(char **args, int i)
 
 static void	put_num_args_error(char *arg)
 {
-	ft_putstr_fd("tsh: exit: ", STDERR_FILENO);
+	extern t_shell	g_shell;
+
+	if (g_shell.interactive)
+		ft_putstr_fd("tsh: exit: ", STDERR_FILENO);
+	else
+		ft_putstr_fd("tsh: line 0: exit: ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 }

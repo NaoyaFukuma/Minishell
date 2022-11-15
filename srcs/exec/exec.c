@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/13 00:16:28 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/15 01:20:00 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	exec_nodes(t_node *nodes)
 
 	if (!nodes || g_shell.exited == true)
 		return ;
-	if (nodes->type == NODE_OPERATER)
-		exec_logi_ope(nodes->left->command);
 	else if (nodes->type == NODE_SEMICOLON)
 	{
 		exec_nodes(nodes->left);
@@ -33,21 +31,49 @@ void	exec_nodes(t_node *nodes)
 		exec_list(nodes);
 }
 
+// static void	exec_list(t_node *nodes)
+// {
+// 	extern t_shell	g_shell;
+// 	t_pipe_state	pipe_state;
+//
+// 	pipe_state = NO_PIPE;
+// 	if (!nodes)
+// 		return ;
+// 	if (nodes->type == NODE_PIPE)
+// 		exec_pipeline(nodes);
+// 	else
+// 	{
+// 		while (nodes->type == NODE_OPERATER)
+// 			nodes = nodes->left;
+// 		g_shell.status = exec_cmd(nodes->command, &pipe_state, NULL);
+// 		wait_external_cmds(nodes->command);
+// 	}
+// }
+
 static void	exec_list(t_node *nodes)
 {
 	extern t_shell	g_shell;
+	t_command		*cmd;
 	t_pipe_state	pipe_state;
 
 	pipe_state = NO_PIPE;
-	if (!nodes)
-		return ;
 	if (nodes->type == NODE_PIPE)
 		exec_pipeline(nodes);
-	else
+	while (nodes->type == NODE_OPERATER)
+		nodes = nodes->left;
+	cmd = nodes->command;
+	while (cmd)
 	{
-		g_shell.status = exec_cmd(nodes->command, &pipe_state, NULL);
-		wait_external_cmds(nodes->command);
+		g_shell.status = exec_cmd(cmd, &pipe_state, NULL);
+		if (cmd->logi_state == OR || cmd->logi_state == AND)
+		{
+			wait_external_cmd(cmd);
+			if ((cmd->logi_state == OR && (g_shell.status == EXIT_SUCCESS)) || (cmd->logi_state == AND && g_shell.status == EXIT_FAILURE))
+				cmd = cmd->next;
+		}
+		cmd = cmd->next;
 	}
+	wait_external_cmds(nodes->command);
 }
 
 static void	exec_pipeline(t_node *nodes)
@@ -60,10 +86,18 @@ static void	exec_pipeline(t_node *nodes)
 	pipe_state = PIPE_WRITE_ONLY;
 	while (nodes->type == NODE_PIPE)
 		nodes = nodes->left;
+	while (nodes->type == NODE_OPERATER)
+		nodes = nodes->left;
 	cmd = nodes->command;
 	while (cmd)
 	{
 		g_shell.status = exec_cmd(cmd, &pipe_state, pipe);
+		if (cmd->logi_state == OR || cmd->logi_state == AND)
+		{
+			wait_external_cmd(cmd);
+			if ((cmd->logi_state == OR && (g_shell.status == EXIT_SUCCESS)) || (cmd->logi_state == AND && g_shell.status == EXIT_FAILURE))
+				cmd = cmd->next;
+		}
 		cmd = cmd->next;
 	}
 	wait_external_cmds(nodes->command);
