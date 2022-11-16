@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 23:42:47 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/16 22:12:26 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/16 23:13:51 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,4 @@ static void	sig_int_handle(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
 	g_shell.status = 1;
-	g_shell.interrupted = true;
 }

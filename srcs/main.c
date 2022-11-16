@@ -8,8 +8,6 @@ t_shell	g_shell;
 int	main(int argc, char **argv)
 {
 	extern t_shell	g_shell;
-	// char	*line;
-	// char	*prompt;
 
 	init_minishell();
 	if (argc > 2 && !ft_strcmp(argv[1], "-c"))
@@ -31,7 +29,6 @@ static void	interactive_loop(void)
 	g_shell.interactive = true;
 	while (1)
 	{
-		g_shell.interrupted = false;
 		g_shell.exited = false;
 		set_sig_for_interactive_shell();
 		prompt = util_create_prompt_str();
@@ -54,7 +51,7 @@ void	run_cmdline(char *line)
 	extern t_shell	g_shell;
 	t_node 			*nodes;
 	t_token_list	*tokens;
-	 t_token_list	*start_token_for_free;
+	t_token_list	*start_token_for_free;
 
 	tokens = lexer(line, false);
 	start_token_for_free = tokens;
