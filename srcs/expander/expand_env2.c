@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 22:20:40 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 11:42:21 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/16 00:13:00 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ char	*set_env_name(char *str)
 	char	*res;
 
 	if (*str == '?')
-		return (ft_strdup("?"));
+	{
+		res = ft_strdup("?");
+		if (!res)
+			util_put_cmd_err_and_exit("in set_env_name");
+		return (res);
+	}
 	var_len = 0;
 	if (ft_isdigit(*str))
 	{
