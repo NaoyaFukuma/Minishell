@@ -74,6 +74,7 @@ typedef struct s_shell
 	bool					interrupted;
 	bool					exited;
 	int						prompt_len;
+	volatile sig_atomic_t	heredoc_interrupted;
 }							t_shell;
 
 typedef enum	e_token_type
