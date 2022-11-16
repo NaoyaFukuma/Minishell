@@ -103,7 +103,6 @@ void	heredoc_sigint_handler(int signal)
 	extern t_shell	g_shell;
 
 	g_shell.heredoc_interrupted = 1;
-	//signalをexit_statusにいれる処理したいけどふくまさん作ってたかも？
 	g_shell.status = 128 + signal;
 }
 
@@ -115,36 +114,60 @@ void	heredoc_signal_process()
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR || \
 		signal(SIGINT, heredoc_sigint_handler) == SIG_ERR)
 	{
-		//signalのエラーの場合はどの関数使えばいいんだっけ
+		util_put_cmd_err_and_exit("in heredoc_signal_process()");
 	}
 }
 
-void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
+int	heredoc_check_sigint()
 {
-	int				file;
+	extern t_shell	g_shell;
+
+	if (g_shell.heredoc_interrupted)
+	{
+		rl_done = 1;
+	}
+	return (0);
+}
+
+void	heredoc_readline_process(int file, char *limitter)
+{
 	char			*buf;
 	bool			flag;
 	extern t_shell	g_shell;
 
 	flag = false;
+	while (g_shell.heredoc_interrupted == 0)
+	{
+		buf = readline("> ");
+		if (!buf || !ft_strcmp(limitter, buf))
+			break ;
+		buf = expand_env(buf);
+		flag = put_line_into_file(file, buf, flag);
+		free(buf);
+		buf = NULL;
+	}
+	if (buf)
+		free(buf);
+}
+
+void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
+{
+	int				file;
+	extern t_shell	g_shell;
+
 	file = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
 	if (file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
 	heredoc_signal_process();
-	while (!g_shell.heredoc_interrupted)
-	{
-//		printf("here: [%d]\n", g_shell.heredoc_interrupted);
-		buf = readline("> ");
-		if (!buf || !ft_strcmp(limitter, buf))
-			break ;
-		flag = put_line_into_file(file, buf, flag);
-		free(buf);
-	}
-	free(buf);
+	rl_event_hook = heredoc_check_sigint;
+	heredoc_readline_process(file, limitter);
 	close(file);
 	redirect->fd_file = open(".heredoc_tmp", O_RDONLY);
 	unlink(".heredoc_tmp");
 	if (redirect->fd_file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
+	if (g_shell.heredoc_interrupted == 1)
+		delete_redirect_list(&redirect);
+	rl_event_hook = NULL;
 	*token = (*token)->next;
 }
