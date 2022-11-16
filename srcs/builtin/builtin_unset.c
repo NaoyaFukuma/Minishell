@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:40:29 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/28 13:24:09 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 01:32:43 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	builtin_unset(char **args)
 	int				status;
 
 	status = EXIT_SUCCESS;
-	while (++args)
+	while (*(++args))
 	{
 		if (util_validate_env_name(*args))
 			env_delete(*args);
