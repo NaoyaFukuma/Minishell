@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 23:42:47 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 11:12:11 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/16 22:12:26 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,12 @@ void	set_sig_for_cmd_running(void)
 static void	sig_int_handle(int sig)
 {
 	extern t_shell	g_shell;
-	int	i;
 
 	(void)sig;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
-	ft_putstr_fd("\e[1G", 1);
-	ft_putstr_fd("\e[31m[1]\e[m", 1);
-	ft_putstr_fd("\e[1G", 1);
-	i = -1;
-	while (++i < g_shell.prompt_len)
-		ft_putstr_fd("\e[1C", 1);
 	g_shell.status = 1;
 	g_shell.interrupted = true;
 }
