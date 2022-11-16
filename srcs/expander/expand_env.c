@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:18:14 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/16 00:13:50 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/16 22:14:12 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static void	env_expand(t_expander *exper)
 	}
 	exper->str[exper->str_i] = '\0';
 	env_value = set_env_value(vars[ENV_NAME]);
-	printf("env_value %s\n", env_value);
 	after_env_name_i = exper->str_i + ft_strlen(vars[ENV_NAME]) + 1;
 	vars[ENV_VALUE] = create_esc_val(env_value, exper->status);
 	if (!vars[ENV_VALUE])
