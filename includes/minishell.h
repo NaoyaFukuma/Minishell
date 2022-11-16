@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/16 23:13:46 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 00:04:55 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,7 @@ void						util_put_cmd_err_and_exit(char *cmd);
 void						util_put_cmd_err(char *command, char *message);
 void						util_put_env_name_error(char *command, char *name);
 void	util_put_bad_fd_error(int fd);
+void	util_put_syntax_error(t_token_list *tokens);
 
 
 // in utils/util_env_list.c
