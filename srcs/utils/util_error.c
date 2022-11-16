@@ -12,18 +12,16 @@
 
 #include "minishell.h"
 
-void	util_put_syntax_error(t_token_list *tokens)
+void	util_put_syntax_error(void)
 {
 	extern t_shell	g_shell;
 
 	if (g_shell.heredoc_interrupted)
+	{
+		g_shell.heredoc_interrupted = 0;
 		return ;
-	ft_putstr_fd("\e[31mminishell: syntax error near unexpected token `", STDERR_FILENO);
-	if (tokens)
-		ft_putstr_fd(tokens->comp, STDERR_FILENO);
-	else
-		ft_putstr_fd("newline", STDERR_FILENO);
-	ft_putendl_fd("'\e[m", STDERR_FILENO);
+	}
+	ft_putstr_fd("\e[31mtsh: syntax error\n\e[m", STDERR_FILENO);
 	g_shell.status = SYNTAX_ERROR;
 }
 

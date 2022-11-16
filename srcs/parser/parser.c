@@ -35,7 +35,13 @@ bool	parse_redirect_process(t_node *node, t_token_list **token)
 		return (false);
 	}
 	if ((*token)->prev->type == D_LESS)
-		run_heredoc((*token)->comp, redirect, token);
+	{
+		if (run_heredoc((*token)->comp, redirect, token) == false)
+		{
+			delete_redirect_list(&redirect);
+			return (false);
+		}
+	}
 	else
 		add_token_into_original(&redirect->filename, *token);
 	input_redirect(&node->command->redirects, redirect);

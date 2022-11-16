@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../libft/libft.h"
 
 bool	put_line_into_file(int file, char *buf, bool flag)
 {
@@ -27,8 +28,9 @@ void	heredoc_sigint_handler(int signal)
 {
 	extern t_shell	g_shell;
 
+	(void)signal;
 	g_shell.heredoc_interrupted = 1;
-	g_shell.status = 128 + signal;
+	g_shell.status = 1;
 }
 
 void	heredoc_signal_process(void)
@@ -64,7 +66,13 @@ void	heredoc_readline_process(int file, char *limitter)
 	while (g_shell.heredoc_interrupted == 0)
 	{
 		buf = readline("> ");
-		if (!buf || !ft_strcmp(limitter, buf))
+		if (!buf)
+		{
+			ft_putstr_fd(UP_LINE_CURSOR, 1);
+			ft_putstr_fd("\e[2C", 1);
+			break ;
+		}
+		if (!ft_strcmp(limitter, buf))
 			break ;
 		buf = expand_env(buf);
 		flag = put_line_into_file(file, buf, flag);
@@ -73,4 +81,6 @@ void	heredoc_readline_process(int file, char *limitter)
 	}
 	if (buf)
 		free(buf);
+	if (g_shell.heredoc_interrupted == 0)
+		write(file, "\n", 1);
 }
