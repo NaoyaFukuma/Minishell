@@ -261,7 +261,7 @@ t_redirect	*create_and_init_redirect(void);
 void	delete_redirect_list(t_redirect **redirect);
 bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect);
 void	input_redirect(t_redirect **dst, t_redirect *new);
-void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token);
+bool	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token);
 
 // in parser_heredoc_util.c
 bool	put_line_into_file(int file, char *buf, bool flag);
@@ -304,7 +304,7 @@ void						util_put_cmd_err_and_exit(char *cmd);
 void						util_put_cmd_err(char *command, char *message);
 void						util_put_env_name_error(char *command, char *name);
 void	util_put_bad_fd_error(int fd);
-void	util_put_syntax_error(t_token_list *tokens);
+void	util_put_syntax_error(void);
 
 
 // in utils/util_env_list.c

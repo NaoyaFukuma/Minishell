@@ -87,7 +87,7 @@ void	input_redirect(t_redirect **dst, t_redirect *new)
 	}
 }
 
-void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
+bool	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 {
 	int				file;
 	extern t_shell	g_shell;
@@ -103,8 +103,14 @@ void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 	unlink(".heredoc_tmp");
 	if (redirect->fd_file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
-	if (g_shell.heredoc_interrupted == 1)
-		delete_redirect_list(&redirect);
 	rl_event_hook = NULL;
 	*token = (*token)->next;
+	set_sig_for_interactive_shell();
+	if (g_shell.heredoc_interrupted == 1)
+	{
+		close(file);
+		delete_redirect_list(&redirect);
+		return (false);
+	}
+	return (true);
 }

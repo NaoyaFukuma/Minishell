@@ -56,7 +56,7 @@ void	run_cmdline(char *line)
 	tokens = lexer(line, false);
 	start_token_for_free = tokens;
 	if (parser(&nodes, &tokens) == false)
-		util_put_syntax_error(tokens);
+		util_put_syntax_error();
 	else
 		exec_nodes(nodes);
 	delete_token_list(&start_token_for_free);
