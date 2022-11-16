@@ -6,11 +6,26 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:11:05 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 09:50:53 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 00:11:21 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	util_put_syntax_error(t_token_list *tokens)
+{
+	extern t_shell	g_shell;
+
+	if (g_shell.heredoc_interrupted)
+		return ;
+	ft_putstr_fd("\e[31mminishell: syntax error near unexpected token `", STDERR_FILENO);
+	if (tokens)
+		ft_putstr_fd(tokens->comp, STDERR_FILENO);
+	else
+		ft_putstr_fd("newline", STDERR_FILENO);
+	ft_putendl_fd("'\e[m", STDERR_FILENO);
+	g_shell.status = SYNTAX_ERROR;
+}
 
 void	util_put_cmd_err(char *command, char *message)
 {

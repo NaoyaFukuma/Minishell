@@ -56,13 +56,9 @@ void	run_cmdline(char *line)
 	tokens = lexer(line, false);
 	start_token_for_free = tokens;
 	if (parser(&nodes, &tokens) == false)
-		printf("syntax error\n");
-//	 if (!nodes)
-	// 	put_syntax_error(tokens);
-
-	exec_nodes(nodes);
-
-
+		util_put_syntax_error(tokens);
+	else
+		exec_nodes(nodes);
 	delete_token_list(&start_token_for_free);
 	delete_node_list(&nodes);
 	return ;
