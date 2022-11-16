@@ -57,10 +57,10 @@ bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 			input_cmd_args((*node)->command, token);
 		else if ((*token)->type == CHAR_CLOSE_PARENTHESES)
 			input_subshell_args((*node)->command, token);
-		else if ((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER
-				|| (*token)->type == D_GREATER || (*token)->type == D_LESS || (*token)->type == IO_NUMBER)
+		else if ((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER \
+				|| (*token)->type == D_GREATER || (*token)->type == D_LESS \
+				|| (*token)->type == IO_NUMBER)
 		{
-			//redirectの処理
 			if (parse_redirect_process(*node, token) == false)
 			{
 				delete_node_list(node);
@@ -75,11 +75,11 @@ bool	parse_command(t_command **last_cmd, t_node **node, t_token_list **token)
 		delete_node_list(node);
 		return (false);
 	}
-	// print_parser((*node)->command);
 	return (true);
 }
 
-//前回のコマンドを保持する構造体に何をいれるのかわからない状況
+// print_parser((*node)->command);
+
 bool	parse_logical_ope(t_command **last_cmd, t_node **node,
 		t_token_list **token)
 {
