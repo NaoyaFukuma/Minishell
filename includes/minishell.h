@@ -265,6 +265,13 @@ bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect);
 void	input_redirect(t_redirect **dst, t_redirect *new);
 void	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token);
 
+// in parser_heredoc_util.c
+bool	put_line_into_file(int file, char *buf, bool flag);
+void	heredoc_sigint_handler(int signal);
+void	heredoc_signal_process();
+int	heredoc_check_sigint();
+void	heredoc_readline_process(int file, char *limitter);
+
 /// in util/util_node.c
 t_node	*create_and_init_node();
 t_node	*add_parent_node(t_node *left, t_node *right);

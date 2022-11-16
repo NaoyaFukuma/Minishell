@@ -14,8 +14,9 @@
 
 static void	print_this(t_token_list *token)
 {
-	t_token_list	*tmp_token = token;
+	t_token_list	*tmp_token;
 
+	tmp_token = token;
 	while (tmp_token)
 	{
 		printf("comp: [%s]\n", tmp_token->comp);
