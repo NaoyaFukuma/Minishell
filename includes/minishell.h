@@ -253,7 +253,6 @@ void	print_parser(t_command *cmd);
 // in parser_util.c
 void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token);
 void	input_cmd_args(t_command *command, t_token_list **token);
-
 void	input_subshell_args(t_command *command, t_token_list **token);
 
 // in parser_redirect_util.c

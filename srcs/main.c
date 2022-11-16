@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/17 01:26:21 by hommayunosu       #+#    #+#             */
+/*   Updated: 2022/11/17 01:26:22 by hommayunosu      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	interactive_loop(void);
@@ -23,8 +35,8 @@ int	main(int argc, char **argv)
 static void	interactive_loop(void)
 {
 	extern t_shell	g_shell;
-	char	*line;
-	char	*prompt;
+	char			*line;
+	char			*prompt;
 
 	g_shell.interactive = true;
 	while (1)
@@ -49,7 +61,7 @@ static void	interactive_loop(void)
 void	run_cmdline(char *line)
 {
 	extern t_shell	g_shell;
-	t_node 			*nodes;
+	t_node			*nodes;
 	t_token_list	*tokens;
 	t_token_list	*start_token_for_free;
 
@@ -73,8 +85,10 @@ static void	ctrl_d_exit_put_msg(void)
 	prompt_len_str = ft_itoa((int)g_shell.prompt_len);
 	if (!prompt_len_str)
 		util_put_cmd_err_and_exit("malloc");
-	screen_ctrl_str = util_join_and_free_err_exit("\e[", false, prompt_len_str, true);
-	screen_ctrl_str = util_join_and_free_err_exit(screen_ctrl_str, true, "C", false);
+	screen_ctrl_str = \
+		util_join_and_free_err_exit("\e[", false, prompt_len_str, true);
+	screen_ctrl_str = \
+		util_join_and_free_err_exit(screen_ctrl_str, true, "C", false);
 	ft_putstr_fd(screen_ctrl_str, STDERR_FILENO);
 	free(screen_ctrl_str);
 	ft_putstr_fd("exit\n", STDERR_FILENO);
