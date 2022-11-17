@@ -53,7 +53,6 @@ static void		init_token_info(t_token_info *token_info, char *str,
 // 	printf("\ttype->[%s]\n", str);
 // }
 
-
 t_token_list	*lexer(char *str, bool esc_flag)
 {
 	t_token_info	token_info;
