@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:11:05 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 00:11:21 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 09:41:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	util_put_syntax_error(void)
 
 void	util_put_cmd_err(char *command, char *message)
 {
-	ft_putstr_fd(RED_COLOR, STDERR_FILENO);
+	ft_putstr_fd(RED, STDERR_FILENO);
 	ft_putstr_fd("tsh: ", STDERR_FILENO);
 	if (command)
 	{
@@ -35,7 +35,7 @@ void	util_put_cmd_err(char *command, char *message)
 		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	ft_putendl_fd(message, STDERR_FILENO);
-	ft_putstr_fd(DEFAULT_COLOR, STDERR_FILENO);
+	ft_putstr_fd(DEFAULT, STDERR_FILENO);
 }
 
 void	util_put_cmd_err_and_exit(char *cmd)

@@ -73,8 +73,8 @@ static void	ctrl_d_exit_put_msg(void)
 	prompt_len_str = ft_itoa((int)g_shell.prompt_len);
 	if (!prompt_len_str)
 		util_put_cmd_err_and_exit("malloc");
-	screen_ctrl_str = util_join_and_free_err_exit("\e[", false, prompt_len_str, true);
-	screen_ctrl_str = util_join_and_free_err_exit(screen_ctrl_str, true, "C", false);
+	screen_ctrl_str = join_free("\e[", false, prompt_len_str, true);
+	screen_ctrl_str = join_free(screen_ctrl_str, true, "C", false);
 	ft_putstr_fd(screen_ctrl_str, STDERR_FILENO);
 	free(screen_ctrl_str);
 	ft_putstr_fd("exit\n", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 01:21:00 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/16 11:30:03 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 09:25:11 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	get_cwd_files_name(char ***files)
 			if (!tmp)
 				util_put_cmd_err_and_exit("in expand_wildcard_asterisk");
 			*files = (char **)util_ptrarr_add_back((void **)*files,
-													(void *)tmp);
+				(void *)tmp);
 		}
 		dir_p = readdir(dir);
 	}
@@ -131,7 +131,7 @@ void	expand_wildcard_asterisk(t_token_info *info)
 		{
 			new_token_add_back(info, ft_strlen(cwd_files[i]));
 			ft_strlcpy(info->token->comp, cwd_files[i], ft_strlen(cwd_files[i])
-					+ 1);
+				+ 1);
 			info->each_i = ft_strlen(cwd_files[i]);
 		}
 	}

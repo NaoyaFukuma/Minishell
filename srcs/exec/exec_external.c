@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:37:28 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/13 00:16:33 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:53:19 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	**create_environ(t_env *envs)
 				util_put_cmd_err_and_exit("in create_environ");
 			free(tmp_for_free);
 			res_env = (char **)util_ptrarr_add_back((void **)res_env,
-													(char *)env_str);
+					(char *)env_str);
 		}
 		envs = envs->next;
 	}

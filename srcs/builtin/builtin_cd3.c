@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:54:11 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/13 01:44:59 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 09:41:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_cwd_path(char *cmd)
 	cwd = getcwd(0, 0);
 	if (!cwd)
 	{
-		ft_putstr_fd(RED_COLOR, STDERR_FILENO);
+		ft_putstr_fd(RED, STDERR_FILENO);
 		ft_putstr_fd(cmd, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd("error retrieving current directory", STDERR_FILENO);
@@ -36,7 +36,7 @@ char	*get_cwd_path(char *cmd)
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
-		ft_putstr_fd(DEFAULT_COLOR, STDERR_FILENO);
+		ft_putstr_fd(DEFAULT, STDERR_FILENO);
 	}
 	return (cwd);
 }

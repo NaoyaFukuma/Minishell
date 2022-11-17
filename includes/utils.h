@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 14:31:10 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/30 15:02:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 09:41:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_env
 # define ENV_TRUNC 0
 # define ENV_APPEND 1
 
-# define RED_COLOR "\e[31m"
-# define DEFAULT_COLOR "\e[m"
+# define RED "\e[31m"
+# define DEFAULT "\e[m"
 
 // in utils.c
 bool				util_is_builtin(const char *arg);

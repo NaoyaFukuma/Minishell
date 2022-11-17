@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   util_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:47 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/14 22:47:48 by hommayunosu      ###   ########.fr       */
+/*   Updated: 2022/11/17 10:19:22 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	delete_token(t_token_list **token_list)
 {
