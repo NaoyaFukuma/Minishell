@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 10:16:32 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:33:51 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <dirent.h> // opendir(), readdir(), closedir()
+# include <errno.h>  // for errno
+# include <fcntl.h>
 # include <stdio.h>             // for printf() perror() strerror()
-# include <errno.h>             // for errno
 # include <readline/history.h>  // for add_history()
 # include <readline/readline.h> // for readline()
 # include <stdbool.h>           // for type bool
 # include <stdlib.h>            // for free()
 # include <string.h>
 # include <sys/stat.h> // for stat()
-# include <unistd.h>   // for write(), access(), execve()
 # include <sys/types.h>
-# include <fcntl.h>
-#include <dirent.h> // opendir(), readdir(), closedir()
+# include <unistd.h> // for write(), access(), execve()
 
 # define BACK_CURSOR "\e[1D"
 # define CLEAR_FROM_CURSOR "\e[K"
@@ -40,10 +40,10 @@
 # define WHITE "\e[37m"
 # define DEFAULT "\e[m"
 
-# define SYNTAX_ERROR		258
-# define TOKEN_ERROR		2
-# define CMD_NOT_FOUND		127
-# define CMD_NOT_EXECUTABLE	126
+# define SYNTAX_ERROR 258
+# define TOKEN_ERROR 2
+# define CMD_NOT_FOUND 127
+# define CMD_NOT_EXECUTABLE 126
 
 # define NO_PID -1
 # define PIPE_WRITE 1
@@ -51,7 +51,6 @@
 
 # define REDIRECT_IO_NUM_ERROR -1
 # define REDIRECT_UNDEFINED -1
-
 
 typedef struct stat			t_stat;
 
@@ -75,7 +74,7 @@ typedef struct s_shell
 	volatile sig_atomic_t	heredoc_interrupted;
 }							t_shell;
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	CHAR_BACKSLASH = '\\',
 	CHAR_SEMICOLON = ';',
@@ -97,27 +96,27 @@ typedef enum	e_token_type
 	D_LESS = -4,
 	AND_OPERATER = -5,
 	OR_OPERATER = -6,
-}				t_token_type;
+}							t_token_type;
 
-typedef enum	e_token_status
+typedef enum e_token_status
 {
 	QUOTED,
 	D_QUOTED,
 	PARENTHESESED,
 	NOT_QUOTED,
-}				t_token_status;
+}							t_token_status;
 
-typedef struct	s_token_list	t_token_list;
+typedef struct s_token_list	t_token_list;
 
 struct						s_token_list
 {
 	t_token_list			*prev;
 	t_token_list			*next;
 	t_token_type			type;
-	char					*comp; //component
+	char					*comp;
 };
 
-typedef struct	s_token_info
+typedef struct s_token_info
 {
 	size_t					str_i;
 	size_t					each_i;
@@ -128,170 +127,176 @@ typedef struct	s_token_info
 	t_token_status			status;
 	bool					esc_flag;
 	char					*quote_start;
-}				t_token_info;
+}							t_token_info;
 
-typedef enum			e_redirect_type
+typedef enum e_redirect_type
 {
 	REDIR_INPUT,
 	REDIR_OUTPUT,
 	REDIR_APPEND_OUTPUT
-}						t_redirect_type;
+}							t_redirect_type;
 
-typedef struct			s_redirect
+typedef struct s_redirect
 {
-	int					fd_io;
-	int					fd_file;
-	int					fd_backup;
-	t_redirect_type		type;
-	t_token_list		*filename;
-	struct s_redirect	*next;
-	struct s_redirect	*prev;
-}						t_redirect;
+	int						fd_io;
+	int						fd_file;
+	int						fd_backup;
+	t_redirect_type			type;
+	t_token_list			*filename;
+	struct s_redirect		*next;
+	struct s_redirect		*prev;
+}							t_redirect;
 
-typedef enum			e_logical_ope_state
+typedef enum e_logical_ope_state
 {
 	NO_OPE,
 	AND,
 	OR,
-}						t_logical_ope_state;
+}							t_logical_ope_state;
 
-typedef struct			s_command
+typedef struct s_command
 {
-	t_token_list		*args;
-	t_redirect			*redirects;
-	pid_t				pid;
-	struct s_command	*next;
-	t_logical_ope_state	logi_state;
-}						t_command;
+	t_token_list			*args;
+	t_redirect				*redirects;
+	pid_t					pid;
+	struct s_command		*next;
+	t_logical_ope_state		logi_state;
+}							t_command;
 
-typedef enum			e_pipe_state
+typedef enum e_pipe_state
 {
 	NO_PIPE,
 	PIPE_READ_ONLY,
 	PIPE_WRITE_ONLY,
 	PIPE_READ_WRITE
-}						t_pipe_state;
+}							t_pipe_state;
 
-typedef enum			e_cmd_type
+typedef enum e_cmd_type
 {
 	ABSOLUTE,
 	RELATIVE,
 	COMMAND
-}						t_cmd_type;
+}							t_cmd_type;
 
-typedef enum	e_node_type
+typedef enum e_node_type
 {
 	NODE_COMMAND,
 	NODE_PIPE,
 	NODE_SEMICOLON,
 	NODE_OPERATER
-}				t_node_type;
+}							t_node_type;
 
-typedef struct	s_node
+typedef struct s_node
 {
-	t_node_type		type;
-	t_command		*command;
-	struct s_node	*left;
-	struct s_node	*right;
-}				t_node;
+	t_node_type				type;
+	t_command				*command;
+	struct s_node			*left;
+	struct s_node			*right;
+}							t_node;
 
-typedef struct	s_parse_info
+typedef struct s_parse_info
 {
-	t_command		*last_command;
-}				t_parse_info;
+	t_command				*last_command;
+}							t_parse_info;
 
-typedef struct	s_expander
+typedef struct s_expander
 {
-	size_t			str_i;
-	t_token_status	status;
-	t_token_type	type;
-	char			*str;
-}				t_expander;
+	size_t					str_i;
+	t_token_status			status;
+	t_token_type			type;
+	char					*str;
+}							t_expander;
 
 // in main.c
-void	run_cmdline(char *line);
+void						run_cmdline(char *line);
 
 // in util/util_token.c
-void	delete_token(t_token_list **token_list);
-void	delete_token_list(t_token_list **token_list);
-t_token_list	*duplicate_token(t_token_list *token);
-void	add_token_into_original(t_token_list **token, t_token_list *original);
+void						delete_token(t_token_list **token_list);
+void						delete_token_list(t_token_list **token_list);
+t_token_list				*duplicate_token(t_token_list *token);
+void						add_token_into_original(t_token_list **token,
+								t_token_list *original);
 
 // in lexer/lexer.c
 t_token_list				*lexer(char *str, bool esc_flag);
-t_token_list	*init_token(t_token_list *prev, size_t len);
-t_token_type	get_token_type(char c);
-
+t_token_list				*init_token(t_token_list *prev, size_t len);
+t_token_type				get_token_type(char c);
 
 // in lexer_not_in_qoute.c
-void	not_in_quote_lexer(t_token_info *info, t_token_type type, char *str);
-void	tokeniser_add_new_token(t_token_info *info);
-
+void						not_in_quote_lexer(t_token_info *info,
+								t_token_type type, char *str);
+void						tokeniser_add_new_token(t_token_info *info);
 
 // in lexer_in_qoute.c
-void	in_quote_lexer(t_token_info *info, t_token_type type, char *str);
-void	in_d_quote_lexer(t_token_info *info, t_token_type type, char *str);
-void	in_parentheses_lexer(t_token_info *info, t_token_type type, char *str);
+void						in_quote_lexer(t_token_info *info,
+								t_token_type type, char *str);
+void						in_d_quote_lexer(t_token_info *info,
+								t_token_type type, char *str);
+void						in_parentheses_lexer(t_token_info *info,
+								t_token_type type, char *str);
 
 // in lexer_expand_asterisk.c
-bool	is_containing_asterisk(t_token_info *info);
-void	expand_wildcard_asterisk(t_token_info *info);
-
+bool						is_containing_asterisk(t_token_info *info);
+void						expand_wildcard_asterisk(t_token_info *info);
 
 // in lexer_set_fin_nullchar_and_check_token_list.c
-void	set_fin_nullchar_and_check_token_list(t_token_info *info);
-void	del_token_list(t_token_list **token_p);
-void	del_token(t_token_list **token_p);
+void						set_fin_nullchar_and_check_token_list(t_token_info *info);
+void						del_token_list(t_token_list **token_p);
+void						del_token(t_token_list **token_p);
 
 // in parser.c
-bool	parser(t_node **parent_node, t_token_list **token);
-
+bool						parser(t_node **parent_node, t_token_list **token);
 
 // in parser_print.c
-void	print_parser(t_command *cmd);
+void						print_parser(t_command *cmd);
 
 // in parser_util.c
-void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token);
-void	input_cmd_args(t_command *command, t_token_list **token);
+void						add_token_into_cmd_args(t_token_list **cmd_args,
+								t_token_list **token);
+void						input_cmd_args(t_command *command,
+								t_token_list **token);
 
-void	input_subshell_args(t_command *command, t_token_list **token);
+void						input_subshell_args(t_command *command,
+								t_token_list **token);
 
 // in parser_redirect_util.c
-t_redirect	*create_and_init_redirect(void);
-void	delete_redirect_list(t_redirect **redirect);
-bool	input_redirect_type_and_fd(t_token_list *token, t_redirect *redirect);
-void	input_redirect(t_redirect **dst, t_redirect *new);
-bool	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token);
+t_redirect					*create_and_init_redirect(void);
+void						delete_redirect_list(t_redirect **redirect);
+bool						input_redirect_type_and_fd(t_token_list *token,
+								t_redirect *redirect);
+void						input_redirect(t_redirect **dst, t_redirect *new);
+bool						run_heredoc(char *limitter, t_redirect *redirect,
+								t_token_list **token);
 
 // in parser_heredoc_util.c
-bool	put_line_into_file(int file, char *buf, bool flag);
-void	heredoc_sigint_handler(int signal);
-void	heredoc_signal_process();
-int	heredoc_check_sigint();
-void	heredoc_readline_process(int file, char *limitter);
+bool						put_line_into_file(int file, char *buf, bool flag);
+void						heredoc_sigint_handler(int signal);
+void						heredoc_signal_process(void);
+int							heredoc_check_sigint(void);
+void						heredoc_readline_process(int file, char *limitter);
 
 /// in util/util_node.c
-t_node	*create_and_init_node();
-t_node	*add_parent_node(t_node *left, t_node *right);
-void	delete_node_list(t_node **node);
-t_node	*add_parent_logi_node(t_node *left, t_node *right ,t_token_type	logi_type);
+t_node						*create_and_init_node();
+t_node						*add_parent_node(t_node *left, t_node *right);
+void						delete_node_list(t_node **node);
+t_node						*add_parent_logi_node(t_node *left, t_node *right,
+								t_token_type logi_type);
 
 // in utils/util_create_prompt_str.c
-char	*util_create_prompt_str(void);
-char	*join_free(char *str1, bool free_str1, char *str2,
-		bool free_str2);
+char						*util_create_prompt_str(void);
+char						*join_free(char *str1, bool free_str1, char *str2,
+								bool free_str2);
 
 // in signal/signal.c
-void	set_sig_for_interactive_shell(void);
-void	set_sig_for_cmd_running(void);
-void	set_sig_for_wait_child(void);
-
+void						set_sig_for_interactive_shell(void);
+void						set_sig_for_cmd_running(void);
+void						set_sig_for_wait_child(void);
 
 // in utils/util_create_prompt_str.c
-char	*util_create_prompt_str(void);
+char						*util_create_prompt_str(void);
 
 // in signal/signal.c
-void	set_sig_for_interactive_shell(void);
+void						set_sig_for_interactive_shell(void);
 
 // in utils/utils.c
 bool						util_is_builtin(const char *arg);
@@ -303,22 +308,21 @@ bool						util_is_same_dir(char *dir1, char *dir2);
 void						util_put_cmd_err_and_exit(char *cmd);
 void						util_put_cmd_err(char *command, char *message);
 void						util_put_env_name_error(char *command, char *name);
-void	util_put_bad_fd_error(int fd);
-void	util_put_syntax_error(void);
-
+void						util_put_bad_fd_error(int fd);
+void						util_put_syntax_error(void);
 
 // in utils/util_env_list.c
 t_env						*util_list_new_envnode(char *env_str);
 t_env						*util_list_get_last_envnode(t_env *node_ptr);
-void	util_list_add_last_new_envnode(t_env **envs,
-									t_env *new_env);
+void						util_list_add_last_new_envnode(t_env **envs,
+								t_env *new_env);
 
 // in utils/util_env.c
 t_env						*util_env_get(const char *name);
-void	util_env_update_value(const char *env_name,
-							const char *new_value,
-							bool is_env_var,
-							bool append_flag);
+void						util_env_update_value(const char *env_name,
+								const char *new_value,
+								bool is_env_var,
+								bool append_flag);
 bool						util_validate_env_name(char *name);
 t_env						*util_copy_envs(t_env *envs_list);
 
@@ -337,54 +341,52 @@ void						init_pwd(void);
 void						init_oldpwd(void);
 
 // in expander/expander.c
-void	expander(t_token_list **tokens);
+void						expander(t_token_list **tokens);
 
 // in expand_env.c
-char	*expand_env(char *src_str);
+char						*expand_env(char *src_str);
 
 // in expand_env2.c
-char	*set_env_name(char *str);
-char	*set_env_value(char *name);
-char	*create_esc_val(char *str, t_token_status state);
+char						*set_env_name(char *str);
+char						*set_env_value(char *name);
+char						*create_esc_val(char *str, t_token_status state);
 
 // in exec/exec.c
-void			exec_nodes(t_node *nodes);
-int	exec_cmd(t_command *cmd, t_pipe_state *pipe_state, int *old_pipe);
+void						exec_nodes(t_node *nodes);
+int							exec_cmd(t_command *cmd, t_pipe_state *pipe_state,
+								int *old_pipe);
 
 // in exec/redirect_util.c
-bool	redirect_util_setup(t_command *cmd);
-void			redirects_util_cleanup(t_command *command);
-bool			redirect_util_dupfd(t_command *command, bool is_parent);
-
+bool						redirect_util_setup(t_command *cmd);
+void						redirects_util_cleanup(t_command *command);
+bool						redirect_util_dupfd(t_command *command,
+								bool is_parent);
 
 // in exec/pipe_util.c
-void	pipe_util_create_new_pipe(t_pipe_state pipe_state, int new_pipe[]);
-void	pipe_util_setup(t_pipe_state state, int old_pipe[], int new_pipe[]);
-void	pipe_util_cleanup(t_pipe_state state, int old_pipe[], int new_pipe[]);
-
+void						pipe_util_create_new_pipe(t_pipe_state pipe_state,
+								int new_pipe[]);
+void						pipe_util_setup(t_pipe_state state, int old_pipe[],
+								int new_pipe[]);
+void						pipe_util_cleanup(t_pipe_state state,
+								int old_pipe[], int new_pipe[]);
 
 // in exec/args_util.c
-bool		token_to_args(t_command *cmd, char ***args);
-
-// in exec/exec_logi_ope.c
-// void	exec_logi_ope(t_command *cmd);
-
+bool						token_to_args(t_command *cmd, char ***args);
 
 // in exec/exec_cmd.c
-void	exec_cmd_child(t_command *cmd, char **args, t_pipe_state pipe_state,
-		int old_pipe[]);
-int		exec_cmd_parent(t_command *command, char **args);
-int		exec_builtin(char **args);
-
+void						exec_cmd_child(t_command *cmd, char **args,
+								t_pipe_state pipe_state, int old_pipe[]);
+int							exec_cmd_parent(t_command *command, char **args);
+int							exec_builtin(char **args);
 
 // in exec/exec_external.c
-void							exec_external(char **cmd_args);
+void						exec_external(char **cmd_args);
 
 // in exec/exec_external_util.c
-char	*get_binary_path(char *src_path);
-bool	is_executable(const char *path);
-void	wait_external_cmds(t_command *cmd);
-void	wait_external_cmd(t_command *cmd);
+char						*get_binary_path(char *src_path);
+bool						is_executable(const char *path);
+void						wait_external_cmds(t_command *cmd);
+void						wait_external_cmd(t_command *cmd);
 
 // in builtin/builtin_cd1.c
 int							builtin_cd(char **args);
@@ -397,7 +399,8 @@ char						*get_new_pwd(char *path, bool flag,
 
 // in builtin/builtin_cd3.c
 void						bind_pwd_value(void);
-char	*try_splitted_cdpath(char **split_cd, char *dst_dir);
+char						*try_splitted_cdpath(char **split_cd,
+								char *dst_dir);
 
 // in builtin/builtin_echo.c
 int							builtin_echo(char **args);
@@ -422,6 +425,5 @@ int							builtin_pwd(void);
 
 // in builtin/builtin_unset.c
 int							builtin_unset(char **args);
-
 
 #endif
