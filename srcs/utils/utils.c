@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 00:57:11 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 02:15:00 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:20:04 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 bool	util_is_builtin(const char *arg)
 {
-	const char	*cmds[] = {"exit", "cd", "echo", "pwd", "env", "export", "unset", NULL};
+	const char	*cmds[] = {"exit", "cd", "echo", "pwd", \
+		"env", "export", "unset", NULL};
 	int			i;
 
 	if (!arg)

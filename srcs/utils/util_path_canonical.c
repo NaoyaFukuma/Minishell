@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 01:19:59 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/12 23:37:57 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:22:44 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ void	add_slash_path_front(char *path, char **res)
 
 	if (!path || !res || !*res)
 		return ;
-	if (ft_strncmp(path, "//", 2) == 0 && path[2] != '/' &&
-		ft_strncmp(*res, "//", 2) != 0)
+	if (ft_strncmp(path, "//", 2) == 0 && path[2] != '/' \
+		&& ft_strncmp(*res, "//", 2) != 0)
 	{
-		if (!(added_res = ft_strjoin("/", *res)))
+		added_res = ft_strjoin("/", *res);
+		if (!added_res	)
 			util_put_cmd_err_and_exit(NULL);
 		ft_safe_free_single_ptr((void **)res);
 		*res = added_res;

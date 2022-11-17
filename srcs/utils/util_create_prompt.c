@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:43:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/16 22:12:05 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:17:43 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 
 char	*util_create_prompt_str(void)
 {
-	char			*ret_str;
+	char			*str;
 	extern t_shell	g_shell;
 
-	ret_str = util_join_and_free_err_exit(GREEN_COLOR, false, g_shell.pwd, false);
+	str = join_free(GREEN, false, g_shell.pwd, false);
 	if (g_shell.status == 0)
-		ret_str = util_join_and_free_err_exit(ret_str, true, "\e[m""\e[37m", false);
+		str = join_free(str, true, "\e[m\e[37m", false);
 	else
-		ret_str = util_join_and_free_err_exit(ret_str, true, "\e[m""\e[31m", false);
-	ret_str = util_join_and_free_err_exit(ret_str, true, " > \e[m", false);
-	g_shell.prompt_len = ft_strlen(ret_str) - 16;
-	return (ret_str);
+		str = join_free(str, true, "\e[m\e[31m", false);
+	str = join_free(str, true, " > \e[m", false);
+	g_shell.prompt_len = ft_strlen(str) - 16;
+	return (str);
 }
 
-char	*util_join_and_free_err_exit(char *str1, bool free_str1, char *str2,
-		bool free_str2)
+char	*join_free(char *str1, bool free_str1, char *str2, bool free_str2)
 {
 	char	*ret_str;
 

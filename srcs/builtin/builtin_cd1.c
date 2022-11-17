@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 21:46:26 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/04 11:50:04 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:12:58 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	put_cd_err(char *dir, char *message);
 
 int	builtin_cd(char **args)
 {
-	char	*dst_dir;
+	char			*dst_dir;
 	extern t_shell	g_shell;
 
 	dst_dir = set_dst_dir(args);
@@ -55,26 +55,29 @@ static char	*set_dst_dir(char **args)
 		util_put_cmd_err("cd", "HOME not set");
 		return (NULL);
 	}
-	return (env->value ? env->value : "");
+	if (env->value)
+		return (env->value);
+	else
+		return ("");
 }
 
 static bool	needs_cdpath(char **args, char *dst_dir)
 {
 	if (args[1] == NULL || args[1][0] == '/')
 		return (false);
-	if (ft_strcmp(dst_dir, ".") == 0 ||
-		ft_strcmp(dst_dir, "..") == 0 ||
-		ft_strncmp(dst_dir, "./", 2) == 0 ||
-		ft_strncmp(dst_dir, "../", 3) == 0)
+	if (ft_strcmp(dst_dir, ".") == 0 \
+		|| ft_strcmp(dst_dir, "..") == 0 \
+		|| ft_strncmp(dst_dir, "./", 2) == 0 \
+		|| ft_strncmp(dst_dir, "../", 3) == 0)
 		return (false);
 	return (true);
 }
 
 static bool	try_cdpath(char *dst_dir)
 {
-	char	**split_cdpath;
-	bool	res;
-	char	*try_chdir_res;
+	char			**split_cdpath;
+	bool			res;
+	char			*try_chdir_res;
 	extern t_shell	g_shell;
 
 	res = false;
@@ -92,13 +95,12 @@ static bool	try_cdpath(char *dst_dir)
 	return (res);
 }
 
-
 static void	put_cd_err(char *dir, char *message)
 {
-	ft_putstr_fd(RED_COLOR, STDERR_FILENO);
+	ft_putstr_fd(RED, STDERR_FILENO);
 	ft_putstr_fd("tsh: cd:", STDERR_FILENO);
 	ft_putstr_fd(dir, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(message, STDERR_FILENO);
-	ft_putstr_fd(DEFAULT_COLOR, STDERR_FILENO);
+	ft_putstr_fd(DEFAULT, STDERR_FILENO);
 }

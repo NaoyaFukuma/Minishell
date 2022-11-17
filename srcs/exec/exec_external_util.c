@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:36:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 02:08:12 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:52:09 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static void	cmd_status_handler(int status, bool catch_sigint)
 void	wait_external_cmds(t_command *cmd)
 {
 	extern t_shell	g_shell;
-	// volatile sig_atomic_t		status;
 	int				status;
 	bool			has_child;
 	bool			catch_sigint;
@@ -102,7 +101,6 @@ void	wait_external_cmds(t_command *cmd)
 void	wait_external_cmd(t_command *cmd)
 {
 	extern t_shell	g_shell;
-	// volatile sig_atomic_t				status;
 	int				status;
 	bool			has_child;
 	bool			catch_sigint;

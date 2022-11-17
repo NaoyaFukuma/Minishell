@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 00:04:55 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:16:32 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@
 
 # define ENV_TRUNC 0
 # define ENV_APPEND 1
-# define RED_COLOR "\e[31m"
-# define GREEN_COLOR "\e[32m"
-# define YELLOW_COLOR "\e[33m"
-# define WHITE_COLOR "\e[37m"
-# define DEFAULT_COLOR "\e[m"
+# define RED "\e[31m"
+# define GREEN "\e[32m"
+# define YELLOW "\e[33m"
+# define WHITE "\e[37m"
+# define DEFAULT "\e[m"
 
 # define SYNTAX_ERROR		258
 # define TOKEN_ERROR		2
@@ -278,7 +278,7 @@ t_node	*add_parent_logi_node(t_node *left, t_node *right ,t_token_type	logi_type
 
 // in utils/util_create_prompt_str.c
 char	*util_create_prompt_str(void);
-char	*util_join_and_free_err_exit(char *str1, bool free_str1, char *str2,
+char	*join_free(char *str1, bool free_str1, char *str2,
 		bool free_str2);
 
 // in signal/signal.c
