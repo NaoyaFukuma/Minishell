@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:17:34 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:17:45 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:19:46 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	interactive_loop(void);
 static void	ctrl_d_exit_put_msg(void);
 
-t_shell	g_shell;
+t_shell		g_shell;
 
 int	main(int argc, char **argv)
 {
@@ -35,8 +35,8 @@ int	main(int argc, char **argv)
 static void	interactive_loop(void)
 {
 	extern t_shell	g_shell;
-	char	*line;
-	char	*prompt;
+	char			*line;
+	char			*prompt;
 
 	g_shell.interactive = true;
 	while (1)
@@ -61,7 +61,7 @@ static void	interactive_loop(void)
 void	run_cmdline(char *line)
 {
 	extern t_shell	g_shell;
-	t_node 			*nodes;
+	t_node			*nodes;
 	t_token_list	*tokens;
 	t_token_list	*start_token_for_free;
 
