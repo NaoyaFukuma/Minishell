@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 22:10:28 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:47:09 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:47:43 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_atoi(const char *str)
 			return ((int)LONG_MAX);
 		}
 		else if (sign_flag == -1 && (res < ((LONG_MIN - (*str - '0'))
-				* sign_flag) / 10))
+					* sign_flag) / 10))
 		{
 			errno = ERANGE;
 			return ((int)LONG_MIN);
