@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 01:34:33 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/17 12:40:46 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 15:44:22 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,43 +16,43 @@ static void		init_token_info(t_token_info *token_info, char *str,
 					bool esc_flag);
 
 // debug
-/*
-void	print_type(t_token_type type)
-{
-	char	*str;
 
-	str = NULL;
-	if (type == CHAR_BACKSLASH)
-		str = "\\";
-	else if (type == CHAR_SEMICOLON)
-		str = ";";
-	else if (type == CHAR_QUOTE)
-		str = "\'";
-	else if (type == CHAR_D_QUOTE)
-		str = "\"";
-	else if (type == CHAR_PIPE)
-		str = "|";
-	else if (type == CHAR_LESS)
-		str = "<";
-	else if (type == CHAR_GREATER)
-		str = ">";
-	else if (type == CHAR_SPACE)
-		str = "SPACE";
-	else if (type == CHAR_TAB)
-		str = "TAB";
-	else if (type == CHAR_OTHER)
-		str = "OTHER";
-	else if (type == TOKEN)
-		str = "TOKEN";
-	else if (type == CHAR_OPEN_PARENTHESES)
-		str = "(";
-	else if (type == CHAR_CLOSE_PARENTHESES)
-		str = ")";
-	else if (type == CHAR_NIL)
-		str = "(NULL)";
-	printf("type->[%s]\n", str);
-}
-*/
+// void	print_type(t_token_type type)
+// {
+// 	char	*str;
+//
+// 	str = NULL;
+// 	if (type == CHAR_BACKSLASH)
+// 		str = "\\";
+// 	else if (type == CHAR_SEMICOLON)
+// 		str = ";";
+// 	else if (type == CHAR_QUOTE)
+// 		str = "\'";
+// 	else if (type == CHAR_D_QUOTE)
+// 		str = "\"";
+// 	else if (type == CHAR_PIPE)
+// 		str = "|";
+// 	else if (type == CHAR_LESS)
+// 		str = "<";
+// 	else if (type == CHAR_GREATER)
+// 		str = ">";
+// 	else if (type == CHAR_SPACE)
+// 		str = "SPACE";
+// 	else if (type == CHAR_TAB)
+// 		str = "TAB";
+// 	else if (type == CHAR_OTHER)
+// 		str = "OTHER";
+// 	else if (type == TOKEN)
+// 		str = "TOKEN";
+// 	else if (type == CHAR_OPEN_PARENTHESES)
+// 		str = "(";
+// 	else if (type == CHAR_CLOSE_PARENTHESES)
+// 		str = ")";
+// 	else if (type == CHAR_NIL)
+// 		str = "(NULL)";
+// 	printf("\ttype->[%s]\n", str);
+// }
+
 
 t_token_list	*lexer(char *str, bool esc_flag)
 {

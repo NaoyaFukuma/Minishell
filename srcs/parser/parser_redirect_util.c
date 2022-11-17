@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_util.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:37 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/16 00:16:34 by hommayunosu      ###   ########.fr       */
+/*   Updated: 2022/11/17 15:43:53 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
