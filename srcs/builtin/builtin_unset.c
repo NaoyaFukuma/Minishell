@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:40:29 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 01:32:43 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:23:20 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	builtin_unset(char **args)
 static void	env_delete(char *name)
 {
 	extern t_shell	g_shell;
-	t_env	*now;
-	t_env	*prev;
+	t_env			*now;
+	t_env			*prev;
 
 	now = g_shell.envs;
 	prev = NULL;

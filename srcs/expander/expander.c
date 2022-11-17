@@ -18,7 +18,7 @@
 #define FARST_TOKEN 3
 
 static void	token_join(t_token_list *prev_token,
-						t_token_list *next_token);
+			t_token_list *next_token);
 static t_token_list	*find_last_token(t_token_list *tokens);
 
 void	expander(t_token_list **tokens)
