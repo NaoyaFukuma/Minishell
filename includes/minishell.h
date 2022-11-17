@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:40:57 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:50:27 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int							heredoc_check_sigint(void);
 void						heredoc_readline_process(int file, char *limitter);
 
 /// in util/util_node.c
-t_node						*create_and_init_node();
+t_node						*create_and_init_node(void);
 t_node						*add_parent_node(t_node *left, t_node *right);
 void						delete_node_list(t_node **node);
 t_node						*add_parent_logi_node(t_node *left, t_node *right,
