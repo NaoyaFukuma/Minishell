@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/17 12:22:23 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:24:04 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static bool	parse_command(t_command **last_cmd, t_node **node,
 		else if (((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER
 				|| (*token)->type == D_GREATER || (*token)->type == D_LESS
 				|| (*token)->type == IO_NUMBER)
-				&& parse_redirect_process(*node, token) == false)
+			&& parse_redirect_process(*node, token) == false)
 			return (false);
 		else
 			break ;
