@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_set_fin_nullchar_and_check_token_list        :+:      :+:    :+:   */
+/*   lexer_set_nullchar_and_check_token        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 
 static void	print_token_error(t_token_status state);
 
-void	set_fin_nullchar_and_check_token_list(t_token_info *info)
+void	set_nullchar_and_check_token(t_token_info *info)
 {
 	if (info->status != NOT_QUOTED)
 	{

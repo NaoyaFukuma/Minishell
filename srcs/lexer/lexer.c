@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 01:34:33 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/12 23:29:24 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:40:46 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_token_list	*lexer(char *str, bool esc_flag)
 			in_parentheses_lexer(&token_info, type, str);
 		token_info.str_i++;
 	}
-	set_fin_nullchar_and_check_token_list(&token_info);
+	set_nullchar_and_check_token(&token_info);
 	return (token_info.first_token);
 }
 

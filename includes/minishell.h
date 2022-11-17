@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:37:00 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:40:57 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,9 +239,8 @@ void						in_parentheses_lexer(t_token_info *info,
 bool						is_containing_asterisk(t_token_info *info);
 void						expand_wildcard_asterisk(t_token_info *info);
 
-// in lexer_set_fin_nullchar_and_check_token_list.c
-void						set_fin_nullchar_and_check_token_list\
-								(t_token_info *info);
+// in lexer_set_nullchar_and_check_token.c
+void						set_nullchar_and_check_token(t_token_info *info);
 void						del_token_list(t_token_list **token_p);
 void						del_token(t_token_list **token_p);
 

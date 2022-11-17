@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 11:51:00 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:38:26 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:41:34 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char					*ft_strcat_and_free(char **s1, char **s2, size_t len);
 char					*ft_delete_one_strage(t_gnl_list **static_p,
 							t_gnl_list **strage_p);
 char					*ft_push_end_line(t_gnl_list **strage_p);
-char	*ft_read_file_push_line(t_gnl_list **strage_p,
+char					*ft_read_file_push_line(t_gnl_list **strage_p,
 								t_gnl_list **static_p);
 char					*ft_parse_readsize(ssize_t readsize, char **buf,
 							t_gnl_list **strage_p, t_gnl_list **static_p);
