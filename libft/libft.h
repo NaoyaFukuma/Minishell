@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:09:46 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/11 10:03:34 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:37:26 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void			ft_safe_free_single_ptr(void **target);
 void			ft_safe_free_double_ptr(void ***target);
 char			*ft_strcpy_forward(char *dest, char *src);
 bool			ft_atoi_limit(const char *str, int *return_value);
-void	ft_puthex_fd(unsigned int n, bool format, int fd);
-void	ft_puthex_ul_fd(unsigned long n, bool format, int fd);
+void			ft_puthex_fd(unsigned int n, bool format, int fd);
+void			ft_puthex_ul_fd(unsigned long n, bool format, int fd);
 
 #endif

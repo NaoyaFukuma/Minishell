@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 11:00:21 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 13:40:38 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:38:51 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (1)
