@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:50:27 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:34:33 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,24 @@ typedef struct s_token_info
 	char					*quote_start;
 }							t_token_info;
 
+typedef struct s_aster
+{
+	bool	prev_as;
+	bool	next_as;
+	char	*str;
+	struct s_aster	*next;
+}	t_each_str;
+
+typedef struct s_as_info
+{
+	char	*src_str;
+	size_t	str_i;
+	size_t	start_i;
+	t_each_str	*res;
+	bool	prev_as;
+	bool	next_as;
+}	t_as_info;
+
 typedef enum e_redirect_type
 {
 	REDIR_INPUT,
@@ -236,8 +254,19 @@ void						in_parentheses_lexer(t_token_info *info,
 								t_token_type type, char *str);
 
 // in lexer_expand_asterisk.c
-bool						is_containing_asterisk(t_token_info *info);
 void						expand_wildcard_asterisk(t_token_info *info);
+
+// in lexer_expand_asterisk2.c
+void						init_info(t_as_info *info, char	*src_str);
+t_each_str					*create_new_node(t_as_info *info);
+void						create_each_str_add_back(t_as_info *info);
+bool						is_wildcard_expandble(char *target,
+								t_each_str *each_str);
+void						del_each_str_list(t_each_str *each_str);
+
+// in lexer_expand_asterisk3.c
+bool						is_match(t_each_str	*each_str, char **target);
+bool						is_containing_asterisk(t_token_info *info);
 
 // in lexer_set_nullchar_and_check_token.c
 void						set_nullchar_and_check_token(t_token_info *info);
