@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:17:34 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:19:46 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/19 00:18:36 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int argc, char **argv)
 	{
 		g_shell.interactive = false;
 		run_cmdline(argv[2]);
+		if (g_shell.status == SYNTAX_ERROR)
+			exit (200);
 	}
 	else
 		interactive_loop();

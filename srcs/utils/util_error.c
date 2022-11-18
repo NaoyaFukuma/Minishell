@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:11:05 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 09:41:01 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/19 00:10:50 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	util_put_syntax_error(void)
 		g_shell.heredoc_interrupted = 0;
 		return ;
 	}
-	ft_putstr_fd("\e[31mtsh: syntax error\n\e[m", STDERR_FILENO);
+	ft_putstr_fd("\e[31mtsh: syntax error\e[m\n", STDERR_FILENO);
 	g_shell.status = SYNTAX_ERROR;
 }
 

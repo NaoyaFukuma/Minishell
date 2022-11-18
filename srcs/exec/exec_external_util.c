@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:36:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 11:52:09 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/19 00:20:57 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,12 @@ static void	cmd_status_handler(int status, bool catch_sigint)
 	int				signal;
 
 	if (WIFEXITED(status))
-		g_shell.status = WEXITSTATUS(status);
+	{
+		if (WEXITSTATUS(status) == 200)
+			g_shell.status = SYNTAX_ERROR;
+		else
+			g_shell.status = WEXITSTATUS(status);
+	}
 	else if (WIFSIGNALED(status))
 	{
 		signal = WTERMSIG(status);
