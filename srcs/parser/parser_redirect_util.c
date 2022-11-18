@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:37 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/17 15:43:53 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:59:47 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 t_redirect	*create_and_init_redirect(void)
 {

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_heredoc_util.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
+/*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:30:23 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/16 17:30:24 by hommayunosu      ###   ########.fr       */
+/*   Updated: 2022/11/18 23:59:19 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include "../../libft/libft.h"
+#include "minishell.h"
 
 bool	put_line_into_file(int file, char *buf, bool flag)
 {
