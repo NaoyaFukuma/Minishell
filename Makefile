@@ -30,6 +30,8 @@ LIBS = -L $(shell brew --prefix readline)/lib -lreadline -lhistory -L ./libft -l
 
 all: $(NAME)
 
+# User have to run brew install readline before run make to build minishell
+
 $(NAME): $(OBJS)
 	make -C ./libft
 #	move ~/.inputrc ~/.inputrc_backup

@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/18 23:34:33 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:53:25 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,21 +131,21 @@ typedef struct s_token_info
 
 typedef struct s_aster
 {
-	bool	prev_as;
-	bool	next_as;
-	char	*str;
-	struct s_aster	*next;
-}	t_each_str;
+	bool					prev_as;
+	bool					next_as;
+	char					*str;
+	struct s_aster			*next;
+}							t_each_str;
 
 typedef struct s_as_info
 {
-	char	*src_str;
-	size_t	str_i;
-	size_t	start_i;
-	t_each_str	*res;
-	bool	prev_as;
-	bool	next_as;
-}	t_as_info;
+	char					*src_str;
+	size_t					str_i;
+	size_t					start_i;
+	t_each_str				*res;
+	bool					prev_as;
+	bool					next_as;
+}							t_as_info;
 
 typedef enum e_redirect_type
 {
