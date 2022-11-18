@@ -6,11 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:40 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/15 01:13:58 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:59:57 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	add_token_into_cmd_args(t_token_list **cmd_args, t_token_list **token)
 {

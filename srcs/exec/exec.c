@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 11:52:39 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:55:33 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,8 @@ void	exec_nodes(t_node *nodes)
 
 	if (!nodes || g_shell.exited == true)
 		return ;
-	else if (nodes->type == NODE_SEMICOLON)
-	{
-		exec_nodes(nodes->left);
-		exec_nodes(nodes->right);
-	}
-	else
-		exec_list(nodes);
+	exec_list(nodes);
 }
-
-// static void	exec_list(t_node *nodes)
-// {
-// 	extern t_shell	g_shell;
-// 	t_pipe_state	pipe_state;
-//
-// 	pipe_state = NO_PIPE;
-// 	if (!nodes)
-// 		return ;
-// 	if (nodes->type == NODE_PIPE)
-// 		exec_pipeline(nodes);
-// 	else
-// 	{
-// 		while (nodes->type == NODE_OPERATER)
-// 			nodes = nodes->left;
-// 		g_shell.status = exec_cmd(nodes->command, &pipe_state, NULL);
-// 		wait_external_cmds(nodes->command);
-// 	}
-// }
 
 static void	exec_list(t_node *nodes)
 {

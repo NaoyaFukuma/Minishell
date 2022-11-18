@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 23:16:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/18 23:30:14 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:54:07 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	is_match(t_each_str *each_str, char **target)
 	{
 		if (ft_strncmp(&(*target)[ft_strlen(*target)
 				- ft_strlen(each_str->str)], each_str->str,
-				ft_strlen(each_str->str)))
+			ft_strlen(each_str->str)))
 			return (false);
 	}
 	else
@@ -53,7 +53,7 @@ bool	is_containing_asterisk(t_token_info *info)
 			if (info->esc_flag && i > 0 && info->token->comp[i - 1] == '\\')
 			{
 				ft_memmove(&info->token->comp[i - 1], &info->token->comp[i],
-						info->each_i - i);
+					info->each_i - i);
 				info->token->comp[info->each_i - 1] = '\0';
 				return (false);
 			}

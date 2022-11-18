@@ -6,12 +6,11 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/17 15:43:36 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/19 00:00:04 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-#include "../../libft/libft.h"
+#include "minishell.h"
 
 static bool	parse_logical_ope(t_command **last_cmd, t_node **node,
 				t_token_list **token);
