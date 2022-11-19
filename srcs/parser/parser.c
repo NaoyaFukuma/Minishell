@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:42 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/19 22:29:41 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/19 22:31:43 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ static bool	parse_command(t_command **last_cmd, t_node **node,
 		else if ((*token)->type == CHAR_CLOSE_PARENTHESES)
 			input_subshell_args((*node)->command, token);
 		else if (((*token)->type == CHAR_LESS || (*token)->type == CHAR_GREATER
-				|| (*token)->type == D_GREATER || (*token)->type == D_LESS
-				|| (*token)->type == IO_NUMBER))
+					|| (*token)->type == D_GREATER || (*token)->type == D_LESS
+					|| (*token)->type == IO_NUMBER))
 		{
 			if ((parse_redirect_process(*node, token) == false))
 				return (false);
@@ -114,7 +114,8 @@ static bool	parse_redirect_process(t_node *node, t_token_list **token)
 	if (input_redirect_type_and_fd(*token, redirect) == false)
 		return (false);
 	*token = (*token)->next;
-	if ((!*token || (*token)->type != TOKEN) || ((*token)->prev->type == D_LESS && run_heredoc((*token)->comp, redirect, token) == false))
+	if ((!*token || (*token)->type != TOKEN) || ((*token)->prev->type == D_LESS
+			&& run_heredoc((*token)->comp, redirect, token) == false))
 	{
 		delete_redirect_list(&redirect);
 		return (false);
