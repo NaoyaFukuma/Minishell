@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:37 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/18 23:59:47 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/19 22:24:01 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ bool	run_heredoc(char *limitter, t_redirect	*redirect, t_token_list **token)
 	if (redirect->fd_file < 0)
 		util_put_cmd_err_and_exit("in run_heredoc");
 	rl_event_hook = NULL;
-	*token = (*token)->next;
+	*token = (*token);
 	set_sig_for_interactive_shell();
 	if (g_shell.heredoc_interrupted == 1)
 	{
