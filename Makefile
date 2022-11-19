@@ -1,5 +1,5 @@
 NAME = minishell
-GCC = gcc
+CC = cc
 
 SRCS_DIR = ./srcs
 SRCS_DIR_BUILTIN = ./srcs/builtin
