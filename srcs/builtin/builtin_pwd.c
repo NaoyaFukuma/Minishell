@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 10:37:08 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/10/28 15:30:52 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/19 23:05:47 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ int	builtin_pwd(void)
 {
 	extern t_shell	g_shell;
 
-	ft_putendl_fd(util_env_get("PWD")->value, STDOUT_FILENO);
+	ft_putendl_fd(g_shell.pwd, STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }
