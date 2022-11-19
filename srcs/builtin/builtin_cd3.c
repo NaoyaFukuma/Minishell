@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:54:11 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 09:41:01 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/20 00:44:57 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	bind_pwd_value(void)
 {
 	extern t_shell	g_shell;
 
-	util_env_update_value("OLDPWD", util_env_get("PWD")->value, false, false);
+	if (!util_env_get("PWD"))
+		util_env_update_value("OLDPWD", "", false, false);
+	else
+		util_env_update_value("OLDPWD", util_env_get("PWD")->value, false, false);
 	util_env_update_value("PWD", g_shell.pwd, false, false);
 }
 

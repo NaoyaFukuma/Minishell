@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 09:28:27 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/04 10:02:59 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/20 00:33:24 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*set_cd_path(char *arg, bool *is_canon_path)
 	if (*arg == '/')
 		physical_path = ft_strdup(arg);
 	else
-		physical_path = util_join_path(util_env_get("PWD")->value, arg);
+		physical_path = util_join_path(g_shell.pwd, arg);
 	if (!physical_path)
 		util_put_cmd_err_and_exit(NULL);
 	canon_path = util_path_canonical(physical_path);
