@@ -11,17 +11,10 @@ SRCS_DIR_UTILS = ./srcs/utils
 SRCS_DIR_INIT = ./srcs/init
 SRCS_DIR_SIGNAL = ./srcs/signal
 
-# OBJS_DIR = ./objs
-
-SRCS =	$(wildcard $(SRCS_DIR)/*.c) $(wildcard $(SRCS_DIR_BUILTIN)/*.c) \
-		$(wildcard $(SRCS_DIR_EXEC)/*.c) $(wildcard $(SRCS_DIR_EXPANDER)/*.c) \
-		$(wildcard $(SRCS_DIR_LEXER)/*.c) $(wildcard $(SRCS_DIR_PASER)/*.c) \
-		$(wildcard $(SRCS_DIR_INIT)/*.c) $(wildcard $(SRCS_DIR_UTILS)/*.c) \
-		$(wildcard $(SRCS_DIR_SIGNAL)/*.c)
+SRCS =	srcs/main.c srcs/builtin/builtin_cd1.c srcs/builtin/builtin_cd2.c srcs/builtin/builtin_cd3.c srcs/builtin/builtin_echo.c srcs/builtin/builtin_env.c srcs/builtin/builtin_exit.c srcs/builtin/builtin_export.c srcs/builtin/builtin_export_print.c srcs/builtin/builtin_export_sort.c srcs/builtin/builtin_pwd.c srcs/builtin/builtin_unset.c srcs/exec/args_util.c srcs/exec/exec.c srcs/exec/exec_cmd.c srcs/exec/exec_external.c srcs/exec/exec_external_util.c srcs/exec/pipe_util.c srcs/exec/redirect_util.c srcs/expander/expand_env.c srcs/expander/expand_env2.c srcs/expander/expander.c srcs/init/init_shell.c srcs/init/init_shell_util.c srcs/lexer/lexer.c srcs/lexer/lexer_expand_asterisk.c srcs/lexer/lexer_expand_asterisk2.c srcs/lexer/lexer_expand_asterisk3.c srcs/lexer/lexer_in_qoute.c srcs/lexer/lexer_not_in_qoute.c srcs/lexer/lexer_set_fin_nullchar_and_check_token_list.c srcs/parser/parser.c srcs/parser/parser_heredoc_util.c srcs/parser/parser_print.c srcs/parser/parser_redirect_util.c srcs/parser/parser_util.c srcs/signal/signal.c srcs/utils/util_create_prompt.c srcs/utils/util_env.c srcs/utils/util_env_list.c srcs/utils/util_error.c srcs/utils/util_node.c srcs/utils/util_path.c srcs/utils/util_path_canonical.c srcs/utils/util_token.c srcs/utils/utils.c
 
 INCLUDES = -I $(shell brew --prefix readline)/include -I ./libft -I ./includes -I ../includes
 
-# OBJS = $(patsubst $(SRCS_DIR)/%, $(OBJS_DIR)/%, $(SRCS:.c=.o))
 OBJS = $(SRCS:.c=.o)
 
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address $(INCLUDES)
@@ -34,18 +27,12 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C ./libft
-#	move ~/.inputrc ~/.inputrc_backup
 	echo "set echo-control-characters off" >> ~/.inputrc
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $(NAME)
-
-# $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-# 	$(CC) $(CFLAGS) -c $< -o $@
-#	mkdir -p $(OBJS_DIR)
 
 clean:
 	make clean -C ./libft
 	$(RM) -r $(OBJS)
-#	$(RM) -r $(OBJS_DIR)
 
 fclean: clean
 	make fclean -C ./libft
