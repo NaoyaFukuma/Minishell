@@ -19,7 +19,8 @@ void	bind_pwd_value(void)
 	if (!util_env_get("PWD"))
 		util_env_update_value("OLDPWD", "", false, false);
 	else
-		util_env_update_value("OLDPWD", util_env_get("PWD")->value, false, false);
+		util_env_update_value \
+			("OLDPWD", util_env_get("PWD")->value, false, false);
 	util_env_update_value("PWD", g_shell.pwd, false, false);
 }
 
