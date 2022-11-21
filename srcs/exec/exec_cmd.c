@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:28:38 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/16 11:32:06 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/21 23:26:33 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	exec_cmd_child(t_command *cmd, char **args, t_pipe_state pipe_state,
 	if (cmd->pid == 0)
 	{
 		set_sig_for_cmd_running();
-		if (cmd->redirects && cmd->redirects->fd_file == REDIRECT_UNDEFINED
-			&& redirect_util_setup(cmd) == false)
+		if (redirect_util_setup(cmd) == false)
 			exit(EXIT_FAILURE);
 		if (args[0] == NULL)
 			exit(EXIT_SUCCESS);
