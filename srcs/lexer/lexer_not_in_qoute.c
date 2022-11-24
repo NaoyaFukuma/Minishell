@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 00:04:02 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/15 13:16:15 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 02:56:33 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	token_separate(t_token_info *info, t_token_type type, char *str)
 {
 	if (is_io_number_token(info, type))
 		info->token->type = IO_NUMBER;
-	if (is_containing_asterisk(info))
+	if (info->esc_flag && is_containing_asterisk(info))
 		expand_wildcard_asterisk(info);
 	tokeniser_add_new_token(info);
 	if (type != CHAR_SPACE && type != CHAR_TAB)
