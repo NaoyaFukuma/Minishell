@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:30:56 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 12:20:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 01:24:36 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,17 @@ static void	env_value_set(t_env *env, const char *new_value, bool append_flag)
 			&& !new_value))
 		env->value = NULL;
 	else if (append_flag)
+	{
 		env->value = ft_strjoin(old_value, new_value);
+		if (!env->value)
+			util_put_cmd_err_and_exit(NULL);
+	}
 	else
+	{
 		env->value = ft_strdup(new_value);
-	if (!env->value)
-		util_put_cmd_err_and_exit(NULL);
+		if (!env->value)
+			util_put_cmd_err_and_exit(NULL);
+	}
 	ft_safe_free_single_ptr((void *)&old_value);
 }
 
