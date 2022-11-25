@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 17:30:23 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/25 02:00:49 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 12:44:03 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	heredoc_readline_process(int file, char *limitter)
 		}
 		if (!ft_strcmp(limitter, buf))
 			break ;
-		buf = expand_env(buf);
+		buf = expand_env(buf, false);
 		flag = put_line_into_file(file, buf, flag);
 		free(buf);
 		buf = NULL;

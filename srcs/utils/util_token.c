@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 22:47:47 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/11/17 15:06:42 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 12:44:41 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	add_token_into_original(t_token_list **token, t_token_list *original)
 	t_token_list	*now;
 	t_token_list	*dup_token;
 
-	original->comp = expand_env(original->comp);
+	original->comp = expand_env(original->comp, false);
 	dup_token = duplicate_token(original);
 	if (!*token)
 		*token = dup_token;
