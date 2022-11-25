@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/18 23:53:25 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 10:25:39 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ typedef struct s_expander
 	size_t					str_i;
 	t_token_status			status;
 	t_token_type			type;
+	bool					ex_flag;
 	char					*str;
 }							t_expander;
 
@@ -370,15 +371,15 @@ void						init_pwd(void);
 void						init_oldpwd(void);
 
 // in expander/expander.c
-void						expander(t_token_list **tokens);
+void						expander(t_token_list **tokens, bool ex_flag);
 
 // in expand_env.c
-char						*expand_env(char *src_str);
+char						*expand_env(char *src_str, bool ex_flag);
 
 // in expand_env2.c
 char						*set_env_name(char *str);
 char						*set_env_value(char *name);
-char						*create_esc_val(char *str, t_token_status state);
+char						*create_esc_val(char *str, t_expander *exper);
 
 // in exec/exec.c
 void						exec_nodes(t_node *nodes);

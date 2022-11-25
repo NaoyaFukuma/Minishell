@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 00:11:52 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/21 23:26:22 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 03:29:32 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	redirect_util_setup(t_command *cmd)
 		origin_file = ft_strdup(redirect->filename->comp);
 		if (!origin_file)
 			util_put_cmd_err_and_exit("in redirects");
-		expander(&redirect->filename);
+		expander(&redirect->filename, false);
 		if (!check_filename(redirect, origin_file))
 		{
 			free(origin_file);

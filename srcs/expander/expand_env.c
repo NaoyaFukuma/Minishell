@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:18:14 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/17 11:28:07 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 10:31:22 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@
 #define TMP 2
 #define RES 3
 
-static void				expander_init(t_expander *exper, char *src_str);
+static void				expander_init(t_expander *exper, char *src_str, bool ex_flag);
 static t_token_status	get_token_status(t_token_status state,
 							t_token_type type);
 static void				env_expand(t_expander *exper);
 
-char	*expand_env(char *src_str)
+char	*expand_env(char *src_str, bool ex_flag)
 {
 	t_expander	exper;
 
 	if (!src_str)
 		return (NULL);
-	expander_init(&exper, src_str);
+	expander_init(&exper, src_str, ex_flag);
 	while (exper.str[exper.str_i])
 	{
 		exper.type = get_token_type(exper.str[exper.str_i]);
@@ -44,13 +44,14 @@ char	*expand_env(char *src_str)
 	return (exper.str);
 }
 
-static void	expander_init(t_expander *exper, char *src_str)
+static void	expander_init(t_expander *exper, char *src_str, bool ex_flag)
 {
 	exper->str = ft_strdup(src_str);
 	if (!exper->str)
 		util_put_cmd_err_and_exit("in expander_init");
 	exper->str_i = 0;
 	exper->status = NOT_QUOTED;
+	exper->ex_flag = ex_flag;
 }
 
 static t_token_status	get_token_status(t_token_status state,
@@ -96,7 +97,7 @@ static void	env_expand(t_expander *exper)
 	exper->str[exper->str_i] = '\0';
 	env_value = set_env_value(vars[ENV_NAME]);
 	after_env_name_i = exper->str_i + ft_strlen(vars[ENV_NAME]) + 1;
-	vars[ENV_VALUE] = create_esc_val(env_value, exper->status);
+	vars[ENV_VALUE] = create_esc_val(env_value, exper);
 	if (!vars[ENV_VALUE])
 		util_put_cmd_err_and_exit("env_expand");
 	vars[TMP] = ft_strjoin(exper->str, vars[ENV_VALUE]);

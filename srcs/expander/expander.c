@@ -15,13 +15,13 @@
 #define NOW_TOKEN 0
 #define LAST_TOKEN 1
 #define EXPANDED_TOKEN 2
-#define FARST_TOKEN 3
+#define FIRST_TOKEN 3
 
 static void			token_join(t_token_list *prev_token,
 						t_token_list *next_token);
 static t_token_list	*find_last_token(t_token_list *tokens);
 
-void	expander(t_token_list **tokens)
+void	expander(t_token_list **tokens, bool ex_flag)
 {
 	t_token_list	*vars[4];
 	char			*expanded_str;
@@ -29,21 +29,21 @@ void	expander(t_token_list **tokens)
 	if (!tokens || !*tokens)
 		return ;
 	vars[LAST_TOKEN] = NULL;
-	vars[FARST_TOKEN] = NULL;
+	vars[FIRST_TOKEN] = NULL;
 	vars[NOW_TOKEN] = *tokens;
 	while (vars[NOW_TOKEN])
 	{
-		expanded_str = expand_env(vars[NOW_TOKEN]->comp);
+		expanded_str = expand_env(vars[NOW_TOKEN]->comp, ex_flag);
 		vars[EXPANDED_TOKEN] = lexer(expanded_str, true);
 		free(expanded_str);
-		if (vars[FARST_TOKEN] == NULL)
-			vars[FARST_TOKEN] = vars[EXPANDED_TOKEN];
+		if (vars[FIRST_TOKEN] == NULL)
+			vars[FIRST_TOKEN] = vars[EXPANDED_TOKEN];
 		token_join(vars[LAST_TOKEN], vars[EXPANDED_TOKEN]);
-		vars[LAST_TOKEN] = find_last_token(vars[FARST_TOKEN]);
+		vars[LAST_TOKEN] = find_last_token(vars[FIRST_TOKEN]);
 		vars[NOW_TOKEN] = vars[NOW_TOKEN]->next;
 	}
 	del_token_list(tokens);
-	*tokens = vars[FARST_TOKEN];
+	*tokens = vars[FIRST_TOKEN];
 }
 
 static void	token_join(t_token_list *prev_token, t_token_list *next_token)

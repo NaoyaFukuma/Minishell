@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:07:44 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/08 16:55:28 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 03:28:30 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ static char	**convert_args(t_command *cmd);
 
 bool	token_to_args(t_command *cmd, char ***args)
 {
-	expander(&cmd->args);
+	if (ft_strcmp(cmd->args->comp, "export") == 0)
+		expander(&cmd->args, true);
+	else
+		expander(&cmd->args, false);
 	*args = convert_args(cmd);
 	if (*args[0] == NULL)
 		return (false);

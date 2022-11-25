@@ -6,14 +6,15 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 22:20:40 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/16 00:13:00 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 10:39:13 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static size_t	calc_len(char *str, char *esc_chars);
-static void		add_esc_and_dup_val(char *src, char *esc_chars, char *dest);
+static void		add_esc_and_dup_val(char *src, char *esc_chars, char *dest,
+					t_expander *exper);
 
 char	*set_env_name(char *str)
 {
@@ -67,19 +68,23 @@ char	*set_env_value(char *name)
 	return (res);
 }
 
-char	*create_esc_val(char *str, t_token_status state)
+char	*create_esc_val(char *str, t_expander *exper)
 {
 	char	*esc_chars;
 	char	*res;
+	size_t	len;
 
-	if (state == D_QUOTED)
+	if (exper->status == D_QUOTED)
 		esc_chars = "\"\\$*";
-	if (state == NOT_QUOTED)
+	if (exper->status == NOT_QUOTED)
 		esc_chars = "\'\"\\$|;><";
-	res = malloc(sizeof(char *) * (calc_len(str, esc_chars) + 1));
+	len = calc_len(str, esc_chars);
+	if (exper->ex_flag)
+		len += 2;
+	res = malloc(sizeof(char *) * (len + 1));
 	if (!res)
 		util_put_cmd_err_and_exit("in create_esc_val");
-	add_esc_and_dup_val(str, esc_chars, res);
+	add_esc_and_dup_val(str, esc_chars, res, exper);
 	return (res);
 }
 
@@ -98,16 +103,21 @@ static size_t	calc_len(char *str, char *esc_chars)
 	return (res);
 }
 
-static void	add_esc_and_dup_val(char *src, char *esc_chars, char *dst)
+static void	add_esc_and_dup_val(char *src, char *esc_chars, char *dst,
+		t_expander *exper)
 {
 	size_t	i;
 
 	i = 0;
+	if (exper->ex_flag)
+		dst[i++] = '"';
 	while (*src)
 	{
 		if (ft_strchr(esc_chars, *src))
 			dst[i++] = '\\';
 		dst[i++] = (*src++);
 	}
+	if (exper->ex_flag)
+		dst[i++] = '"';
 	dst[i] = '\0';
 }
