@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:18:14 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/25 10:31:22 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/25 10:41:05 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #define TMP 2
 #define RES 3
 
-static void				expander_init(t_expander *exper, char *src_str, bool ex_flag);
+static void				expander_init(t_expander *exper, char *src_str,
+							bool ex_flag);
 static t_token_status	get_token_status(t_token_status state,
 							t_token_type type);
 static void				env_expand(t_expander *exper);
@@ -33,11 +34,11 @@ char	*expand_env(char *src_str, bool ex_flag)
 	{
 		exper.type = get_token_type(exper.str[exper.str_i]);
 		exper.status = get_token_status(exper.status, exper.type);
-		if (exper.type == CHAR_BACKSLASH && exper.str[exper.str_i + 1] \
+		if (exper.type == CHAR_BACKSLASH && exper.str[exper.str_i + 1]
 			&& ft_strchr("\\\'\"$", exper.str[exper.str_i + 1]))
 			exper.str_i++;
-		else if (exper.str[exper.str_i] == '$' \
-			&& (exper.status == NOT_QUOTED || exper.status == D_QUOTED))
+		else if (exper.str[exper.str_i] == '$' && (exper.status == NOT_QUOTED
+					|| exper.status == D_QUOTED))
 			env_expand(&exper);
 		exper.str_i++;
 	}
