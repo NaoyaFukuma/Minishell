@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:18:14 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/25 10:42:12 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/26 01:44:26 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ char	*expand_env(char *src_str, bool ex_flag)
 		else if (exper.str[exper.str_i] == '$' && (exper.status == NOT_QUOTED
 				|| exper.status == D_QUOTED))
 			env_expand(&exper);
+		else if (exper.str[exper.str_i] == '*' && exper.status != NOT_QUOTED)
+			aster_escape(&exper);
 		exper.str_i++;
 	}
 	return (exper.str);

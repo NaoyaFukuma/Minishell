@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/18 23:55:33 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/26 00:54:46 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	exec_list(t_node *nodes)
 		{
 			wait_external_cmd(cmd);
 			if ((cmd->logi_state == OR && (g_shell.status == EXIT_SUCCESS))
-				|| (cmd->logi_state == AND && g_shell.status == EXIT_FAILURE))
+				|| (cmd->logi_state == AND && g_shell.status != EXIT_SUCCESS))
 				cmd = cmd->next;
 		}
 		cmd = cmd->next;
@@ -72,7 +72,7 @@ static void	exec_pipeline(t_node *nodes)
 		{
 			wait_external_cmd(cmd);
 			if ((cmd->logi_state == OR && (g_shell.status == EXIT_SUCCESS))
-				|| (cmd->logi_state == AND && g_shell.status == EXIT_FAILURE))
+				|| (cmd->logi_state == AND && g_shell.status != EXIT_SUCCESS))
 				cmd = cmd->next;
 		}
 		cmd = cmd->next;

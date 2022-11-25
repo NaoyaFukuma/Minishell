@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 23:16:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/18 23:54:07 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/26 02:04:12 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,21 @@ bool	is_containing_asterisk(t_token_info *info)
 		}
 	}
 	return (false);
+}
+
+void	aster_escape(t_expander *exper)
+{
+	char	*tmp;
+	char	*result;
+
+	result = ft_substr(exper->str, 0, exper->str_i);
+	tmp = result;
+	result = ft_strjoin(result, "\\");
+	free(tmp);
+	tmp = result;
+	result = ft_strjoin(result, &exper->str[exper->str_i]);
+	free(tmp);
+	free(exper->str);
+	exper->str = result;
+	exper->str_i++;
 }
