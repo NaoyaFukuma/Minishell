@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 23:16:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/26 14:57:44 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/26 15:00:40 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	remove_backslash(char *str)
 
 bool	is_match(t_each_str *each_str, char **target)
 {
-
 	remove_backslash(each_str->str);
 	if (!each_str->prev_as)
 	{
