@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 01:19:07 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/26 01:44:13 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/26 13:56:30 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,7 @@ void						del_each_str_list(t_each_str *each_str);
 bool						is_match(t_each_str	*each_str, char **target);
 bool						is_containing_asterisk(t_token_info *info);
 void						aster_escape(t_expander *exper);
+void						remove_backslash(char *str);
 
 // in lexer_set_nullchar_and_check_token.c
 void						set_nullchar_and_check_token(t_token_info *info);

@@ -6,14 +6,28 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 23:16:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/26 02:04:12 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/26 14:57:44 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	remove_backslash(char *str)
+{
+	size_t	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if(str[i] == '\\')
+			ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i + 1]) + 1);
+	}
+}
+
 bool	is_match(t_each_str *each_str, char **target)
 {
+
+	remove_backslash(each_str->str);
 	if (!each_str->prev_as)
 	{
 		if (ft_strncmp(*target, each_str->str, ft_strlen(each_str->str)))
@@ -50,17 +64,13 @@ bool	is_containing_asterisk(t_token_info *info)
 	{
 		if (info->token->comp[i] == '*')
 		{
-			if (info->esc_flag && i > 0 && info->token->comp[i - 1] == '\\')
-			{
-				ft_memmove(&info->token->comp[i - 1], &info->token->comp[i],
-					info->each_i - i);
-				info->token->comp[info->each_i - 1] = '\0';
-				return (false);
-			}
-			info->token->comp[info->each_i] = '\0';
-			return (true);
+			if (info->esc_flag && i > 0 && info->token->comp[i - 1] != '\\')
+				return (true);
+			if (i == 0)
+				return (true);
 		}
 	}
+	remove_backslash(info->token->comp);
 	return (false);
 }
 

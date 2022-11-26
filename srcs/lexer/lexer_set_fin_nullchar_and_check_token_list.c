@@ -31,9 +31,9 @@ void	set_nullchar_and_check_token(t_token_info *info)
 	}
 	else
 	{
+		info->token->comp[info->each_i] = '\0';
 		if (info->esc_flag && is_containing_asterisk(info))
 			expand_wildcard_asterisk(info);
-		info->token->comp[info->each_i] = '\0';
 	}
 }
 

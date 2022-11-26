@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 01:21:00 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/18 23:36:42 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/26 14:58:38 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	expand_wildcard_asterisk(t_token_info *info)
 			info->each_i = ft_strlen(cwd_files[i]);
 		}
 	}
+	remove_backslash(info->token->comp);
 	free(asterisk_str);
 	ft_safe_free_double_ptr((void ***)&cwd_files);
 	del_each_str_list(each_str);
@@ -110,7 +111,7 @@ static t_each_str	*parse_split_each_str(char *src_str)
 		if (src_str[info.str_i] != '\0')
 		{
 			info.start_i = info.str_i;
-			while (src_str[info.str_i] && src_str[info.str_i] != '*')
+			while (src_str[info.str_i] && (src_str[info.str_i] != '*' || src_str[info.str_i - 1] == '\\'))
 				info.str_i++;
 			if (src_str[info.str_i] == '*')
 				info.next_as = true;
