@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 01:21:00 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/26 14:58:38 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/29 00:55:16 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,29 @@ static void			new_token_add_back(t_token_info *info, size_t len);
 void	expand_wildcard_asterisk(t_token_info *info)
 {
 	size_t		i;
-	char		**cwd_files;
+	char		**files;
 	char		*asterisk_str;
 	t_each_str	*each_str;
 
-	get_cwd_files_name(&cwd_files);
-	sort_strarry(cwd_files);
+	get_cwd_files_name(&files);
+	sort_strarry(files);
 	asterisk_str = ft_strdup(info->token->comp);
 	if (!asterisk_str)
 		util_put_cmd_err_and_exit("in expand_wildcard_asterisk");
 	each_str = parse_split_each_str(asterisk_str);
 	i = -1;
-	while (cwd_files[++i])
+	while (files[++i])
 	{
-		if (is_wildcard_expandble(cwd_files[i], each_str))
+		if (is_wildcard_expandble(files[i], each_str))
 		{
-			new_token_add_back(info, ft_strlen(cwd_files[i]));
-			ft_strlcpy(info->token->comp, cwd_files[i], ft_strlen(cwd_files[i])
-				+ 1);
-			info->each_i = ft_strlen(cwd_files[i]);
+			new_token_add_back(info, ft_strlen(files[i]));
+			ft_strlcpy(info->token->comp, files[i], ft_strlen(files[i]) + 1);
+			info->each_i = ft_strlen(files[i]);
 		}
 	}
 	remove_backslash(info->token->comp);
 	free(asterisk_str);
-	ft_safe_free_double_ptr((void ***)&cwd_files);
+	ft_safe_free_double_ptr((void ***)&files);
 	del_each_str_list(each_str);
 }
 
@@ -111,7 +110,8 @@ static t_each_str	*parse_split_each_str(char *src_str)
 		if (src_str[info.str_i] != '\0')
 		{
 			info.start_i = info.str_i;
-			while (src_str[info.str_i] && (src_str[info.str_i] != '*' || src_str[info.str_i - 1] == '\\'))
+			while (src_str[info.str_i] && (src_str[info.str_i] != '*'
+					|| src_str[info.str_i - 1] == '\\'))
 				info.str_i++;
 			if (src_str[info.str_i] == '*')
 				info.next_as = true;

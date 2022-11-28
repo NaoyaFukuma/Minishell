@@ -6,7 +6,7 @@
 /*   By: nfukuma <nfukuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 23:16:50 by nfukuma           #+#    #+#             */
-/*   Updated: 2022/11/26 15:00:40 by nfukuma          ###   ########.fr       */
+/*   Updated: 2022/11/29 00:55:53 by nfukuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	remove_backslash(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if(str[i] == '\\')
+		if (str[i] == '\\')
 			ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i + 1]) + 1);
 	}
 }
